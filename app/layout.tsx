@@ -5,6 +5,9 @@ import {
   Bebas_Neue,
 } from "next/font/google";
 import "./globals.css";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import { CarritoProvider } from "./context/CarritoContext";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -41,7 +44,11 @@ export default function RootLayout({
       <body
         className={`${playfair.variable} ${baskerville.variable} ${bebas.variable}`}
       >
-        {children}
+        <CarritoProvider>
+          <Header />
+          <main>{children}</main>
+          <Footer />
+        </CarritoProvider>
       </body>
     </html>
   );
