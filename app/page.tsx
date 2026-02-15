@@ -1,66 +1,35 @@
 import Link from "next/link";
+import Image from "next/image";
+import {
+  getProductosDestacados,
+  getProductos,
+  type Producto,
+} from "./lib/queries";
+import { urlFor } from "./lib/sanity";
 
-const productosDestacados = [
-  {
-    id: 1,
-    nombre: "Raúl González Blanco",
-    equipo: "Real Madrid C.F.",
-    año: "La leyenda blanca · 1994–2010",
-    precio: 49,
-    dorsal: "7",
-    color: "linear-gradient(160deg, #1a3a2a, #0d2518)",
-    badge: "Destacado",
-    featured: true,
-  },
-  {
-    id: 2,
-    nombre: "Rivaldo",
-    equipo: "F.C. Barcelona",
-    año: "Balón de Oro · 1999",
-    precio: 39,
-    dorsal: "10",
-    color: "linear-gradient(160deg, #2c1a4a, #1a0d30)",
-    badge: null,
-    featured: false,
-  },
-  {
-    id: 3,
-    nombre: "Fernando Torres",
-    equipo: "Atlético de Madrid",
-    año: "El Niño · 2001–2007",
-    precio: 39,
-    dorsal: "9",
-    color: "linear-gradient(160deg, #1a2a3a, #0d1825)",
-    badge: "Últimas unidades",
-    featured: false,
-  },
-  {
-    id: 4,
-    nombre: "Gaizka Mendieta",
-    equipo: "Valencia C.F.",
-    año: "El mediocampo dorado · 1991–2001",
-    precio: 35,
-    dorsal: "8",
-    color: "linear-gradient(160deg, #3a2a1a, #251a0d)",
-    badge: null,
-    featured: false,
-  },
-];
+export const revalidate = 3600;
 
-export default function HomePage() {
+export default async function HomePage() {
+  const [destacados, todos] = await Promise.all([
+    getProductosDestacados(),
+    getProductos(),
+  ]);
+
+  const productosHome = destacados.length > 0 ? destacados : todos.slice(0, 4);
+
   return (
     <>
       {/* ── HERO ── */}
       <section
-        style={{ background: "var(--color-verde)" }}
-        className="min-h-[90vh] grid grid-cols-1 md:grid-cols-2 overflow-hidden relative"
+        style={{ background: "var(--color-verde)", minHeight: "90vh" }}
+        className="grid grid-cols-1 md:grid-cols-2 overflow-hidden relative"
       >
-        {/* Líneas decorativas de campo */}
+        {/* Líneas campo decorativas */}
         <svg
-          className="absolute right-0 top-0 bottom-0 h-full w-1/2 opacity-[0.04] pointer-events-none"
+          className="absolute right-0 top-0 bottom-0 h-full w-1/2 pointer-events-none"
+          style={{ opacity: 0.04 }}
           viewBox="0 0 400 600"
           fill="none"
-          xmlns="http://www.w3.org/2000/svg"
         >
           <rect
             x="50"
@@ -98,314 +67,551 @@ export default function HomePage() {
           <circle cx="200" cy="300" r="5" fill="white" />
         </svg>
 
-        {/* Columna izquierda */}
-        <div className="flex flex-col justify-center px-8 md:px-20 py-20 relative z-10">
+        {/* Texto hero */}
+        <div
+          className="flex flex-col justify-center relative z-10"
+          style={{ padding: "80px 80px 80px 80px" }}
+        >
           <div
-            style={{ color: "var(--color-dorado)" }}
-            className="font-bebas text-[12px] tracking-[5px] mb-6 flex items-center gap-3"
+            style={{ color: "var(--color-dorado)", marginBottom: "24px" }}
+            className="font-bebas flex items-center gap-3"
+            style={{
+              fontSize: "12px",
+              letterSpacing: "5px",
+              color: "var(--color-dorado)",
+              marginBottom: "24px",
+            }}
           >
             <span
-              style={{ background: "var(--color-dorado)" }}
-              className="block w-8 h-px"
+              style={{
+                background: "var(--color-dorado)",
+                display: "block",
+                width: "32px",
+                height: "1px",
+              }}
             />
             Colección 2025 · Temporada I
           </div>
 
-          <h1 className="font-playfair font-black leading-[1.05] mb-3">
+          <h1
+            className="font-playfair font-black"
+            style={{ lineHeight: 1.05, marginBottom: "8px" }}
+          >
             <span
-              style={{ color: "var(--color-crema)" }}
-              className="block text-[clamp(42px,5vw,68px)]"
+              style={{
+                color: "var(--color-crema)",
+                fontSize: "clamp(42px, 5vw, 68px)",
+                display: "block",
+              }}
             >
               El arte del{" "}
-              <em style={{ color: "var(--color-dorado)" }}>fútbol</em>
+              <em style={{ color: "var(--color-dorado)", fontStyle: "italic" }}>
+                fútbol
+              </em>
             </span>
             <span
-              style={{ color: "var(--color-crema)" }}
-              className="font-bebas block text-[clamp(60px,8vw,110px)] leading-[0.9] tracking-[2px]"
+              className="font-bebas"
+              style={{
+                color: "var(--color-crema)",
+                fontSize: "clamp(60px, 8vw, 110px)",
+                display: "block",
+                lineHeight: 0.9,
+                letterSpacing: "2px",
+                marginBottom: "28px",
+              }}
             >
               de antes
             </span>
           </h1>
 
           <p
-            style={{ color: "rgba(245,239,224,0.7)" }}
-            className="text-[15px] leading-relaxed max-w-[420px] mb-10"
+            style={{
+              color: "rgba(245,239,224,0.7)",
+              fontSize: "15px",
+              lineHeight: 1.7,
+              maxWidth: "420px",
+              marginBottom: "40px",
+            }}
           >
             Cuadros de edición limitada que reviven los momentos y jugadores que
             definieron el fútbol español. Impresiones de alta calidad, renovadas
             cada semana.
           </p>
 
-          <div className="flex gap-4 flex-wrap">
+          <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
             <Link
               href="/catalogo"
               style={{
                 background: "var(--color-dorado)",
                 color: "var(--color-verde)",
+                fontFamily: "var(--font-bebas)",
+                fontSize: "15px",
+                letterSpacing: "2px",
+                padding: "14px 32px",
+                borderRadius: "2px",
+                textDecoration: "none",
+                display: "inline-block",
+                transition: "all 0.2s",
               }}
-              className="font-bebas text-[15px] tracking-[2px] px-8 py-3
-                         rounded-sm no-underline hover:bg-[var(--color-crema)]
-                         transition-all hover:-translate-y-0.5"
             >
               Ver la colección
             </Link>
             <Link
               href="/sobre-nosotros"
               style={{
+                background: "transparent",
                 color: "var(--color-crema)",
+                fontFamily: "var(--font-bebas)",
+                fontSize: "15px",
+                letterSpacing: "2px",
+                padding: "13px 32px",
                 border: "1px solid rgba(245,239,224,0.3)",
+                borderRadius: "2px",
+                textDecoration: "none",
+                display: "inline-block",
+                transition: "all 0.2s",
               }}
-              className="font-bebas text-[15px] tracking-[2px] px-8 py-3
-                         rounded-sm no-underline hover:border-[var(--color-dorado)]
-                         hover:text-[var(--color-dorado)] transition-all"
             >
               Conoce el proyecto
             </Link>
           </div>
         </div>
 
-        {/* Columna derecha — cards apiladas */}
-        <div className="hidden md:flex items-center justify-center px-10 py-16 relative z-10">
-          <div className="relative w-[280px] h-[380px]">
-            {[
-              {
-                top: "0px",
-                left: "40px",
-                rotate: "-4deg",
-                z: 1,
-                color: "linear-gradient(135deg,#1a3a2a,#2d5c3f)",
-                nombre: "Raúl González",
-                era: "Real Madrid · 1994–2010",
-              },
-              {
-                top: "40px",
-                left: "10px",
-                rotate: "2deg",
-                z: 2,
-                color: "linear-gradient(135deg,#2c1a4a,#4a2d80)",
-                nombre: "Rivaldo",
-                era: "F.C. Barcelona · 1997–2002",
-              },
-              {
-                top: "20px",
-                left: "60px",
-                rotate: "-1deg",
-                z: 3,
-                color: "linear-gradient(135deg,#3a1a1a,#7a2d2d)",
-                nombre: "Fernando Torres",
-                era: "Atlético Madrid · 2001–2007",
-              },
-            ].map((card, i) => (
-              <div
-                key={i}
-                style={{
-                  position: "absolute",
-                  top: card.top,
-                  left: card.left,
-                  transform: `rotate(${card.rotate})`,
-                  zIndex: card.z,
-                  width: "220px",
-                  height: "300px",
-                  borderRadius: "4px",
-                  overflow: "hidden",
-                  boxShadow: "0 20px 60px rgba(0,0,0,0.5)",
-                }}
-              >
+        {/* Cards apiladas */}
+        <div
+          className="hidden md:flex items-center justify-center relative z-10"
+          style={{ padding: "60px 80px 60px 40px" }}
+        >
+          <div
+            style={{ position: "relative", width: "280px", height: "380px" }}
+          >
+            {productosHome.slice(0, 3).map((p, i) => {
+              const rotaciones = ["-4deg", "2deg", "-1deg"];
+              const tops = ["0px", "40px", "20px"];
+              const lefts = ["40px", "10px", "60px"];
+              return (
                 <div
+                  key={p._id}
                   style={{
-                    background: card.color,
-                    width: "100%",
-                    height: "100%",
-                    display: "flex",
-                    alignItems: "flex-end",
-                    padding: "16px",
+                    position: "absolute",
+                    top: tops[i],
+                    left: lefts[i],
+                    transform: `rotate(${rotaciones[i]})`,
+                    zIndex: i + 1,
+                    width: "220px",
+                    height: "300px",
+                    borderRadius: "4px",
+                    overflow: "hidden",
+                    boxShadow: "0 20px 60px rgba(0,0,0,0.5)",
                   }}
                 >
-                  <div
-                    style={{
-                      background: "rgba(26,58,42,0.9)",
-                      borderLeft: "3px solid var(--color-dorado)",
-                      padding: "8px 12px",
-                      width: "100%",
-                    }}
-                  >
+                  {p.imagen ? (
                     <div
-                      style={{ color: "var(--color-crema)" }}
-                      className="font-playfair font-bold text-[13px]"
+                      style={{
+                        position: "relative",
+                        width: "100%",
+                        height: "100%",
+                      }}
                     >
-                      {card.nombre}
+                      <Image
+                        src={urlFor(p.imagen).width(220).height(300).url()}
+                        alt={p.nombre}
+                        fill
+                        style={{ objectFit: "cover" }}
+                      />
+                      <div
+                        style={{
+                          position: "absolute",
+                          bottom: 0,
+                          left: 0,
+                          right: 0,
+                          background: "rgba(26,58,42,0.9)",
+                          borderLeft: "3px solid var(--color-dorado)",
+                          padding: "8px 12px",
+                        }}
+                      >
+                        <div
+                          style={{
+                            color: "var(--color-crema)",
+                            fontFamily: "var(--font-playfair)",
+                            fontWeight: 700,
+                            fontSize: "13px",
+                          }}
+                        >
+                          {p.nombre}
+                        </div>
+                        <div
+                          style={{
+                            color: "var(--color-dorado)",
+                            fontFamily: "var(--font-bebas)",
+                            fontSize: "10px",
+                            letterSpacing: "2px",
+                          }}
+                        >
+                          {p.equipo}
+                        </div>
+                      </div>
                     </div>
+                  ) : (
                     <div
-                      style={{ color: "var(--color-dorado)" }}
-                      className="font-bebas text-[10px] tracking-[2px]"
+                      style={{
+                        background: "linear-gradient(135deg,#1a3a2a,#2d5c3f)",
+                        width: "100%",
+                        height: "100%",
+                        display: "flex",
+                        alignItems: "flex-end",
+                        padding: "16px",
+                      }}
                     >
-                      {card.era}
+                      <div
+                        style={{
+                          background: "rgba(26,58,42,0.9)",
+                          borderLeft: "3px solid var(--color-dorado)",
+                          padding: "8px 12px",
+                          width: "100%",
+                        }}
+                      >
+                        <div
+                          style={{
+                            color: "var(--color-crema)",
+                            fontFamily: "var(--font-playfair)",
+                            fontWeight: 700,
+                            fontSize: "13px",
+                          }}
+                        >
+                          {p.nombre}
+                        </div>
+                        <div
+                          style={{
+                            color: "var(--color-dorado)",
+                            fontFamily: "var(--font-bebas)",
+                            fontSize: "10px",
+                            letterSpacing: "2px",
+                          }}
+                        >
+                          {p.equipo}
+                        </div>
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
 
       {/* ── PRODUCTOS DESTACADOS ── */}
-      <section className="py-24 px-6 max-w-[1100px] mx-auto">
-        <div className="flex items-end justify-between mb-14 gap-6 flex-wrap">
+      <section
+        style={{ padding: "96px 24px", maxWidth: "1100px", margin: "0 auto" }}
+      >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "flex-end",
+            justifyContent: "space-between",
+            marginBottom: "56px",
+            gap: "24px",
+            flexWrap: "wrap",
+          }}
+        >
           <div>
             <div
-              style={{ color: "var(--color-dorado-osc)" }}
-              className="font-bebas text-[11px] tracking-[5px] mb-2"
+              style={{
+                color: "var(--color-dorado-osc)",
+                fontFamily: "var(--font-bebas)",
+                fontSize: "11px",
+                letterSpacing: "5px",
+                marginBottom: "10px",
+              }}
             >
               Esta semana
             </div>
             <h2
-              style={{ color: "var(--color-verde)" }}
-              className="font-playfair font-black text-[clamp(28px,4vw,44px)] leading-[1.1]"
+              style={{
+                color: "var(--color-verde)",
+                fontFamily: "var(--font-playfair)",
+                fontWeight: 900,
+                fontSize: "clamp(28px,4vw,44px)",
+                lineHeight: 1.1,
+              }}
             >
               Colección{" "}
-              <em style={{ color: "var(--color-dorado-osc)" }}>activa</em>
+              <em
+                style={{
+                  fontStyle: "italic",
+                  color: "var(--color-dorado-osc)",
+                }}
+              >
+                activa
+              </em>
             </h2>
           </div>
           <Link
             href="/catalogo"
             style={{
               color: "var(--color-verde-mid)",
+              fontFamily: "var(--font-bebas)",
+              fontSize: "13px",
+              letterSpacing: "2px",
+              textDecoration: "none",
               borderBottom: "1px solid var(--color-verde-mid)",
+              paddingBottom: "2px",
+              whiteSpace: "nowrap",
             }}
-            className="font-bebas text-[13px] tracking-[2px] no-underline pb-0.5
-                       hover:text-[var(--color-dorado-osc)] hover:border-[var(--color-dorado-osc)]
-                       transition-colors whitespace-nowrap"
           >
             Ver todos los cuadros →
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {productosDestacados.map((p) => (
-            <div
-              key={p.id}
-              className={`bg-white rounded-sm overflow-hidden cursor-pointer
-                          transition-all duration-300 hover:-translate-y-1.5
-                          hover:shadow-[0_24px_48px_rgba(26,58,42,0.15)]
-                          ${p.featured ? "md:col-span-2" : ""}`}
+        {productosHome.length === 0 ? (
+          <div style={{ textAlign: "center", padding: "80px 0" }}>
+            <p
+              style={{
+                color: "var(--color-gris)",
+                fontFamily: "var(--font-playfair)",
+                fontStyle: "italic",
+                fontSize: "18px",
+              }}
             >
-              {/* Imagen */}
-              <div
-                style={{ background: p.color }}
-                className={`flex items-center justify-center relative overflow-hidden
-                            ${p.featured ? "aspect-video" : "aspect-[3/4]"}`}
-              >
-                <span
-                  style={{ color: "rgba(255,255,255,0.08)" }}
-                  className="font-bebas text-[80px] absolute top-3 right-4 leading-none select-none"
-                >
-                  {p.dorsal}
-                </span>
-                {p.badge && (
-                  <span
-                    style={{
-                      background:
-                        p.badge === "Destacado"
-                          ? "var(--color-rojo)"
-                          : "var(--color-dorado-osc)",
-                    }}
-                    className="absolute top-3 left-3 text-white font-bebas
-                               text-[10px] tracking-[2px] px-2.5 py-1 rounded-sm"
-                  >
-                    {p.badge}
-                  </span>
-                )}
-                <span
-                  className={`${p.featured ? "text-[96px]" : "text-[64px]"} opacity-90`}
-                >
-                  ⚽
-                </span>
-              </div>
-
-              {/* Info */}
-              <div
-                style={{ borderTop: "3px solid var(--color-crema-osc)" }}
-                className="px-5 py-5"
+              Próximamente nuevos cuadros disponibles.
+            </p>
+          </div>
+        ) : (
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(3, 1fr)",
+              gap: "32px",
+            }}
+          >
+            {productosHome.slice(0, 4).map((p, index) => (
+              <Link
+                key={p._id}
+                href={`/catalogo/${p.slug.current}`}
+                style={{
+                  textDecoration: "none",
+                  gridColumn: index === 0 ? "span 2" : "span 1",
+                  background: "white",
+                  borderRadius: "4px",
+                  overflow: "hidden",
+                  display: "block",
+                  transition: "all 0.3s",
+                }}
               >
                 <div
-                  style={{ color: "var(--color-gris)" }}
-                  className="font-bebas text-[10px] tracking-[3px] mb-1"
+                  style={{
+                    background: "var(--color-verde)",
+                    position: "relative",
+                    overflow: "hidden",
+                    aspectRatio: index === 0 ? "16/9" : "3/4",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
                 >
-                  {p.equipo}
-                </div>
-                <div
-                  style={{ color: "var(--color-tinta)" }}
-                  className="font-playfair font-bold text-[18px] leading-tight mb-1"
-                >
-                  {p.nombre}
-                </div>
-                <div
-                  style={{ color: "var(--color-gris)" }}
-                  className="text-[13px] italic mb-4"
-                >
-                  {p.año}
-                </div>
-                <div className="flex items-center justify-between">
-                  <span
-                    style={{ color: "var(--color-verde)" }}
-                    className="font-playfair font-bold text-[22px]"
-                  >
-                    {p.precio} €
+                  {p.imagen ? (
+                    <Image
+                      src={urlFor(p.imagen)
+                        .width(index === 0 ? 700 : 400)
+                        .height(index === 0 ? 394 : 533)
+                        .url()}
+                      alt={p.nombre}
+                      fill
+                      style={{ objectFit: "cover" }}
+                    />
+                  ) : (
+                    <>
+                      <span
+                        style={{
+                          color: "rgba(255,255,255,0.08)",
+                          fontFamily: "var(--font-bebas)",
+                          fontSize: "80px",
+                          position: "absolute",
+                          top: "12px",
+                          right: "16px",
+                          lineHeight: 1,
+                        }}
+                      >
+                        {p.dorsal}
+                      </span>
+                      <span
+                        style={{
+                          fontSize: index === 0 ? "96px" : "64px",
+                          opacity: 0.9,
+                        }}
+                      >
+                        ⚽
+                      </span>
+                    </>
+                  )}
+                  {p.badge && (
                     <span
-                      style={{ color: "var(--color-gris)" }}
-                      className="text-[13px] font-normal font-baskerville ml-1"
+                      style={{
+                        position: "absolute",
+                        top: "14px",
+                        left: "14px",
+                        background:
+                          p.badge === "Destacado"
+                            ? "var(--color-rojo)"
+                            : "var(--color-dorado-osc)",
+                        color: "white",
+                        fontFamily: "var(--font-bebas)",
+                        fontSize: "10px",
+                        letterSpacing: "2px",
+                        padding: "4px 10px",
+                        borderRadius: "2px",
+                        zIndex: 10,
+                      }}
                     >
-                      / 50×70 cm
+                      {p.badge}
                     </span>
-                  </span>
-                  <button
-                    style={{
-                      background: "var(--color-verde)",
-                      color: "var(--color-crema)",
-                    }}
-                    className="font-bebas text-[12px] tracking-[2px] px-4 py-2
-                               rounded-sm hover:bg-[var(--color-dorado)]
-                               hover:text-[var(--color-verde)] transition-colors"
-                  >
-                    Añadir
-                  </button>
+                  )}
                 </div>
-              </div>
-            </div>
-          ))}
-        </div>
+
+                <div
+                  style={{
+                    padding: "20px 22px 22px",
+                    borderTop: "3px solid var(--color-crema-osc)",
+                  }}
+                >
+                  <div
+                    style={{
+                      color: "var(--color-gris)",
+                      fontFamily: "var(--font-bebas)",
+                      fontSize: "10px",
+                      letterSpacing: "3px",
+                      marginBottom: "6px",
+                    }}
+                  >
+                    {p.equipo}
+                  </div>
+                  <div
+                    style={{
+                      color: "var(--color-tinta)",
+                      fontFamily: "var(--font-playfair)",
+                      fontWeight: 700,
+                      fontSize: "18px",
+                      marginBottom: "4px",
+                      lineHeight: 1.2,
+                    }}
+                  >
+                    {p.nombre}
+                  </div>
+                  <div
+                    style={{
+                      color: "var(--color-gris)",
+                      fontSize: "13px",
+                      fontStyle: "italic",
+                      marginBottom: "14px",
+                    }}
+                  >
+                    {p.anio}
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <span
+                      style={{
+                        color: "var(--color-verde)",
+                        fontFamily: "var(--font-playfair)",
+                        fontWeight: 700,
+                        fontSize: "22px",
+                      }}
+                    >
+                      {p.precio} €
+                    </span>
+                    <span
+                      style={{
+                        color: "var(--color-verde)",
+                        fontFamily: "var(--font-bebas)",
+                        fontSize: "12px",
+                        letterSpacing: "2px",
+                      }}
+                    >
+                      Ver cuadro →
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
       </section>
 
       {/* ── PROCESO ── */}
       <section
-        style={{ background: "var(--color-verde)" }}
-        className="py-24 px-6 relative overflow-hidden"
+        style={{
+          background: "var(--color-verde)",
+          padding: "96px 24px",
+          position: "relative",
+          overflow: "hidden",
+        }}
       >
         <span
-          className="font-bebas absolute right-[-40px] top-1/2 -translate-y-1/2
-                         text-[300px] leading-none pointer-events-none select-none"
-          style={{ color: "rgba(255,255,255,0.03)" }}
+          style={{
+            fontFamily: "var(--font-bebas)",
+            position: "absolute",
+            right: "-40px",
+            top: "50%",
+            transform: "translateY(-50%)",
+            fontSize: "300px",
+            color: "rgba(255,255,255,0.03)",
+            lineHeight: 1,
+            pointerEvents: "none",
+            userSelect: "none",
+          }}
         >
           10+1
         </span>
-        <div className="max-w-[1100px] mx-auto relative z-10">
-          <div className="mb-16">
+
+        <div
+          style={{
+            maxWidth: "1100px",
+            margin: "0 auto",
+            position: "relative",
+            zIndex: 10,
+          }}
+        >
+          <div style={{ marginBottom: "64px" }}>
             <div
-              style={{ color: "var(--color-dorado)" }}
-              className="font-bebas text-[11px] tracking-[5px] mb-3"
+              style={{
+                color: "var(--color-dorado)",
+                fontFamily: "var(--font-bebas)",
+                fontSize: "11px",
+                letterSpacing: "5px",
+                marginBottom: "12px",
+              }}
             >
               Cómo funciona
             </div>
             <h2
-              style={{ color: "var(--color-crema)" }}
-              className="font-playfair font-black text-[clamp(28px,4vw,44px)] leading-[1.1]"
+              style={{
+                color: "var(--color-crema)",
+                fontFamily: "var(--font-playfair)",
+                fontWeight: 900,
+                fontSize: "clamp(28px,4vw,44px)",
+                lineHeight: 1.1,
+              }}
             >
               Del recuerdo{" "}
-              <em style={{ color: "var(--color-dorado)" }}>al cuadro</em>
+              <em style={{ fontStyle: "italic", color: "var(--color-dorado)" }}>
+                al cuadro
+              </em>
             </h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-px">
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(3, 1fr)",
+              gap: "2px",
+            }}
+          >
             {[
               {
                 num: "01",
@@ -426,26 +632,40 @@ export default function HomePage() {
               <div
                 key={paso.num}
                 style={{
-                  borderTop: "2px solid rgba(201,168,76,0.3)",
                   background: "rgba(255,255,255,0.04)",
+                  borderTop: "2px solid rgba(201,168,76,0.3)",
+                  padding: "40px 36px",
                 }}
-                className="px-9 py-10 hover:bg-[rgba(255,255,255,0.07)] transition-colors"
               >
                 <div
-                  style={{ color: "var(--color-dorado)", opacity: 0.6 }}
-                  className="font-bebas text-[48px] leading-none mb-4"
+                  style={{
+                    color: "var(--color-dorado)",
+                    opacity: 0.6,
+                    fontFamily: "var(--font-bebas)",
+                    fontSize: "48px",
+                    lineHeight: 1,
+                    marginBottom: "16px",
+                  }}
                 >
                   {paso.num}
                 </div>
                 <div
-                  style={{ color: "var(--color-crema)" }}
-                  className="font-playfair font-bold text-[20px] mb-3"
+                  style={{
+                    color: "var(--color-crema)",
+                    fontFamily: "var(--font-playfair)",
+                    fontWeight: 700,
+                    fontSize: "20px",
+                    marginBottom: "12px",
+                  }}
                 >
                   {paso.titulo}
                 </div>
                 <p
-                  style={{ color: "rgba(245,239,224,0.6)" }}
-                  className="text-[14px] leading-relaxed"
+                  style={{
+                    color: "rgba(245,239,224,0.6)",
+                    fontSize: "14px",
+                    lineHeight: 1.7,
+                  }}
                 >
                   {paso.desc}
                 </p>
@@ -456,29 +676,62 @@ export default function HomePage() {
       </section>
 
       {/* ── CITA NOSTALGIA ── */}
-      <section className="py-24 px-6 max-w-[900px] mx-auto text-center">
-        <blockquote className="relative">
+      <section
+        style={{
+          padding: "96px 24px",
+          maxWidth: "900px",
+          margin: "0 auto",
+          textAlign: "center",
+        }}
+      >
+        <blockquote style={{ position: "relative" }}>
           <span
-            style={{ color: "var(--color-crema-osc)" }}
-            className="font-playfair absolute text-[120px] leading-none top-[-40px] left-[-20px]
-                       pointer-events-none select-none"
-          ></span>
+            style={{
+              fontFamily: "var(--font-playfair)",
+              fontSize: "120px",
+              color: "var(--color-crema-osc)",
+              position: "absolute",
+              top: "-40px",
+              left: "-20px",
+              lineHeight: 1,
+              pointerEvents: "none",
+              userSelect: "none",
+            }}
+          >
+            "
+          </span>
           <p
-            style={{ color: "var(--color-verde)" }}
-            className="font-playfair font-bold italic relative z-10
-                       text-[clamp(22px,3.5vw,36px)] leading-[1.4] mb-6"
+            style={{
+              color: "var(--color-verde)",
+              fontFamily: "var(--font-playfair)",
+              fontWeight: 700,
+              fontStyle: "italic",
+              fontSize: "clamp(22px, 3.5vw, 36px)",
+              lineHeight: 1.4,
+              marginBottom: "24px",
+              position: "relative",
+              zIndex: 1,
+            }}
           >
             Aquellos domingos frente al televisor, con el partido de las tres,
             no se olvidan.
           </p>
         </blockquote>
         <div
-          style={{ background: "var(--color-dorado)" }}
-          className="w-16 h-0.5 mx-auto mb-6"
+          style={{
+            width: "60px",
+            height: "2px",
+            background: "var(--color-dorado)",
+            margin: "0 auto 24px",
+          }}
         />
         <div
-          style={{ color: "var(--color-dorado-osc)" }}
-          className="font-bebas text-[12px] tracking-[4px]"
+          style={{
+            color: "var(--color-dorado-osc)",
+            fontFamily: "var(--font-bebas)",
+            fontSize: "12px",
+            letterSpacing: "4px",
+          }}
         >
           El Fútbol de Antes · 10+1
         </div>

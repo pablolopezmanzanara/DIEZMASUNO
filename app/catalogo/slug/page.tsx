@@ -1,380 +1,321 @@
-"use client";
+import { getProducto, getProductoSlugs } from "../../lib/queries";
+import { urlFor } from "../../lib/sanity";
+import DetalleClient from "./DetalleClient";
+import Image from "next/image";
+import Link from "next/link";
 
-import { useState } from "react";
+export const revalidate = 3600;
 
-const productos = [
-  {
-    id: 1,
-    nombre: "Raúl González Blanco",
-    equipo: "Real Madrid C.F.",
-    año: "1994–2010",
-    descripcion:
-      "La leyenda blanca. Máximo goleador histórico del Real Madrid durante más de una década.",
-    precio: 49,
-    dorsal: "7",
-    color: "linear-gradient(160deg, #1a3a2a, #0d2518)",
-    badge: "Destacado",
-    categoria: "real-madrid",
-  },
-  {
-    id: 2,
-    nombre: "Rivaldo",
-    equipo: "F.C. Barcelona",
-    año: "1997–2002",
-    descripcion:
-      "Balón de Oro 1999. Uno de los jugadores más elegantes que ha visto el Camp Nou.",
-    precio: 39,
-    dorsal: "10",
-    color: "linear-gradient(160deg, #2c1a4a, #1a0d30)",
-    badge: null,
-    categoria: "barcelona",
-  },
-  {
-    id: 3,
-    nombre: "Fernando Torres",
-    equipo: "Atlético de Madrid",
-    año: "2001–2007",
-    descripcion:
-      "El Niño del Manzanares. Ídolo del Atlético antes de conquistar el mundo.",
-    precio: 39,
-    dorsal: "9",
-    color: "linear-gradient(160deg, #1a2a3a, #0d1825)",
-    badge: "Últimas unidades",
-    categoria: "atletico",
-  },
-  {
-    id: 4,
-    nombre: "Gaizka Mendieta",
-    equipo: "Valencia C.F.",
-    año: "1991–2001",
-    descripcion:
-      "El mejor mediapunta español de su generación. Dos finales de Champions con el Valencia.",
-    precio: 35,
-    dorsal: "8",
-    color: "linear-gradient(160deg, #3a2a1a, #251a0d)",
-    badge: null,
-    categoria: "valencia",
-  },
-  {
-    id: 5,
-    nombre: "Ronaldo Nazário",
-    equipo: "F.C. Barcelona",
-    año: "1996–1997",
-    descripcion:
-      "Una sola temporada bastó para que el mundo se rindiera ante el Fenómeno.",
-    precio: 49,
-    dorsal: "9",
-    color: "linear-gradient(160deg, #2c1a4a, #1a0d30)",
-    badge: "Más vendido",
-    categoria: "barcelona",
-  },
-  {
-    id: 6,
-    nombre: "Fernando Hierro",
-    equipo: "Real Madrid C.F.",
-    año: "1989–2003",
-    descripcion:
-      "Capitán y símbolo del Real Madrid durante más de una década. Elegancia y contundencia.",
-    precio: 35,
-    dorsal: "6",
-    color: "linear-gradient(160deg, #1a3a2a, #0d2518)",
-    badge: null,
-    categoria: "real-madrid",
-  },
-  {
-    id: 7,
-    nombre: "Roberto Carlos",
-    equipo: "Real Madrid C.F.",
-    año: "1996–2007",
-    descripcion:
-      "El lateral izquierdo más ofensivo de la historia. Sus golpeos cambiaron el fútbol.",
-    precio: 39,
-    dorsal: "3",
-    color: "linear-gradient(160deg, #1a3a2a, #0d2518)",
-    badge: null,
-    categoria: "real-madrid",
-  },
-  {
-    id: 8,
-    nombre: "Luis Enrique",
-    equipo: "F.C. Barcelona",
-    año: "1996–2004",
-    descripcion:
-      "Guerrero incansable que entregó todo por el escudo del Barça durante ocho temporadas.",
-    precio: 35,
-    dorsal: "21",
-    color: "linear-gradient(160deg, #2c1a4a, #1a0d30)",
-    badge: null,
-    categoria: "barcelona",
-  },
-];
+export async function generateStaticParams() {
+  const slugs = await getProductoSlugs();
+  return slugs.map((s) => ({ slug: s.slug }));
+}
 
-const categorias = [
-  { id: "todos", label: "Todos" },
-  { id: "real-madrid", label: "Real Madrid" },
-  { id: "barcelona", label: "F.C. Barcelona" },
-  { id: "atletico", label: "Atlético" },
-  { id: "valencia", label: "Valencia" },
-];
+export default async function ProductoPage({
+  params,
+}: {
+  params: { slug: string };
+}) {
+  const producto = await getProducto(params.slug);
 
-const ordenOpciones = [
-  { id: "defecto", label: "Destacados" },
-  { id: "precio-asc", label: "Precio: menor a mayor" },
-  { id: "precio-desc", label: "Precio: mayor a menor" },
-  { id: "nombre", label: "Nombre A–Z" },
-];
+  if (!producto) {
+    return (
+      <section
+        style={{
+          padding: "128px 24px",
+          maxWidth: "600px",
+          margin: "0 auto",
+          textAlign: "center",
+        }}
+      >
+        <div
+          style={{
+            color: "var(--color-dorado)",
+            fontFamily: "var(--font-bebas)",
+            fontSize: "80px",
+            lineHeight: 1,
+            marginBottom: "16px",
+            opacity: 0.2,
+          }}
+        >
+          10+1
+        </div>
+        <h1
+          style={{
+            color: "var(--color-verde)",
+            fontFamily: "var(--font-playfair)",
+            fontWeight: 900,
+            fontSize: "32px",
+            marginBottom: "16px",
+          }}
+        >
+          Producto no encontrado
+        </h1>
+        <Link
+          href="/catalogo"
+          style={{
+            background: "var(--color-verde)",
+            color: "var(--color-crema)",
+            fontFamily: "var(--font-bebas)",
+            fontSize: "15px",
+            letterSpacing: "2px",
+            padding: "12px 32px",
+            borderRadius: "2px",
+            textDecoration: "none",
+            display: "inline-block",
+          }}
+        >
+          Volver al catálogo
+        </Link>
+      </section>
+    );
+  }
 
-export default function CatalogoPage() {
-  const [categoriaActiva, setCategoriaActiva] = useState("todos");
-  const [orden, setOrden] = useState("defecto");
-  const [carrito, setCarrito] = useState<number[]>([]);
-
-  const productosFiltrados = productos
-    .filter(
-      (p) => categoriaActiva === "todos" || p.categoria === categoriaActiva,
-    )
-    .sort((a, b) => {
-      if (orden === "precio-asc") return a.precio - b.precio;
-      if (orden === "precio-desc") return b.precio - a.precio;
-      if (orden === "nombre") return a.nombre.localeCompare(b.nombre);
-      return 0;
-    });
-
-  const añadirAlCarrito = (id: number) => {
-    setCarrito((prev) => [...prev, id]);
-  };
+  const formatos = [
+    {
+      id: "a4",
+      label: "A4 — 21×29 cm",
+      precio: Math.round(producto.precio * 0.6),
+    },
+    {
+      id: "a3",
+      label: "A3 — 30×42 cm",
+      precio: Math.round(producto.precio * 0.8),
+    },
+    { id: "50x70", label: "50×70 cm", precio: producto.precio },
+    {
+      id: "70x100",
+      label: "70×100 cm",
+      precio: Math.round(producto.precio * 1.4),
+    },
+  ];
 
   return (
     <>
-      {/* ── CABECERA DE PÁGINA ── */}
-      <div
-        style={{ background: "var(--color-verde)" }}
-        className="py-16 px-6 relative overflow-hidden"
-      >
-        <span
-          className="font-bebas absolute right-6 top-1/2 -translate-y-1/2
-                         text-[160px] leading-none pointer-events-none select-none"
-          style={{ color: "rgba(255,255,255,0.04)" }}
-        >
-          COLECCIÓN
-        </span>
-        <div className="max-w-[1100px] mx-auto relative z-10">
-          <div
-            style={{ color: "var(--color-dorado)" }}
-            className="font-bebas text-[11px] tracking-[5px] mb-3 flex items-center gap-3"
-          >
-            <span
-              style={{ background: "var(--color-dorado)" }}
-              className="block w-8 h-px"
-            />
-            Temporada I · 2025
-          </div>
-          <h1
-            style={{ color: "var(--color-crema)" }}
-            className="font-playfair font-black text-[clamp(36px,5vw,64px)] leading-[1.05]"
-          >
-            Colección <em style={{ color: "var(--color-dorado)" }}>activa</em>
-          </h1>
-          <p
-            style={{ color: "rgba(245,239,224,0.6)" }}
-            className="text-[15px] leading-relaxed mt-4 max-w-[480px]"
-          >
-            Edición limitada semanal. Cada viernes se renuevan los cuadros
-            disponibles.
-          </p>
-        </div>
-      </div>
-
-      {/* ── FILTROS ── */}
+      {/* ── MIGA DE PAN ── */}
       <div
         style={{
           background: "var(--color-crema-osc)",
-          borderBottom: "2px solid var(--color-crema-osc)",
+          borderBottom: "1px solid var(--color-crema-osc)",
+          padding: "12px 24px",
         }}
-        className="sticky top-[83px] z-40 px-6 py-4"
       >
-        <div className="max-w-[1100px] mx-auto flex flex-wrap items-center justify-between gap-4">
-          {/* Categorías */}
-          <div className="flex flex-wrap gap-2">
-            {categorias.map((cat) => (
-              <button
-                key={cat.id}
-                onClick={() => setCategoriaActiva(cat.id)}
-                style={{
-                  background:
-                    categoriaActiva === cat.id
-                      ? "var(--color-verde)"
-                      : "transparent",
-                  color:
-                    categoriaActiva === cat.id
-                      ? "var(--color-crema)"
-                      : "var(--color-tinta)",
-                  border: `1px solid ${categoriaActiva === cat.id ? "var(--color-verde)" : "var(--color-crema-osc)"}`,
-                }}
-                className="font-bebas text-[12px] tracking-[2px] px-4 py-2
-                           rounded-sm transition-all hover:border-[var(--color-verde)]"
-              >
-                {cat.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Ordenar */}
-          <div className="flex items-center gap-3">
+        <div
+          style={{
+            maxWidth: "1100px",
+            margin: "0 auto",
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
+          }}
+        >
+          {[
+            ["Inicio", "/"],
+            ["Colección", "/catalogo"],
+            [producto.nombre, ""],
+          ].map((item, i) => (
             <span
-              style={{ color: "var(--color-gris)" }}
-              className="font-bebas text-[11px] tracking-[2px]"
+              key={i}
+              style={{ display: "flex", alignItems: "center", gap: "8px" }}
             >
-              Ordenar:
+              {i > 0 && (
+                <span style={{ color: "var(--color-gris)", fontSize: "12px" }}>
+                  ›
+                </span>
+              )}
+              {item[1] ? (
+                <Link
+                  href={item[1]}
+                  style={{
+                    color: "var(--color-gris)",
+                    fontFamily: "var(--font-bebas)",
+                    fontSize: "11px",
+                    letterSpacing: "2px",
+                    textDecoration: "none",
+                  }}
+                >
+                  {item[0]}
+                </Link>
+              ) : (
+                <span
+                  style={{
+                    color: "var(--color-tinta)",
+                    fontFamily: "var(--font-bebas)",
+                    fontSize: "11px",
+                    letterSpacing: "2px",
+                  }}
+                >
+                  {item[0]}
+                </span>
+              )}
             </span>
-            <select
-              value={orden}
-              onChange={(e) => setOrden(e.target.value)}
-              style={{
-                background: "white",
-                color: "var(--color-tinta)",
-                border: "1px solid var(--color-crema-osc)",
-              }}
-              className="font-bebas text-[12px] tracking-[1px] px-3 py-2 rounded-sm
-                         outline-none cursor-pointer"
-            >
-              {ordenOpciones.map((op) => (
-                <option key={op.id} value={op.id}>
-                  {op.label}
-                </option>
-              ))}
-            </select>
-          </div>
+          ))}
         </div>
       </div>
 
-      {/* ── GRID DE PRODUCTOS ── */}
-      <section className="py-16 px-6 max-w-[1100px] mx-auto">
-        {/* Contador */}
+      {/* ── DETALLE PRINCIPAL ── */}
+      <section
+        style={{ padding: "64px 24px", maxWidth: "1100px", margin: "0 auto" }}
+      >
         <div
-          style={{ color: "var(--color-gris)" }}
-          className="font-bebas text-[12px] tracking-[2px] mb-8"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: "64px",
+            alignItems: "start",
+          }}
         >
-          {productosFiltrados.length} cuadros disponibles
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {productosFiltrados.map((p) => (
+          {/* Imagen */}
+          <div style={{ position: "relative" }}>
+            {producto.badge && (
+              <span
+                style={{
+                  position: "absolute",
+                  top: "16px",
+                  left: "16px",
+                  zIndex: 10,
+                  background: "var(--color-rojo)",
+                  color: "white",
+                  fontFamily: "var(--font-bebas)",
+                  fontSize: "11px",
+                  letterSpacing: "2px",
+                  padding: "4px 12px",
+                  borderRadius: "2px",
+                }}
+              >
+                {producto.badge}
+              </span>
+            )}
             <div
-              key={p.id}
-              className="bg-white rounded-sm overflow-hidden cursor-pointer
-                         transition-all duration-300 hover:-translate-y-1.5
-                         hover:shadow-[0_24px_48px_rgba(26,58,42,0.15)] group"
+              style={{
+                background: "var(--color-verde)",
+                aspectRatio: "3/4",
+                borderRadius: "4px",
+                overflow: "hidden",
+                position: "relative",
+                boxShadow: "0 32px 64px rgba(0,0,0,0.2)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
             >
-              {/* Imagen */}
-              <div
-                style={{ background: p.color }}
-                className="aspect-[3/4] flex items-center justify-center relative overflow-hidden"
-              >
-                <span
-                  style={{ color: "rgba(255,255,255,0.08)" }}
-                  className="font-bebas text-[80px] absolute top-2 right-3
-                             leading-none select-none"
-                >
-                  {p.dorsal}
-                </span>
-                {p.badge && (
+              {producto.imagen ? (
+                <Image
+                  src={urlFor(producto.imagen).width(600).height(800).url()}
+                  alt={producto.nombre}
+                  fill
+                  style={{ objectFit: "cover" }}
+                />
+              ) : (
+                <>
                   <span
                     style={{
-                      background:
-                        p.badge === "Destacado" || p.badge === "Más vendido"
-                          ? "var(--color-rojo)"
-                          : "var(--color-dorado-osc)",
+                      color: "rgba(255,255,255,0.06)",
+                      fontFamily: "var(--font-bebas)",
+                      fontSize: "140px",
+                      position: "absolute",
+                      top: "16px",
+                      right: "24px",
+                      lineHeight: 1,
+                      userSelect: "none",
                     }}
-                    className="absolute top-3 left-3 text-white font-bebas
-                               text-[10px] tracking-[2px] px-2.5 py-1 rounded-sm z-10"
                   >
-                    {p.badge}
+                    {producto.dorsal}
                   </span>
-                )}
-                <span
-                  className="text-[64px] opacity-90 transition-transform
-                                 duration-300 group-hover:scale-110"
-                >
-                  ⚽
-                </span>
-              </div>
-
-              {/* Info */}
-              <div
-                style={{ borderTop: "3px solid var(--color-crema-osc)" }}
-                className="px-4 py-4"
-              >
-                <div
-                  style={{ color: "var(--color-gris)" }}
-                  className="font-bebas text-[10px] tracking-[3px] mb-1"
-                >
-                  {p.equipo}
-                </div>
-                <div
-                  style={{ color: "var(--color-tinta)" }}
-                  className="font-playfair font-bold text-[16px] leading-tight mb-1"
-                >
-                  {p.nombre}
-                </div>
-                <div
-                  style={{ color: "var(--color-gris)" }}
-                  className="text-[12px] italic mb-1"
-                >
-                  {p.año}
-                </div>
-                <div
-                  style={{ color: "var(--color-gris)" }}
-                  className="text-[12px] leading-snug mb-4 line-clamp-2"
-                >
-                  {p.descripcion}
-                </div>
-                <div className="flex items-center justify-between">
                   <span
-                    style={{ color: "var(--color-verde)" }}
-                    className="font-playfair font-bold text-[20px]"
-                  >
-                    {p.precio} €
-                  </span>
-                  <button
-                    onClick={() => añadirAlCarrito(p.id)}
                     style={{
-                      background: carrito.includes(p.id)
-                        ? "var(--color-dorado)"
-                        : "var(--color-verde)",
-                      color: carrito.includes(p.id)
-                        ? "var(--color-verde)"
-                        : "var(--color-crema)",
+                      fontSize: "120px",
+                      opacity: 0.9,
+                      position: "relative",
+                      zIndex: 1,
                     }}
-                    className="font-bebas text-[11px] tracking-[2px] px-3 py-2
-                               rounded-sm transition-colors"
                   >
-                    {carrito.includes(p.id) ? "✓ Añadido" : "Añadir"}
-                  </button>
-                </div>
-              </div>
+                    ⚽
+                  </span>
+                  <div
+                    style={{
+                      position: "absolute",
+                      inset: "16px",
+                      border: "1px solid rgba(255,255,255,0.1)",
+                      borderRadius: "2px",
+                      pointerEvents: "none",
+                    }}
+                  />
+                </>
+              )}
             </div>
-          ))}
-        </div>
-
-        {/* Sin resultados */}
-        {productosFiltrados.length === 0 && (
-          <div className="text-center py-24">
             <div
-              style={{ color: "var(--color-dorado)" }}
-              className="font-bebas text-[80px] leading-none mb-4 opacity-30"
+              style={{
+                marginTop: "16px",
+                borderLeft: "3px solid var(--color-dorado)",
+                background: "var(--color-crema-osc)",
+                padding: "12px 16px",
+              }}
             >
-              10+1
+              <div
+                style={{
+                  color: "var(--color-tinta)",
+                  fontFamily: "var(--font-bebas)",
+                  fontSize: "11px",
+                  letterSpacing: "2px",
+                  marginBottom: "4px",
+                }}
+              >
+                Impresión de archivo
+              </div>
+              <p style={{ color: "var(--color-gris)", fontSize: "12px" }}>
+                Papel Hahnemühle 308g · Tintas pigmentadas · +75 años de
+                durabilidad
+              </p>
+            </div>
+          </div>
+
+          {/* Info y compra — componente cliente */}
+          <DetalleClient producto={producto} formatos={formatos} />
+        </div>
+      </section>
+
+      {/* ── HISTORIA ── */}
+      {producto.historia && (
+        <section
+          style={{ background: "var(--color-verde)", padding: "80px 24px" }}
+        >
+          <div
+            style={{ maxWidth: "800px", margin: "0 auto", textAlign: "center" }}
+          >
+            <div
+              style={{
+                color: "var(--color-dorado)",
+                fontFamily: "var(--font-bebas)",
+                fontSize: "11px",
+                letterSpacing: "5px",
+                marginBottom: "16px",
+              }}
+            >
+              La historia
             </div>
             <p
-              style={{ color: "var(--color-gris)" }}
-              className="font-playfair italic text-[18px]"
+              style={{
+                color: "rgba(245,239,224,0.85)",
+                fontFamily: "var(--font-playfair)",
+                fontStyle: "italic",
+                fontSize: "clamp(18px,2.5vw,24px)",
+                lineHeight: 1.6,
+              }}
             >
-              No hay cuadros en esta categoría esta semana.
+              {producto.historia}
             </p>
+            <div
+              style={{
+                width: "60px",
+                height: "2px",
+                background: "var(--color-dorado)",
+                margin: "32px auto 0",
+              }}
+            />
           </div>
-        )}
-      </section>
+        </section>
+      )}
     </>
   );
 }
