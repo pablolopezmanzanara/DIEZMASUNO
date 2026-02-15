@@ -70,10 +70,9 @@ export default async function HomePage() {
         {/* Texto hero */}
         <div
           className="flex flex-col justify-center relative z-10"
-          style={{ padding: "80px 80px 80px 80px" }}
+          style={{ padding: "80px" }}
         >
           <div
-            style={{ color: "var(--color-dorado)", marginBottom: "24px" }}
             className="font-bebas flex items-center gap-3"
             style={{
               fontSize: "12px",
@@ -698,7 +697,7 @@ export default async function HomePage() {
               userSelect: "none",
             }}
           >
-            "
+            &ldquo;
           </span>
           <p
             style={{
