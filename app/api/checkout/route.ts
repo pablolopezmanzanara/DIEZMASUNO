@@ -48,17 +48,6 @@ export async function POST(req: NextRequest) {
             },
           },
         },
-        {
-          shipping_rate_data: {
-            type: "fixed_amount",
-            fixed_amount: { amount: 495, currency: "eur" },
-            display_name: "Envío estándar",
-            delivery_estimate: {
-              minimum: { unit: "business_day", value: 2 },
-              maximum: { unit: "business_day", value: 4 },
-            },
-          },
-        },
       ],
     });
 
