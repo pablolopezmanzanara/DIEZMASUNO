@@ -7,8 +7,12 @@ import Link from "next/link";
 export const revalidate = 3600;
 
 export async function generateStaticParams() {
-  const slugs = await getProductoSlugs();
-  return slugs.map((s) => ({ slug: s.slug }));
+  try {
+    const slugs = await getProductoSlugs();
+    return slugs.map((s) => ({ slug: s.slug }));
+  } catch {
+    return [];
+  }
 }
 
 export default async function ProductoPage({
