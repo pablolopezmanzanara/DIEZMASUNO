@@ -6,47 +6,83 @@ export default function Footer() {
       style={{
         background: "var(--color-tinta)",
         borderTop: "3px solid var(--color-dorado)",
+        padding: "56px 24px 32px",
       }}
-      className="px-6 pt-14 pb-8"
     >
-      <div className="max-w-[1100px] mx-auto">
+      <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
         {/* Columnas */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+            gap: "48px",
+            marginBottom: "48px",
+          }}
+        >
           {/* Marca */}
           <div>
-            <div className="flex items-center gap-3 mb-4">
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "12px",
+                marginBottom: "16px",
+              }}
+            >
               <div
                 style={{
                   background: "var(--color-dorado)",
                   color: "var(--color-verde)",
                   boxShadow:
                     "0 0 0 2px var(--color-tinta), 0 0 0 4px var(--color-dorado)",
+                  width: "40px",
+                  height: "40px",
+                  borderRadius: "50%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontFamily: "var(--font-bebas)",
+                  fontSize: "11px",
+                  textAlign: "center",
+                  lineHeight: "1.2",
+                  flexShrink: 0,
                 }}
-                className="w-10 h-10 rounded-full flex items-center justify-center
-                           font-bebas text-[11px] text-center leading-tight shrink-0"
               >
                 10
                 <br />
                 +1
               </div>
-              <div className="flex flex-col">
-                <span
-                  style={{ color: "var(--color-crema)" }}
-                  className="font-playfair font-bold text-[18px] leading-tight"
+              <div>
+                <div
+                  style={{
+                    color: "var(--color-crema)",
+                    fontFamily: "var(--font-playfair)",
+                    fontWeight: 700,
+                    fontSize: "18px",
+                    lineHeight: "1.2",
+                  }}
                 >
                   El Fútbol de Antes
-                </span>
-                <span
-                  style={{ color: "var(--color-dorado)" }}
-                  className="font-bebas text-[11px] tracking-[3px]"
+                </div>
+                <div
+                  style={{
+                    color: "var(--color-dorado)",
+                    fontFamily: "var(--font-bebas)",
+                    fontSize: "11px",
+                    letterSpacing: "3px",
+                  }}
                 >
                   Arte · Nostalgia · Fútbol
-                </span>
+                </div>
               </div>
             </div>
             <p
-              style={{ color: "rgba(245,239,224,0.4)" }}
-              className="text-[13px] leading-relaxed max-w-[280px]"
+              style={{
+                color: "rgba(245,239,224,0.4)",
+                fontSize: "13px",
+                lineHeight: "1.7",
+                maxWidth: "280px",
+              }}
             >
               Cuadros de edición limitada dedicados a los jugadores y momentos
               que hicieron grande el fútbol español.
@@ -56,12 +92,19 @@ export default function Footer() {
           {/* Tienda */}
           <div>
             <div
-              style={{ color: "var(--color-dorado)" }}
-              className="font-bebas text-[12px] tracking-[3px] mb-5"
+              style={{
+                color: "var(--color-dorado)",
+                fontFamily: "var(--font-bebas)",
+                fontSize: "12px",
+                letterSpacing: "3px",
+                marginBottom: "20px",
+              }}
             >
               Tienda
             </div>
-            <div className="flex flex-col gap-3">
+            <div
+              style={{ display: "flex", flexDirection: "column", gap: "12px" }}
+            >
               {[
                 ["Colección actual", "/catalogo"],
                 ["Jugadores", "/jugadores"],
@@ -71,8 +114,12 @@ export default function Footer() {
                 <Link
                   key={href}
                   href={href}
-                  style={{ color: "rgba(245,239,224,0.5)" }}
-                  className="text-[13px] no-underline hover:text-[var(--color-crema)] transition-colors"
+                  style={{
+                    color: "rgba(245,239,224,0.5)",
+                    fontSize: "13px",
+                    textDecoration: "none",
+                    transition: "color 0.2s",
+                  }}
                 >
                   {label}
                 </Link>
@@ -83,12 +130,19 @@ export default function Footer() {
           {/* Información */}
           <div>
             <div
-              style={{ color: "var(--color-dorado)" }}
-              className="font-bebas text-[12px] tracking-[3px] mb-5"
+              style={{
+                color: "var(--color-dorado)",
+                fontFamily: "var(--font-bebas)",
+                fontSize: "12px",
+                letterSpacing: "3px",
+                marginBottom: "20px",
+              }}
             >
               Información
             </div>
-            <div className="flex flex-col gap-3">
+            <div
+              style={{ display: "flex", flexDirection: "column", gap: "12px" }}
+            >
               {[
                 ["Sobre el proyecto", "/sobre-nosotros"],
                 ["Envíos y devoluciones", "/envios"],
@@ -98,8 +152,12 @@ export default function Footer() {
                 <Link
                   key={href}
                   href={href}
-                  style={{ color: "rgba(245,239,224,0.5)" }}
-                  className="text-[13px] no-underline hover:text-[var(--color-crema)] transition-colors"
+                  style={{
+                    color: "rgba(245,239,224,0.5)",
+                    fontSize: "13px",
+                    textDecoration: "none",
+                    transition: "color 0.2s",
+                  }}
                 >
                   {label}
                 </Link>
@@ -110,18 +168,28 @@ export default function Footer() {
 
         {/* Barra inferior */}
         <div
-          style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}
-          className="pt-6 flex flex-col md:flex-row items-center justify-between gap-3"
+          style={{
+            borderTop: "1px solid rgba(255,255,255,0.08)",
+            paddingTop: "24px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: "12px",
+          }}
+          className="md:flex-row"
         >
-          <span
-            style={{ color: "rgba(245,239,224,0.3)" }}
-            className="text-[12px]"
-          >
+          <span style={{ color: "rgba(245,239,224,0.3)", fontSize: "12px" }}>
             © 2025 El Fútbol de Antes · Todos los derechos reservados
           </span>
           <span
-            style={{ color: "var(--color-dorado)", opacity: 0.4 }}
-            className="font-bebas text-[18px] tracking-[2px]"
+            style={{
+              color: "var(--color-dorado)",
+              opacity: 0.4,
+              fontFamily: "var(--font-bebas)",
+              fontSize: "18px",
+              letterSpacing: "2px",
+            }}
           >
             10+1
           </span>
