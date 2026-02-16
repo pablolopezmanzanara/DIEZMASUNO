@@ -8,6 +8,7 @@ import {
 import { urlFor } from "./lib/sanity";
 
 export const revalidate = 3600;
+export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
   const [destacados, todos] = await Promise.all([

@@ -4,16 +4,19 @@ import DetalleClient from "./DetalleClient";
 import Image from "next/image";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
+export const dynamicParams = true;
+
 export const revalidate = 3600;
 
-export async function generateStaticParams() {
-  try {
-    const slugs = await getProductoSlugs();
-    return slugs.map((s) => ({ slug: s.slug }));
-  } catch {
-    return [];
-  }
-}
+//export async function generateStaticParams() {
+//  try {
+//    const slugs = await getProductoSlugs();
+//    return slugs.map((s) => ({ slug: s.slug }));
+//  } catch {
+//    return [];
+//  }
+//}
 
 export default async function ProductoPage({
   params,
