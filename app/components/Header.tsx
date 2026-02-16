@@ -9,33 +9,12 @@ export default function Header() {
   const { totalItems } = useCarrito();
 
   return (
-    <header
-      style={{
-        position: "sticky",
-        top: 0,
-        zIndex: 50,
-        background: "var(--color-verde)",
-        borderBottom: "3px solid var(--color-dorado)",
-      }}
-    >
+    <header className="sticky top-0 z-50 bg-verde border-b-[3px] border-dorado">
       {/* Franja animada */}
-      <div
-        style={{
-          background: "var(--color-dorado)",
-          overflow: "hidden",
-          padding: "8px 0",
-          position: "relative",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            animation: "marquee 25s linear infinite",
-            whiteSpace: "nowrap",
-          }}
-        >
+      <div className="bg-dorado overflow-hidden py-2">
+        <div className="flex animate-marquee whitespace-nowrap">
           {[...Array(3)].map((_, i) => (
-            <div key={i} style={{ display: "flex", flexShrink: 0 }}>
+            <div key={i} className="flex shrink-0">
               {[
                 "ENVÍO GRATUITO EN PEDIDOS +50€",
                 "EDICIÓN LIMITADA SEMANAL",
@@ -45,14 +24,7 @@ export default function Header() {
               ].map((item) => (
                 <span
                   key={item}
-                  style={{
-                    color: "var(--color-verde)",
-                    borderRight: "1px solid var(--color-verde-mid)",
-                    fontFamily: "var(--font-bebas)",
-                    fontSize: "11px",
-                    letterSpacing: "4px",
-                    padding: "0 32px",
-                  }}
+                  className="text-verde border-r border-verde-mid font-bebas text-[11px] tracking-[4px] px-8"
                 >
                   {item}
                 </span>
@@ -63,133 +35,59 @@ export default function Header() {
       </div>
 
       {/* Barra principal */}
-      <div
-        style={{
-          maxWidth: "1100px",
-          margin: "0 auto",
-          padding: "0 24px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          height: "64px",
-        }}
-      >
+      <div className="max-w-[1100px] mx-auto px-6 flex items-center justify-between h-16">
         {/* Logo */}
-        <Link
-          href="/"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "12px",
-            textDecoration: "none",
-          }}
-        >
+        <Link href="/" className="flex items-center gap-3 no-underline">
           <div
-            style={{
-              background: "var(--color-dorado)",
-              color: "var(--color-verde)",
-              boxShadow:
-                "0 0 0 2px var(--color-verde), 0 0 0 4px var(--color-dorado)",
-              width: "44px",
-              height: "44px",
-              borderRadius: "50%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontFamily: "var(--font-bebas)",
-              fontSize: "12px",
-              textAlign: "center",
-              lineHeight: "1.2",
-              flexShrink: 0,
-            }}
+            className="bg-dorado text-verde shadow-[0_0_0_2px_var(--color-verde),0_0_0_4px_var(--color-dorado)]
+                          w-11 h-11 rounded-full flex items-center justify-center
+                          font-bebas text-[12px] text-center leading-tight shrink-0"
           >
             10
             <br />
             +1
           </div>
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <span
-              style={{
-                color: "var(--color-crema)",
-                fontFamily: "var(--font-playfair)",
-                fontWeight: 700,
-                fontSize: "15px",
-                lineHeight: "1.2",
-              }}
-            >
+          <div className="flex flex-col">
+            <span className="text-crema font-playfair font-bold text-[15px] leading-tight">
               El Fútbol de Antes
             </span>
-            <span
-              style={{
-                color: "var(--color-dorado)",
-                fontFamily: "var(--font-bebas)",
-                fontSize: "11px",
-                letterSpacing: "3px",
-              }}
-            >
+            <span className="text-dorado font-bebas text-[11px] tracking-[3px]">
               Arte · Nostalgia · Fútbol
             </span>
           </div>
         </Link>
 
         {/* Nav escritorio */}
-        <nav
-          style={{ display: "none", alignItems: "center", gap: "28px" }}
-          className="md:flex"
-        >
-          {[
-            ["Colección", "/catalogo"],
-            ["Jugadores", "/jugadores"],
-            ["Sobre Nosotros", "/sobre-nosotros"],
-          ].map(([label, href]) => (
-            <Link
-              key={href}
-              href={href}
-              style={{
-                color: "var(--color-crema-osc)",
-                fontFamily: "var(--font-bebas)",
-                fontSize: "14px",
-                letterSpacing: "2px",
-                textDecoration: "none",
-                transition: "color 0.2s",
-              }}
-            >
-              {label}
-            </Link>
-          ))}
+        <nav className="hidden md:flex items-center gap-7">
+          <Link
+            href="/catalogo"
+            className="text-crema-osc font-bebas text-[14px] tracking-[2px] no-underline transition-colors hover:text-dorado"
+          >
+            Colección
+          </Link>
+          <Link
+            href="/jugadores"
+            className="text-crema-osc font-bebas text-[14px] tracking-[2px] no-underline transition-colors hover:text-dorado"
+          >
+            Jugadores
+          </Link>
+          <Link
+            href="/sobre-nosotros"
+            className="text-crema-osc font-bebas text-[14px] tracking-[2px] no-underline transition-colors hover:text-dorado"
+          >
+            Sobre Nosotros
+          </Link>
           <Link
             href="/carrito"
-            style={{
-              background: "var(--color-dorado)",
-              color: "var(--color-verde)",
-              fontFamily: "var(--font-bebas)",
-              fontSize: "13px",
-              letterSpacing: "2px",
-              padding: "8px 16px",
-              borderRadius: "2px",
-              textDecoration: "none",
-              transition: "background 0.2s",
-              display: "flex",
-              alignItems: "center",
-              gap: "8px",
-            }}
+            className="bg-dorado text-verde font-bebas text-[13px] tracking-[2px]
+                       px-4 py-2 rounded-sm no-underline transition-all hover:bg-[#d4a84c]
+                       flex items-center gap-2"
           >
             🛒 Carrito
             {totalItems > 0 && (
               <span
-                style={{
-                  background: "var(--color-verde)",
-                  color: "var(--color-dorado)",
-                  borderRadius: "50%",
-                  width: "20px",
-                  height: "20px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontFamily: "var(--font-bebas)",
-                  fontSize: "11px",
-                  lineHeight: 1,
-                }}
+                className="bg-verde text-dorado rounded-full w-5 h-5
+                             flex items-center justify-center font-bebas text-[11px] leading-none"
               >
                 {totalItems}
               </span>
@@ -197,36 +95,18 @@ export default function Header() {
           </Link>
         </nav>
 
-        {/* Botón menú móvil */}
+        {/* Botón móvil */}
         <button
-          style={{
-            color: "var(--color-crema)",
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-          }}
-          className="md:hidden"
+          className="md:hidden text-crema bg-transparent border-0 cursor-pointer text-2xl"
           onClick={() => setMenuAbierto(!menuAbierto)}
         >
-          <span style={{ fontFamily: "var(--font-bebas)", fontSize: "24px" }}>
-            {menuAbierto ? "✕" : "☰"}
-          </span>
+          <span className="font-bebas">{menuAbierto ? "✕" : "☰"}</span>
         </button>
       </div>
 
       {/* Menú móvil */}
       {menuAbierto && (
-        <div
-          style={{
-            background: "var(--color-verde-mid)",
-            borderTop: "1px solid var(--color-dorado)",
-            padding: "16px 24px",
-            display: "flex",
-            flexDirection: "column",
-            gap: "16px",
-          }}
-          className="md:hidden"
-        >
+        <div className="md:hidden bg-verde-mid border-t border-dorado px-6 py-4 flex flex-col gap-4">
           {[
             ["Colección", "/catalogo"],
             ["Jugadores", "/jugadores"],
@@ -236,14 +116,7 @@ export default function Header() {
             <Link
               key={href}
               href={href}
-              style={{
-                color: "var(--color-crema)",
-                fontFamily: "var(--font-bebas)",
-                fontSize: "16px",
-                letterSpacing: "3px",
-                textDecoration: "none",
-                transition: "color 0.2s",
-              }}
+              className="text-crema font-bebas text-[16px] tracking-[3px] no-underline transition-colors hover:text-dorado"
               onClick={() => setMenuAbierto(false)}
             >
               {label}
