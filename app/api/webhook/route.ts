@@ -1,6 +1,6 @@
 import Stripe from "stripe";
 import { NextRequest, NextResponse } from "next/server";
-import { supabase } from "../../lib/supabase";
+import { getSupabaseClient } from "../../lib/supabase";
 import { enviarEmailConfirmacion } from "../../lib/email";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -31,6 +31,7 @@ export async function POST(req: NextRequest) {
 
     // Guardar en Supabase
     try {
+      const supabase = getSupabaseClient();
       const { error } = await supabase.from("pedidos").insert({
         stripe_session_id: session.id,
         email: session.customer_details?.email,
