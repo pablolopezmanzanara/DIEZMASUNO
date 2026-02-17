@@ -47,6 +47,9 @@ export async function POST(req: NextRequest) {
 
     // Enviar email de confirmación
     if (session.customer_details?.email) {
+      console.log("Intentando enviar email a:", session.customer_details.email);
+      console.log("RESEND_API_KEY presente:", !!process.env.RESEND_API_KEY);
+
       try {
         await enviarEmailConfirmacion({
           email: session.customer_details.email,
@@ -54,9 +57,17 @@ export async function POST(req: NextRequest) {
           total: session.amount_total ?? 0,
           direccion: shipping?.address ?? null,
         });
-        console.log("Email enviado a:", session.customer_details.email);
+        console.log(
+          "✅ Email enviado correctamente a:",
+          session.customer_details.email,
+        );
       } catch (err) {
-        console.error("Error enviando email:", err);
+        console.error("❌ Error enviando email:", err);
+        // Log del error completo
+        if (err instanceof Error) {
+          console.error("Error message:", err.message);
+          console.error("Error stack:", err.stack);
+        }
       }
     }
   }
