@@ -1,6 +1,7 @@
 import Stripe from "stripe";
 import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "../../lib/supabase";
+import { enviarEmailConfirmacion } from "../../lib/email";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2026-01-28.clover",
@@ -25,24 +26,37 @@ export async function POST(req: NextRequest) {
 
   if (event.type === "checkout.session.completed") {
     const session = event.data.object as Stripe.Checkout.Session;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const shipping = (session as any).shipping_details;
 
+    // Guardar en Supabase
     try {
       const { error } = await supabase.from("pedidos").insert({
         stripe_session_id: session.id,
         email: session.customer_details?.email,
         total: session.amount_total,
         estado: "pagado",
-        direccion: (session as any).shipping_details?.address ?? null, // eslint-disable-line @typescript-eslint/no-explicit-any
+        direccion: shipping?.address ?? null,
         items: session.metadata ?? null,
       });
-
-      if (error) {
-        console.error("Error guardando pedido en Supabase:", error);
-      } else {
-        console.log("Pedido guardado correctamente:", session.id);
-      }
+      if (error) console.error("Error guardando pedido:", error);
     } catch (err) {
-      console.error("Error inesperado:", err);
+      console.error("Error Supabase:", err);
+    }
+
+    // Enviar email de confirmación
+    if (session.customer_details?.email) {
+      try {
+        await enviarEmailConfirmacion({
+          email: session.customer_details.email,
+          sessionId: session.id,
+          total: session.amount_total ?? 0,
+          direccion: shipping?.address ?? null,
+        });
+        console.log("Email enviado a:", session.customer_details.email);
+      } catch (err) {
+        console.error("Error enviando email:", err);
+      }
     }
   }
 
