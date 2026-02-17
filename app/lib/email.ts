@@ -1,7 +1,5 @@
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 type ItemPedido = {
   nombre: string;
   formato: string;
@@ -28,6 +26,7 @@ export async function enviarEmailConfirmacion({
   total,
   direccion,
 }: EnviarConfirmacionParams) {
+  const resend = new Resend(process.env.RESEND_API_KEY);
   const totalFormateado = (total / 100).toFixed(2);
   const referencia = sessionId.slice(-8).toUpperCase();
 
