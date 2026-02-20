@@ -23,8 +23,7 @@ export default function AdminPedidosPage() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    // Password simple hardcodeada (cambiar en producción)
-    if (password === "aubameyang2015") {
+    if (password === "elfutbol2025") {
       setAutenticado(true);
       cargarPedidos();
     } else {
@@ -60,19 +59,20 @@ export default function AdminPedidosPage() {
           alignItems: "center",
           justifyContent: "center",
           background: "var(--color-crema)",
+          padding: "24px",
         }}
       >
         <div
           style={{
             background: "white",
-            padding: "48px",
+            padding: "40px",
             borderRadius: "4px",
             boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
             maxWidth: "400px",
             width: "100%",
           }}
         >
-          <div style={{ textAlign: "center", marginBottom: "32px" }}>
+          <div style={{ textAlign: "center", marginBottom: "24px" }}>
             <div
               style={{
                 background: "var(--color-dorado)",
@@ -86,6 +86,7 @@ export default function AdminPedidosPage() {
                 fontFamily: "var(--font-bebas)",
                 fontSize: "12px",
                 margin: "0 auto 16px",
+                lineHeight: "1.2",
               }}
             >
               10
@@ -158,17 +159,19 @@ export default function AdminPedidosPage() {
       style={{
         minHeight: "100vh",
         background: "var(--color-crema)",
-        padding: "40px 24px",
+        padding: "24px",
       }}
     >
-      <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-        {/* Header */}
+      <div style={{ maxWidth: "1400px", margin: "0 auto" }}>
+        {/* Header compacto */}
         <div
           style={{
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            marginBottom: "32px",
+            marginBottom: "24px",
+            gap: "16px",
+            flexWrap: "wrap",
           }}
         >
           <div>
@@ -176,8 +179,8 @@ export default function AdminPedidosPage() {
               style={{
                 color: "var(--color-tinta)",
                 fontFamily: "var(--font-playfair)",
-                fontSize: "32px",
-                margin: "0 0 8px",
+                fontSize: "28px",
+                margin: "0 0 4px",
               }}
             >
               Pedidos recientes
@@ -185,7 +188,7 @@ export default function AdminPedidosPage() {
             <p
               style={{
                 color: "var(--color-gris)",
-                fontSize: "14px",
+                fontSize: "13px",
                 margin: 0,
               }}
             >
@@ -211,16 +214,22 @@ export default function AdminPedidosPage() {
           </button>
         </div>
 
-        {/* Tabla */}
+        {/* Tabla responsive */}
         <div
           style={{
             background: "white",
             borderRadius: "4px",
-            overflow: "hidden",
+            overflow: "auto",
             boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
           }}
         >
-          <table style={{ width: "100%", borderCollapse: "collapse" }}>
+          <table
+            style={{
+              width: "100%",
+              borderCollapse: "collapse",
+              minWidth: "600px",
+            }}
+          >
             <thead>
               <tr
                 style={{
@@ -230,58 +239,63 @@ export default function AdminPedidosPage() {
               >
                 <th
                   style={{
-                    padding: "16px",
+                    padding: "12px 16px",
                     textAlign: "left",
                     fontFamily: "var(--font-bebas)",
-                    fontSize: "12px",
+                    fontSize: "11px",
                     letterSpacing: "2px",
+                    whiteSpace: "nowrap",
                   }}
                 >
                   Fecha
                 </th>
                 <th
                   style={{
-                    padding: "16px",
+                    padding: "12px 16px",
                     textAlign: "left",
                     fontFamily: "var(--font-bebas)",
-                    fontSize: "12px",
+                    fontSize: "11px",
                     letterSpacing: "2px",
+                    whiteSpace: "nowrap",
                   }}
                 >
                   Email
                 </th>
                 <th
                   style={{
-                    padding: "16px",
+                    padding: "12px 16px",
                     textAlign: "left",
                     fontFamily: "var(--font-bebas)",
-                    fontSize: "12px",
+                    fontSize: "11px",
                     letterSpacing: "2px",
+                    whiteSpace: "nowrap",
                   }}
                 >
                   Total
                 </th>
                 <th
                   style={{
-                    padding: "16px",
+                    padding: "12px 16px",
                     textAlign: "left",
                     fontFamily: "var(--font-bebas)",
-                    fontSize: "12px",
+                    fontSize: "11px",
                     letterSpacing: "2px",
+                    whiteSpace: "nowrap",
                   }}
                 >
                   Estado
                 </th>
                 <th
                   style={{
-                    padding: "16px",
+                    padding: "12px 16px",
                     textAlign: "left",
                     fontFamily: "var(--font-bebas)",
-                    fontSize: "12px",
+                    fontSize: "11px",
                     letterSpacing: "2px",
+                    whiteSpace: "nowrap",
                   }}
                 >
-                  Referencia
+                  Ref
                 </th>
               </tr>
             </thead>
@@ -293,23 +307,23 @@ export default function AdminPedidosPage() {
                 >
                   <td
                     style={{
-                      padding: "16px",
-                      fontSize: "13px",
+                      padding: "12px 16px",
+                      fontSize: "12px",
                       color: "var(--color-gris)",
+                      whiteSpace: "nowrap",
                     }}
                   >
                     {new Date(pedido.created_at).toLocaleDateString("es-ES", {
                       day: "2-digit",
                       month: "short",
-                      year: "numeric",
                       hour: "2-digit",
                       minute: "2-digit",
                     })}
                   </td>
                   <td
                     style={{
-                      padding: "16px",
-                      fontSize: "13px",
+                      padding: "12px 16px",
+                      fontSize: "12px",
                       color: "var(--color-tinta)",
                     }}
                   >
@@ -317,24 +331,26 @@ export default function AdminPedidosPage() {
                   </td>
                   <td
                     style={{
-                      padding: "16px",
-                      fontSize: "14px",
+                      padding: "12px 16px",
+                      fontSize: "13px",
                       color: "var(--color-tinta)",
                       fontWeight: 600,
+                      whiteSpace: "nowrap",
                     }}
                   >
                     {(pedido.total / 100).toFixed(2)} €
                   </td>
-                  <td style={{ padding: "16px" }}>
+                  <td style={{ padding: "12px 16px" }}>
                     <span
                       style={{
                         background: "var(--color-verde)",
                         color: "var(--color-crema)",
-                        fontSize: "10px",
-                        padding: "4px 8px",
+                        fontSize: "9px",
+                        padding: "3px 6px",
                         borderRadius: "2px",
                         fontFamily: "var(--font-bebas)",
                         letterSpacing: "1px",
+                        whiteSpace: "nowrap",
                       }}
                     >
                       {pedido.estado.toUpperCase()}
@@ -342,10 +358,11 @@ export default function AdminPedidosPage() {
                   </td>
                   <td
                     style={{
-                      padding: "16px",
-                      fontSize: "12px",
+                      padding: "12px 16px",
+                      fontSize: "11px",
                       color: "var(--color-gris)",
                       fontFamily: "monospace",
+                      whiteSpace: "nowrap",
                     }}
                   >
                     #{pedido.stripe_session_id.slice(-8).toUpperCase()}
@@ -358,7 +375,7 @@ export default function AdminPedidosPage() {
           {pedidos.length === 0 && !cargando && (
             <div
               style={{
-                padding: "48px",
+                padding: "40px",
                 textAlign: "center",
                 color: "var(--color-gris)",
               }}
