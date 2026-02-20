@@ -23,7 +23,7 @@ export default function AdminPedidosPage() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (password === "elfutbol2025") {
+    if (password === "aubameyang2015") {
       setAutenticado(true);
       cargarPedidos();
     } else {
