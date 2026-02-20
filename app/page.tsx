@@ -7,7 +7,6 @@ import {
 } from "./lib/queries";
 import { urlFor } from "./lib/sanity";
 
-export const revalidate = 3600;
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
@@ -16,19 +15,33 @@ export default async function HomePage() {
     getProductos(),
   ]);
 
-  const productosHome = destacados.length > 0 ? destacados : todos.slice(0, 4);
+  const productosHome = destacados.length > 0 ? destacados : todos.slice(0, 6);
 
   return (
     <>
       {/* ── HERO ── */}
       <section
-        style={{ background: "var(--color-verde)", minHeight: "90vh" }}
-        className="grid grid-cols-1 md:grid-cols-2 overflow-hidden relative"
+        style={{
+          background: "var(--color-verde)",
+          minHeight: "90vh",
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          overflow: "hidden",
+          position: "relative",
+        }}
       >
         {/* Líneas campo decorativas */}
         <svg
-          className="absolute right-0 top-0 bottom-0 h-full w-1/2 pointer-events-none"
-          style={{ opacity: 0.04 }}
+          style={{
+            position: "absolute",
+            right: 0,
+            top: 0,
+            bottom: 0,
+            height: "100%",
+            width: "50%",
+            opacity: 0.04,
+            pointerEvents: "none",
+          }}
           viewBox="0 0 400 600"
           fill="none"
         >
@@ -70,16 +83,25 @@ export default async function HomePage() {
 
         {/* Texto hero */}
         <div
-          className="flex flex-col justify-center relative z-10"
-          style={{ padding: "80px" }}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            padding: "80px",
+            position: "relative",
+            zIndex: 1,
+          }}
         >
           <div
-            className="font-bebas flex items-center gap-3"
             style={{
-              fontSize: "12px",
-              letterSpacing: "5px",
               color: "var(--color-dorado)",
               marginBottom: "24px",
+              fontFamily: "var(--font-bebas)",
+              fontSize: "12px",
+              letterSpacing: "5px",
+              display: "flex",
+              alignItems: "center",
+              gap: "12px",
             }}
           >
             <span
@@ -94,8 +116,12 @@ export default async function HomePage() {
           </div>
 
           <h1
-            className="font-playfair font-black"
-            style={{ lineHeight: 1.05, marginBottom: "8px" }}
+            style={{
+              fontFamily: "var(--font-playfair)",
+              fontWeight: 900,
+              lineHeight: 1.05,
+              marginBottom: "8px",
+            }}
           >
             <span
               style={{
@@ -110,9 +136,9 @@ export default async function HomePage() {
               </em>
             </span>
             <span
-              className="font-bebas"
               style={{
                 color: "var(--color-crema)",
+                fontFamily: "var(--font-bebas)",
                 fontSize: "clamp(60px, 8vw, 110px)",
                 display: "block",
                 lineHeight: 0.9,
@@ -179,8 +205,14 @@ export default async function HomePage() {
 
         {/* Cards apiladas */}
         <div
-          className="hidden md:flex items-center justify-center relative z-10"
-          style={{ padding: "60px 80px 60px 40px" }}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "60px 80px 60px 40px",
+            position: "relative",
+            zIndex: 1,
+          }}
         >
           <div
             style={{ position: "relative", width: "280px", height: "380px" }}
@@ -381,17 +413,17 @@ export default async function HomePage() {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(3, 1fr)",
+              gridTemplateColumns: "repeat(auto-fit, 320px)",
+              justifyContent: "center",
               gap: "32px",
             }}
           >
-            {productosHome.slice(0, 4).map((p, index) => (
+            {productosHome.slice(0, 6).map((p: Producto) => (
               <Link
                 key={p._id}
                 href={`/catalogo/${p.slug.current}`}
                 style={{
                   textDecoration: "none",
-                  gridColumn: index === 0 ? "span 2" : "span 1",
                   background: "white",
                   borderRadius: "4px",
                   overflow: "hidden",
@@ -404,7 +436,6 @@ export default async function HomePage() {
                     background: "var(--color-verde)",
                     position: "relative",
                     overflow: "hidden",
-                    //aspectRatio: index === 0 ? "16/9" : "3/4",
                     aspectRatio: "3/4",
                     display: "flex",
                     alignItems: "center",
@@ -413,10 +444,7 @@ export default async function HomePage() {
                 >
                   {p.imagen ? (
                     <Image
-                      src={urlFor(p.imagen)
-                        .width(index === 0 ? 700 : 400)
-                        .height(index === 0 ? 394 : 533)
-                        .url()}
+                      src={urlFor(p.imagen).width(400).height(533).url()}
                       alt={p.nombre}
                       fill
                       style={{ objectFit: "cover" }}
@@ -432,18 +460,12 @@ export default async function HomePage() {
                           top: "12px",
                           right: "16px",
                           lineHeight: 1,
+                          userSelect: "none",
                         }}
                       >
                         {p.dorsal}
                       </span>
-                      <span
-                        style={{
-                          fontSize: index === 0 ? "96px" : "64px",
-                          opacity: 0.9,
-                        }}
-                      >
-                        ⚽
-                      </span>
+                      <span style={{ fontSize: "64px", opacity: 0.9 }}>⚽</span>
                     </>
                   )}
                   {p.badge && (
@@ -575,7 +597,7 @@ export default async function HomePage() {
             maxWidth: "1100px",
             margin: "0 auto",
             position: "relative",
-            zIndex: 10,
+            zIndex: 1,
           }}
         >
           <div style={{ marginBottom: "64px" }}>
@@ -609,7 +631,8 @@ export default async function HomePage() {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(3, 1fr)",
+              gridTemplateColumns: "repeat(auto-fit, 320px)",
+              justifyContent: "center",
               gap: "2px",
             }}
           >

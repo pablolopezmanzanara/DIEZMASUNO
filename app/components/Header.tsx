@@ -8,91 +8,208 @@ export default function Header() {
   const [menuAbierto, setMenuAbierto] = useState(false);
   const { totalItems } = useCarrito();
 
-  const itemsMarquee = [
-    "ENVÍO GRATUITO EN PEDIDOS +50€",
-    "EDICIÓN LIMITADA SEMANAL",
-    "IMPRESIÓN DE ALTA CALIDAD",
-    "FÚTBOL ESPAÑOL AÑOS 90 Y 2000",
-    "ENMARCADO DISPONIBLE",
-  ];
-
   return (
-    <header className="sticky top-0 z-[100] bg-verde w-full">
-      {/* 1. BARRA PRINCIPAL - Con márgenes laterales (max-w + px-12) */}
-      <div className="max-w-[1440px] mx-auto px-8 md:px-16 flex items-center justify-between h-[90px]">
-        {/* Lado Izquierdo: Logo */}
+    <header
+      style={{
+        position: "sticky",
+        top: 0,
+        zIndex: 50,
+        background: "var(--color-verde)",
+        borderBottom: "3px solid var(--color-dorado)",
+      }}
+    >
+      {/* Barra principal */}
+      <div
+        style={{
+          maxWidth: "1100px",
+          margin: "0 auto",
+          padding: "0 24px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          height: "64px",
+        }}
+      >
+        {/* Logo */}
         <Link
           href="/"
-          className="flex items-center gap-5 no-underline shrink-0 group pl-12 "
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "12px",
+            textDecoration: "none",
+          }}
         >
           <div
-            className="w-12 h-12 bg-dorado rounded-full flex items-center justify-center
-                       font-bebas text-[14px] text-verde text-center leading-[1.1]
-                       shadow-[0_0_0_2px_#1a3a2a,0_0_0_4px_#c9a84c] shrink-0 transition-transform group-hover:scale-105"
+            style={{
+              background: "var(--color-dorado)",
+              color: "var(--color-verde)",
+              boxShadow:
+                "0 0 0 2px var(--color-verde), 0 0 0 4px var(--color-dorado)",
+              width: "44px",
+              height: "44px",
+              borderRadius: "50%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontFamily: "var(--font-bebas)",
+              fontSize: "12px",
+              textAlign: "center",
+              lineHeight: "1.2",
+              flexShrink: 0,
+            }}
           >
             10
             <br />
             +1
           </div>
-          <div className="flex flex-col">
-            <span className="font-playfair font-bold text-[20px] text-crema leading-tight tracking-[0.5px]">
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <span
+              style={{
+                color: "var(--color-crema)",
+                fontFamily: "var(--font-playfair)",
+                fontWeight: 700,
+                fontSize: "15px",
+                lineHeight: "1.2",
+              }}
+            >
               El Fútbol de Antes
             </span>
-            <span className="font-bebas text-[11px] text-dorado tracking-[4px]">
+            <span
+              style={{
+                color: "var(--color-dorado)",
+                fontFamily: "var(--font-bebas)",
+                fontSize: "11px",
+                letterSpacing: "3px",
+              }}
+            >
               Arte · Nostalgia · Fútbol
             </span>
           </div>
         </Link>
 
-        {/* Lado Derecho: Navegación */}
-        <nav className="hidden md:flex items-center gap-10">
-          <Link
-            href="/catalogo"
-            className="font-bebas text-[15px] text-crema-osc tracking-[2.5px] no-underline hover:text-dorado transition-colors"
-          >
-            COLECCIÓN
-          </Link>
-          <Link
-            href="/jugadores"
-            className="font-bebas text-[15px] text-crema-osc tracking-[2.5px] no-underline hover:text-dorado transition-colors"
-          >
-            JUGADORES
-          </Link>
-          <Link
-            href="/sobre-nosotros"
-            className="font-bebas text-[15px] text-crema-osc tracking-[2.5px] no-underline hover:text-dorado transition-colors"
-          >
-            SOBRE NOSOTROS
-          </Link>
-
+        {/* Nav escritorio */}
+        <nav
+          style={{
+            display: "none",
+            alignItems: "center",
+            gap: "28px",
+          }}
+          className="md:flex"
+        >
+          {[
+            ["Colección", "/catalogo"],
+            ["Jugadores", "/jugadores"],
+            ["Sobre Nosotros", "/sobre-nosotros"],
+          ].map(([label, href]) => (
+            <Link
+              key={href}
+              href={href}
+              style={{
+                color: "var(--color-crema-osc)",
+                fontFamily: "var(--font-bebas)",
+                fontSize: "14px",
+                letterSpacing: "2px",
+                textDecoration: "none",
+                transition: "color 0.2s",
+              }}
+            >
+              {label}
+            </Link>
+          ))}
           <Link
             href="/carrito"
-            className="bg-dorado text-verde font-bebas text-[14px] tracking-[2px]
-                       px-6 py-3 rounded-[2px] no-underline transition-all
-                       hover:bg-crema flex items-center gap-2 ml-4"
+            style={{
+              background: "var(--color-dorado)",
+              color: "var(--color-verde)",
+              fontFamily: "var(--font-bebas)",
+              fontSize: "13px",
+              letterSpacing: "2px",
+              padding: "8px 16px",
+              borderRadius: "2px",
+              textDecoration: "none",
+              transition: "background 0.2s",
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+            }}
           >
-            <span className="text-lg">🛒</span> CARRITO ({totalItems})
+            🛒 Carrito
+            {totalItems > 0 && (
+              <span
+                style={{
+                  background: "var(--color-verde)",
+                  color: "var(--color-dorado)",
+                  borderRadius: "50%",
+                  width: "20px",
+                  height: "20px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontFamily: "var(--font-bebas)",
+                  fontSize: "11px",
+                  lineHeight: 1,
+                }}
+              >
+                {totalItems}
+              </span>
+            )}
           </Link>
         </nav>
 
         {/* Botón móvil */}
         <button
-          className="md:hidden text-crema bg-transparent border-0 cursor-pointer text-3xl"
+          style={{
+            color: "var(--color-crema)",
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            fontSize: "24px",
+            display: "block",
+          }}
+          className="md:hidden"
           onClick={() => setMenuAbierto(!menuAbierto)}
         >
-          <span className="font-bebas">{menuAbierto ? "✕" : "☰"}</span>
+          <span style={{ fontFamily: "var(--font-bebas)" }}>
+            {menuAbierto ? "✕" : "☰"}
+          </span>
         </button>
       </div>
 
-      {/* 2. FRANJA ANIMADA - Más alta (py-5), letra más grande (text-sm) y más espacio (px-32) */}
-      <div className="bg-dorado overflow-hidden py-5 border-t border-verde/10 shadow-sm">
-        <div className="flex animate-marquee whitespace-nowrap items-center">
-          {[...Array(4)].map((_, i) => (
-            <div key={i} className="flex">
-              {itemsMarquee.map((item) => (
+      {/* Franja animada */}
+      <div
+        style={{
+          background: "var(--color-dorado)",
+          overflow: "hidden",
+          padding: "8px 0",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            animation: "marquee 25s linear infinite",
+            whiteSpace: "nowrap",
+          }}
+        >
+          {[...Array(3)].map((_, i) => (
+            <div key={i} style={{ display: "flex", flexShrink: 0 }}>
+              {[
+                "ENVÍO GRATUITO EN PEDIDOS +50€",
+                "EDICIÓN LIMITADA SEMANAL",
+                "IMPRESIÓN DE ALTA CALIDAD",
+                "FÚTBOL ESPAÑOL AÑOS 90 Y 2000",
+                "ENMARCADO DISPONIBLE",
+              ].map((item) => (
                 <span
                   key={item}
-                  className="font-bebas text-[14px] text-verde tracking-[5px] px-32 border-r border-verde/15 flex items-center"
+                  style={{
+                    color: "var(--color-verde)",
+                    borderRight: "1px solid var(--color-verde-mid)",
+                    fontFamily: "var(--font-bebas)",
+                    fontSize: "11px",
+                    letterSpacing: "4px",
+                    padding: "0 32px",
+                  }}
                 >
                   {item}
                 </span>
@@ -104,22 +221,39 @@ export default function Header() {
 
       {/* Menú móvil */}
       {menuAbierto && (
-        <div className="md:hidden bg-verde-mid border-t border-dorado px-10 py-12 flex flex-col gap-8 animate-in fade-in slide-in-from-top-5">
-          {["COLECCIÓN", "JUGADORES", "SOBRE NOSOTROS"].map((link) => (
+        <div
+          style={{
+            background: "var(--color-verde-mid)",
+            borderTop: "1px solid var(--color-dorado)",
+            padding: "16px 24px",
+            display: "flex",
+            flexDirection: "column",
+            gap: "16px",
+          }}
+          className="md:hidden"
+        >
+          {[
+            ["Colección", "/catalogo"],
+            ["Jugadores", "/jugadores"],
+            ["Sobre Nosotros", "/sobre-nosotros"],
+            [`🛒 Carrito (${totalItems})`, "/carrito"],
+          ].map(([label, href]) => (
             <Link
-              key={link}
-              href="#"
-              className="text-crema font-bebas text-[24px] tracking-[4px] no-underline border-b border-white/5 pb-2"
+              key={href}
+              href={href}
+              style={{
+                color: "var(--color-crema)",
+                fontFamily: "var(--font-bebas)",
+                fontSize: "16px",
+                letterSpacing: "3px",
+                textDecoration: "none",
+                transition: "color 0.2s",
+              }}
+              onClick={() => setMenuAbierto(false)}
             >
-              {link}
+              {label}
             </Link>
           ))}
-          <Link
-            href="#"
-            className="text-dorado font-bebas text-[24px] tracking-[4px] no-underline"
-          >
-            🛒 CARRITO ({totalItems})
-          </Link>
         </div>
       )}
     </header>

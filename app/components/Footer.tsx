@@ -6,7 +6,7 @@ export default function Footer() {
       style={{
         background: "var(--color-tinta)",
         borderTop: "3px solid var(--color-dorado)",
-        padding: "56px 24px 32px",
+        padding: "60px 24px 32px",
       }}
     >
       <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
@@ -35,8 +35,8 @@ export default function Footer() {
                   color: "var(--color-verde)",
                   boxShadow:
                     "0 0 0 2px var(--color-tinta), 0 0 0 4px var(--color-dorado)",
-                  width: "40px",
-                  height: "40px",
+                  width: "36px",
+                  height: "36px",
                   borderRadius: "50%",
                   display: "flex",
                   alignItems: "center",
