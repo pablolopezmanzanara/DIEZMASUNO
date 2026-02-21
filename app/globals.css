@@ -15,17 +15,6 @@
   --font-playfair: "Playfair Display", serif;
   --font-baskerville: "Libre Baskerville", serif;
   --font-bebas: "Bebas Neue", sans-serif;
-
-  --animate-marquee: marquee 25s linear infinite;
-
-  @keyframes marquee {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(-33.333%);
-    }
-  }
 }
 
 * {
@@ -55,6 +44,26 @@ body::before {
   opacity: 0.5;
 }
 
+/* Marquee animation */
+.marquee-container {
+  display: flex;
+  animation: scroll 18s linear infinite;
+}
+
+.marquee-content {
+  display: flex;
+  flex-shrink: 0;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
 /* Hero responsive */
 @media (min-width: 1024px) {
   .hero-content {
@@ -70,9 +79,27 @@ body::before {
   }
 }
 
-/* Ocultar "Sobre Nosotros" en móvil */
+/* Header responsive */
 @media (max-width: 768px) {
-  .nav-sobre-nosotros {
-    display: none !important;
+  .nav-desktop {
+    display: none;
+  }
+
+  .carrito-texto {
+    display: none;
+  }
+
+  .carrito-icono {
+    display: inline;
+  }
+}
+
+@media (min-width: 769px) {
+  .carrito-icono {
+    display: none;
+  }
+
+  .carrito-texto {
+    display: inline;
   }
 }
