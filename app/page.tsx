@@ -10,13 +10,8 @@ import { urlFor } from "./lib/sanity";
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  const [destacados, todos] = await Promise.all([
-    getProductosDestacados(),
-    getProductos(),
-  ]);
-
-  const productosHome = destacados.length > 0 ? destacados : todos.slice(0, 6);
-
+  const destacados = await getProductosDestacados();
+  const productosHome = destacados.slice(0, 3);
   return (
     <>
       {/* ── HERO ── */}
@@ -152,7 +147,7 @@ export default async function HomePage() {
               display: "flex",
               flexDirection: "column",
               justifyContent: "center",
-              padding: "60px 40px",
+              padding: "75px 40px",
               marginInlineStart: "40px",
             }}
           >
@@ -428,7 +423,7 @@ export default async function HomePage() {
                 marginBottom: "10px",
               }}
             >
-              Esta semana
+              Descubre
             </div>
             <h2
               style={{
@@ -439,14 +434,14 @@ export default async function HomePage() {
                 lineHeight: 1.1,
               }}
             >
-              Colección{" "}
+              Algunos de nuestros{" "}
               <em
                 style={{
                   fontStyle: "italic",
                   color: "var(--color-dorado-osc)",
                 }}
               >
-                activa
+                cuadros
               </em>
             </h2>
           </div>
@@ -463,7 +458,7 @@ export default async function HomePage() {
               whiteSpace: "nowrap",
             }}
           >
-            Ver todos los cuadros →
+            Ver colección completa →
           </Link>
         </div>
 
@@ -489,7 +484,7 @@ export default async function HomePage() {
               gap: "32px",
             }}
           >
-            {productosHome.slice(0, 6).map((p: Producto) => (
+            {productosHome.slice(0, 3).map((p: Producto) => (
               <Link
                 key={p._id}
                 href={`/catalogo/${p.slug.current}`}

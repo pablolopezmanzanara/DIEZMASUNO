@@ -47,7 +47,8 @@ body::before {
 /* Marquee animation */
 .marquee-container {
   display: flex;
-  animation: scroll 18s linear infinite;
+  animation: scroll 35s linear infinite;
+  will-change: transform;
 }
 
 .marquee-content {
@@ -60,7 +61,7 @@ body::before {
     transform: translateX(0);
   }
   100% {
-    transform: translateX(-80%);
+    transform: translateX(-33.333%);
   }
 }
 

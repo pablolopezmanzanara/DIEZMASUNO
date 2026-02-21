@@ -16,6 +16,7 @@ export type Producto = {
   logros: string[];
   disponible: boolean;
   destacado: boolean;
+  tipo: "jugador" | "otro";
 };
 
 // Todos los productos disponibles
@@ -23,7 +24,7 @@ export async function getProductos(): Promise<Producto[]> {
   return client.fetch(`
     *[_type == "producto" && disponible == true] | order(_createdAt desc) {
       _id, nombre, slug, equipo, anio, dorsal,
-      descripcion, imagen, precio, badge, categoria, disponible, destacado
+      descripcion, imagen, precio, badge, categoria, disponible, destacado, tipo
     }
   `);
 }
@@ -33,7 +34,7 @@ export async function getProductosDestacados(): Promise<Producto[]> {
   return client.fetch(`
     *[_type == "producto" && disponible == true && destacado == true] | order(_createdAt desc) {
       _id, nombre, slug, equipo, anio, dorsal,
-      descripcion, imagen, precio, badge, categoria
+      descripcion, imagen, precio, badge, categoria, tipo
     }
   `);
 }
@@ -44,7 +45,7 @@ export async function getProducto(slug: string): Promise<Producto> {
     `
     *[_type == "producto" && slug.current == $slug][0] {
       _id, nombre, slug, equipo, anio, dorsal,
-      descripcion, historia, imagen, precio, badge, categoria, logros
+      descripcion, historia, imagen, precio, badge, categoria, logros, tipo
     }
   `,
     { slug },

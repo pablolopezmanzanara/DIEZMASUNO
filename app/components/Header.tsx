@@ -151,71 +151,44 @@ export default function Header() {
         style={{
           background: "var(--color-dorado)",
           overflow: "hidden",
-          paddingTop: "20px",
-          paddingBottom: "10px",
+          padding: "8px 0",
           position: "relative",
-          alignItems: "center",
         }}
       >
         <div className="marquee-container">
-          <div className="marquee-content">
-            {[
-              "RAÚL GONZÁLEZ BLANCO",
-              "FERNANDO TORRES",
-              "MANOLO PRECIADO",
-              "EUROMALAGA",
-              "IKER MUÑAIN",
-              "ANTONIO PUERTA",
-              "IAGO ASPAS",
-              "DANI PAREJO",
-              "JAVI MORENO",
-              "MÁGICO GONZÁLEZ",
-              "MICHEL",
-              "PABLO INFANTE",
-            ].map((nombre, i) => (
-              <span
-                key={i}
-                style={{
-                  color: "var(--color-verde)",
-                  borderRight: "1px solid var(--color-verde-mid)",
-                  fontFamily: "var(--font-bebas)",
-                  fontSize: "13px",
-                  letterSpacing: "4px",
-                  padding: "0 32px",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                {nombre}
-              </span>
-            ))}
-          </div>
-          <div className="marquee-content" aria-hidden="true">
-            {[
-              "RAÚL GONZÁLEZ BLANCO",
-              "FERNANDO TORRES",
-              "XAVI HERNÁNDEZ",
-              "IKER CASILLAS",
-              "CARLES PUYOL",
-              "FERNANDO HIERRO",
-              "LUIS ENRIQUE",
-              "MANOLO SANCHÍS",
-            ].map((nombre, i) => (
-              <span
-                key={i}
-                style={{
-                  color: "var(--color-verde)",
-                  borderRight: "1px solid var(--color-verde-mid)",
-                  fontFamily: "var(--font-bebas)",
-                  fontSize: "11px",
-                  letterSpacing: "4px",
-                  padding: "0 32px",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                {nombre}
-              </span>
-            ))}
-          </div>
+          {[...Array(3)].map((_, i) => (
+            <div key={i} className="marquee-content">
+              {[
+                "RAÚL GONZÁLEZ BLANCO",
+                "FERNANDO TORRES",
+                "MANOLO PRECIADO",
+                "EUROMALAGA",
+                "IKER MUÑAIN",
+                "ANTONIO PUERTA",
+                "IAGO ASPAS",
+                "DANI PAREJO",
+                "JAVI MORENO",
+                "MÁGICO GONZÁLEZ",
+                "MICHEL",
+                "PABLO INFANTE",
+              ].map((nombre, j) => (
+                <span
+                  key={`${i}-${j}`}
+                  style={{
+                    color: "var(--color-verde)",
+                    borderRight: "1px solid var(--color-verde-mid)",
+                    fontFamily: "var(--font-bebas)",
+                    fontSize: "11px",
+                    letterSpacing: "4px",
+                    padding: "0 32px",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {nombre}
+                </span>
+              ))}
+            </div>
+          ))}
         </div>
       </div>
     </header>
