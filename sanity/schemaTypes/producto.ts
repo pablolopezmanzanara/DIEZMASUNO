@@ -87,6 +87,19 @@ export default defineType({
       },
     }),
     defineField({
+      name: "tipo",
+      title: "Tipo de producto",
+      type: "string",
+      options: {
+        list: [
+          { title: "Jugador", value: "jugador" },
+          { title: "Plantilla histórica", value: "plantilla" },
+          { title: "Escudo vintage", value: "escudo" },
+        ],
+      },
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
       name: "logros",
       title: "Logros / Palmarés",
       type: "array",
