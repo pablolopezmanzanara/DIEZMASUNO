@@ -534,28 +534,6 @@ export default async function HomePage() {
                       <span style={{ fontSize: "64px", opacity: 0.9 }}>⚽</span>
                     </>
                   )}
-                  {p.badge && (
-                    <span
-                      style={{
-                        position: "absolute",
-                        top: "14px",
-                        left: "14px",
-                        background:
-                          p.badge === "Destacado"
-                            ? "var(--color-rojo)"
-                            : "var(--color-dorado-osc)",
-                        color: "white",
-                        fontFamily: "var(--font-bebas)",
-                        fontSize: "10px",
-                        letterSpacing: "2px",
-                        padding: "4px 10px",
-                        borderRadius: "2px",
-                        zIndex: 10,
-                      }}
-                    >
-                      {p.badge}
-                    </span>
-                  )}
                 </div>
 
                 <div

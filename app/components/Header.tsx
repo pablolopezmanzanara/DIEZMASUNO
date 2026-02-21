@@ -151,8 +151,10 @@ export default function Header() {
         style={{
           background: "var(--color-dorado)",
           overflow: "hidden",
-          padding: "8px 0",
+          paddingTop: "18px",
+          paddingBottom: "10px",
           position: "relative",
+          alignItems: "center",
         }}
       >
         <div className="marquee-container">
@@ -178,7 +180,7 @@ export default function Header() {
                     color: "var(--color-verde)",
                     borderRight: "1px solid var(--color-verde-mid)",
                     fontFamily: "var(--font-bebas)",
-                    fontSize: "11px",
+                    fontSize: "13px",
                     letterSpacing: "4px",
                     padding: "0 32px",
                     whiteSpace: "nowrap",

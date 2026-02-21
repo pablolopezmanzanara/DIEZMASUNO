@@ -48,12 +48,12 @@ export default function CatalogoClient({ productos }: Props) {
                       : "rgba(26, 58, 42, 0.5)",
                   border: "none",
                   fontFamily: "var(--font-playfair)",
-                  fontSize: "32px",
+                  fontSize: "40px", // era 32px
                   fontWeight: filtro === value ? 700 : 400,
                   fontStyle: "italic",
                   cursor: "pointer",
                   transition: "all 0.3s",
-                  padding: "8px 40px",
+                  padding: "8px 48px", // era 40px
                   position: "relative",
                 }}
                 onMouseEnter={(e) => {
@@ -90,7 +90,7 @@ export default function CatalogoClient({ productos }: Props) {
                 <div
                   style={{
                     width: "2px",
-                    height: "40px",
+                    height: "48px", // era 40px
                     background:
                       "linear-gradient(to bottom, transparent, var(--color-dorado), transparent)",
                     opacity: 0.6,
@@ -182,25 +182,6 @@ export default function CatalogoClient({ productos }: Props) {
                     </span>
                     <span style={{ fontSize: "64px", opacity: 0.9 }}>⚽</span>
                   </>
-                )}
-                {p.badge && (
-                  <span
-                    style={{
-                      position: "absolute",
-                      top: "14px",
-                      left: "14px",
-                      background: "var(--color-rojo)",
-                      color: "white",
-                      fontFamily: "var(--font-bebas)",
-                      fontSize: "10px",
-                      letterSpacing: "2px",
-                      padding: "4px 10px",
-                      borderRadius: "2px",
-                      zIndex: 10,
-                    }}
-                  >
-                    {p.badge}
-                  </span>
                 )}
               </div>
 

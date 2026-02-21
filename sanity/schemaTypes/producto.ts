@@ -112,9 +112,9 @@ export default defineType({
     }),
     defineField({
       name: "destacado",
-      title: "¿Aparece en la página de inicio?",
+      title: "Destacado en home",
       type: "boolean",
-      initialValue: false,
+      description: "Marcar para mostrar en la página principal",
     }),
   ],
   preview: {
