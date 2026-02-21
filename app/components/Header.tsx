@@ -1,11 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
 import { useCarrito } from "../context/CarritoContext";
 
 export default function Header() {
-  const [menuAbierto, setMenuAbierto] = useState(false);
   const { totalItems } = useCarrito();
 
   return (
@@ -88,35 +86,40 @@ export default function Header() {
           </div>
         </Link>
 
-        {/* Nav escritorio */}
+        {/* Nav horizontal */}
         <nav
           style={{
-            display: "none",
+            display: "flex",
             alignItems: "center",
             gap: "28px",
           }}
-          className="md:flex"
         >
-          {[
-            ["Colección", "/catalogo"],
-            ["Jugadores", "/jugadores"],
-            ["Sobre Nosotros", "/sobre-nosotros"],
-          ].map(([label, href]) => (
-            <Link
-              key={href}
-              href={href}
-              style={{
-                color: "var(--color-crema-osc)",
-                fontFamily: "var(--font-bebas)",
-                fontSize: "14px",
-                letterSpacing: "2px",
-                textDecoration: "none",
-                transition: "color 0.2s",
-              }}
-            >
-              {label}
-            </Link>
-          ))}
+          <Link
+            href="/catalogo"
+            style={{
+              color: "var(--color-crema-osc)",
+              fontFamily: "var(--font-bebas)",
+              fontSize: "14px",
+              letterSpacing: "2px",
+              textDecoration: "none",
+              transition: "color 0.2s",
+            }}
+          >
+            Colección
+          </Link>
+          <Link
+            href="/sobre-nosotros"
+            style={{
+              color: "var(--color-crema-osc)",
+              fontFamily: "var(--font-bebas)",
+              fontSize: "14px",
+              letterSpacing: "2px",
+              textDecoration: "none",
+              transition: "color 0.2s",
+            }}
+          >
+            Sobre Nosotros
+          </Link>
           <Link
             href="/carrito"
             style={{
@@ -131,52 +134,15 @@ export default function Header() {
               transition: "background 0.2s",
               display: "flex",
               alignItems: "center",
-              gap: "8px",
+              gap: "6px",
             }}
           >
-            🛒 Carrito
-            {totalItems > 0 && (
-              <span
-                style={{
-                  background: "var(--color-verde)",
-                  color: "var(--color-dorado)",
-                  borderRadius: "50%",
-                  width: "20px",
-                  height: "20px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontFamily: "var(--font-bebas)",
-                  fontSize: "11px",
-                  lineHeight: 1,
-                }}
-              >
-                {totalItems}
-              </span>
-            )}
+            🛒 ({totalItems})
           </Link>
         </nav>
-
-        {/* Botón móvil */}
-        <button
-          style={{
-            color: "var(--color-crema)",
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-            fontSize: "24px",
-            display: "block",
-          }}
-          className="md:hidden"
-          onClick={() => setMenuAbierto(!menuAbierto)}
-        >
-          <span style={{ fontFamily: "var(--font-bebas)" }}>
-            {menuAbierto ? "✕" : "☰"}
-          </span>
-        </button>
       </div>
 
-      {/* Franja animada */}
+      {/* Franja animada debajo del nav */}
       <div
         style={{
           background: "var(--color-dorado)",
@@ -194,14 +160,17 @@ export default function Header() {
           {[...Array(3)].map((_, i) => (
             <div key={i} style={{ display: "flex", flexShrink: 0 }}>
               {[
-                "ENVÍO GRATUITO EN PEDIDOS +50€",
-                "EDICIÓN LIMITADA SEMANAL",
-                "IMPRESIÓN DE ALTA CALIDAD",
-                "FÚTBOL ESPAÑOL AÑOS 90 Y 2000",
-                "ENMARCADO DISPONIBLE",
-              ].map((item) => (
+                "RAÚL GONZÁLEZ BLANCO",
+                "FERNANDO TORRES",
+                "XAVI HERNÁNDEZ",
+                "IKER CASILLAS",
+                "CARLES PUYOL",
+                "FERNANDO HIERRO",
+                "LUIS ENRIQUE",
+                "MANOLO SANCHÍS",
+              ].map((nombre) => (
                 <span
-                  key={item}
+                  key={nombre}
                   style={{
                     color: "var(--color-verde)",
                     borderRight: "1px solid var(--color-verde-mid)",
@@ -211,51 +180,13 @@ export default function Header() {
                     padding: "0 32px",
                   }}
                 >
-                  {item}
+                  {nombre}
                 </span>
               ))}
             </div>
           ))}
         </div>
       </div>
-
-      {/* Menú móvil */}
-      {menuAbierto && (
-        <div
-          style={{
-            background: "var(--color-verde-mid)",
-            borderTop: "1px solid var(--color-dorado)",
-            padding: "16px 24px",
-            display: "flex",
-            flexDirection: "column",
-            gap: "16px",
-          }}
-          className="md:hidden"
-        >
-          {[
-            ["Colección", "/catalogo"],
-            ["Jugadores", "/jugadores"],
-            ["Sobre Nosotros", "/sobre-nosotros"],
-            [`🛒 Carrito (${totalItems})`, "/carrito"],
-          ].map(([label, href]) => (
-            <Link
-              key={href}
-              href={href}
-              style={{
-                color: "var(--color-crema)",
-                fontFamily: "var(--font-bebas)",
-                fontSize: "16px",
-                letterSpacing: "3px",
-                textDecoration: "none",
-                transition: "color 0.2s",
-              }}
-              onClick={() => setMenuAbierto(false)}
-            >
-              {label}
-            </Link>
-          ))}
-        </div>
-      )}
     </header>
   );
 }

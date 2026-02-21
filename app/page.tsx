@@ -25,23 +25,40 @@ export default async function HomePage() {
           background: "var(--color-verde)",
           minHeight: "90vh",
           display: "grid",
-          gridTemplateColumns: "1fr 1fr",
+          gridTemplateColumns: "1fr",
           overflow: "hidden",
           position: "relative",
         }}
       >
-        {/* Líneas campo decorativas */}
+        {/* Líneas verticales decorativas - espaciado fijo */}
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            pointerEvents: "none",
+            opacity: 0.015,
+            backgroundImage:
+              "repeating-linear-gradient(to right, transparent, transparent 99px, white 99px, white 100px)",
+          }}
+        />
+
+        {/* Campo de fútbol SVG decorativo - solo desktop */}
         <svg
           style={{
             position: "absolute",
-            right: 0,
-            top: 0,
-            bottom: 0,
-            height: "100%",
-            width: "50%",
+            left: "78%",
+            top: "47%",
+            transform: "translate(-10%, -50%)",
+            height: "90%",
+            width: "auto",
             opacity: 0.04,
             pointerEvents: "none",
+            display: "none",
           }}
+          className="campo-svg"
           viewBox="0 0 400 600"
           fill="none"
         >
@@ -62,6 +79,7 @@ export default async function HomePage() {
             strokeWidth="2"
           />
           <circle cx="200" cy="300" r="60" stroke="white" strokeWidth="2" />
+          {/* Área grande superior */}
           <rect
             x="120"
             y="50"
@@ -70,6 +88,18 @@ export default async function HomePage() {
             stroke="white"
             strokeWidth="2"
           />
+          {/* Área pequeña superior */}
+          <rect
+            x="155"
+            y="50"
+            width="90"
+            height="30"
+            stroke="white"
+            strokeWidth="2"
+          />
+          {/* Punto de penalti superior */}
+          <circle cx="200" cy="100" r="3" fill="white" />
+          {/* Área grande inferior */}
           <rect
             x="120"
             y="470"
@@ -78,257 +108,282 @@ export default async function HomePage() {
             stroke="white"
             strokeWidth="2"
           />
+          {/* Área pequeña inferior */}
+          <rect
+            x="155"
+            y="520"
+            width="90"
+            height="30"
+            stroke="white"
+            strokeWidth="2"
+          />
+          {/* Punto de penalti inferior */}
+          <circle cx="200" cy="500" r="3" fill="white" />
+          {/* Círculo central */}
           <circle cx="200" cy="300" r="5" fill="white" />
         </svg>
 
-        {/* Texto hero */}
         <div
           style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            padding: "80px",
+            display: "grid",
+            gridTemplateColumns: "1fr",
             position: "relative",
             zIndex: 1,
           }}
+          className="hero-content"
         >
+          {/* Texto hero */}
           <div
             style={{
-              color: "var(--color-dorado)",
-              marginBottom: "24px",
-              fontFamily: "var(--font-bebas)",
-              fontSize: "12px",
-              letterSpacing: "5px",
               display: "flex",
-              alignItems: "center",
-              gap: "12px",
+              flexDirection: "column",
+              justifyContent: "center",
+              padding: "80px 40px",
+              marginInlineStart: "40px",
             }}
           >
-            <span
+            <div
               style={{
-                background: "var(--color-dorado)",
-                display: "block",
-                width: "32px",
-                height: "1px",
-              }}
-            />
-            Colección 2025 · Temporada I
-          </div>
-
-          <h1
-            style={{
-              fontFamily: "var(--font-playfair)",
-              fontWeight: 900,
-              lineHeight: 1.05,
-              marginBottom: "8px",
-            }}
-          >
-            <span
-              style={{
-                color: "var(--color-crema)",
-                fontSize: "clamp(42px, 5vw, 68px)",
-                display: "block",
-              }}
-            >
-              El arte del{" "}
-              <em style={{ color: "var(--color-dorado)", fontStyle: "italic" }}>
-                fútbol
-              </em>
-            </span>
-            <span
-              style={{
-                color: "var(--color-crema)",
+                color: "var(--color-dorado)",
+                marginBottom: "24px",
                 fontFamily: "var(--font-bebas)",
-                fontSize: "clamp(60px, 8vw, 110px)",
-                display: "block",
-                lineHeight: 0.9,
-                letterSpacing: "2px",
-                marginBottom: "28px",
+                fontSize: "12px",
+                letterSpacing: "5px",
+                display: "flex",
+                alignItems: "center",
+                gap: "12px",
               }}
             >
-              de antes
-            </span>
-          </h1>
+              <span
+                style={{
+                  background: "var(--color-dorado)",
+                  display: "block",
+                  width: "32px",
+                  height: "1px",
+                }}
+              />
+              Colección 2025 · Temporada I
+            </div>
 
-          <p
-            style={{
-              color: "rgba(245,239,224,0.7)",
-              fontSize: "15px",
-              lineHeight: 1.7,
-              maxWidth: "420px",
-              marginBottom: "40px",
-            }}
-          >
-            Cuadros de edición limitada que reviven los momentos y jugadores que
-            definieron el fútbol español. Impresiones de alta calidad, renovadas
-            cada semana.
-          </p>
-
-          <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
-            <Link
-              href="/catalogo"
+            <h1
               style={{
-                background: "var(--color-dorado)",
-                color: "var(--color-verde)",
-                fontFamily: "var(--font-bebas)",
-                fontSize: "15px",
-                letterSpacing: "2px",
-                padding: "14px 32px",
-                borderRadius: "2px",
-                textDecoration: "none",
-                display: "inline-block",
-                transition: "all 0.2s",
+                fontFamily: "var(--font-playfair)",
+                fontWeight: 900,
+                lineHeight: 1.05,
+                marginBottom: "8px",
               }}
             >
-              Ver la colección
-            </Link>
-            <Link
-              href="/sobre-nosotros"
-              style={{
-                background: "transparent",
-                color: "var(--color-crema)",
-                fontFamily: "var(--font-bebas)",
-                fontSize: "15px",
-                letterSpacing: "2px",
-                padding: "13px 32px",
-                border: "1px solid rgba(245,239,224,0.3)",
-                borderRadius: "2px",
-                textDecoration: "none",
-                display: "inline-block",
-                transition: "all 0.2s",
-              }}
-            >
-              Conoce el proyecto
-            </Link>
-          </div>
-        </div>
-
-        {/* Cards apiladas */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "60px 80px 60px 40px",
-            position: "relative",
-            zIndex: 1,
-          }}
-        >
-          <div
-            style={{ position: "relative", width: "280px", height: "380px" }}
-          >
-            {productosHome.slice(0, 3).map((p, i) => {
-              const rotaciones = ["-4deg", "2deg", "-1deg"];
-              const tops = ["0px", "40px", "20px"];
-              const lefts = ["40px", "10px", "60px"];
-              return (
-                <div
-                  key={p._id}
+              <span
+                style={{
+                  color: "var(--color-crema)",
+                  fontSize: "clamp(36px, 5vw, 68px)",
+                  display: "block",
+                }}
+              >
+                El arte del{" "}
+                <em
                   style={{
-                    position: "absolute",
-                    top: tops[i],
-                    left: lefts[i],
-                    transform: `rotate(${rotaciones[i]})`,
-                    zIndex: i + 1,
-                    width: "220px",
-                    height: "300px",
-                    borderRadius: "4px",
-                    overflow: "hidden",
-                    boxShadow: "0 20px 60px rgba(0,0,0,0.5)",
+                    color: "var(--color-dorado)",
+                    fontStyle: "italic",
                   }}
                 >
-                  {p.imagen ? (
-                    <div
-                      style={{
-                        position: "relative",
-                        width: "100%",
-                        height: "100%",
-                      }}
-                    >
-                      <Image
-                        src={urlFor(p.imagen).width(220).height(300).url()}
-                        alt={p.nombre}
-                        fill
-                        style={{ objectFit: "cover" }}
-                      />
+                  fútbol
+                </em>
+              </span>
+              <span
+                style={{
+                  color: "var(--color-crema)",
+                  fontFamily: "var(--font-bebas)",
+                  fontSize: "clamp(48px, 8vw, 110px)",
+                  display: "block",
+                  lineHeight: 0.9,
+                  letterSpacing: "2px",
+                  marginBottom: "28px",
+                }}
+              >
+                de antes
+              </span>
+            </h1>
+
+            <p
+              style={{
+                color: "rgba(245,239,224,0.7)",
+                fontSize: "15px",
+                lineHeight: 1.7,
+                maxWidth: "420px",
+                marginBottom: "40px",
+              }}
+            >
+              Cuadros de edición limitada que reviven los momentos y jugadores
+              que definieron el fútbol español. Impresiones de alta calidad,
+              renovadas cada semana.
+            </p>
+
+            <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
+              <Link
+                href="/catalogo"
+                style={{
+                  background: "var(--color-dorado)",
+                  color: "var(--color-verde)",
+                  fontFamily: "var(--font-bebas)",
+                  fontSize: "15px",
+                  letterSpacing: "2px",
+                  padding: "14px 32px",
+                  borderRadius: "2px",
+                  textDecoration: "none",
+                  display: "inline-block",
+                  transition: "all 0.2s",
+                }}
+              >
+                Ver la colección
+              </Link>
+              <Link
+                href="/sobre-nosotros"
+                style={{
+                  background: "transparent",
+                  color: "var(--color-crema)",
+                  fontFamily: "var(--font-bebas)",
+                  fontSize: "15px",
+                  letterSpacing: "2px",
+                  padding: "13px 32px",
+                  border: "1px solid rgba(245,239,224,0.3)",
+                  borderRadius: "2px",
+                  textDecoration: "none",
+                  display: "inline-block",
+                  transition: "all 0.2s",
+                }}
+              >
+                Conoce el proyecto
+              </Link>
+            </div>
+          </div>
+
+          {/* Cards apiladas - solo desktop */}
+          <div
+            style={{
+              display: "none",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "60px 80px 60px 40px",
+            }}
+            className="cards-apiladas"
+          >
+            <div
+              style={{ position: "relative", width: "280px", height: "380px" }}
+            >
+              {productosHome.slice(0, 3).map((p: Producto, i: number) => {
+                const rotaciones = ["-4deg", "2deg", "-1deg"];
+                const tops = ["0px", "40px", "20px"];
+                const lefts = ["40px", "10px", "60px"];
+                return (
+                  <div
+                    key={p._id}
+                    style={{
+                      position: "absolute",
+                      top: tops[i],
+                      left: lefts[i],
+                      transform: `rotate(${rotaciones[i]})`,
+                      zIndex: i + 1,
+                      width: "220px",
+                      height: "300px",
+                      borderRadius: "4px",
+                      overflow: "hidden",
+                      boxShadow: "0 20px 60px rgba(0,0,0,0.5)",
+                    }}
+                  >
+                    {p.imagen ? (
                       <div
                         style={{
-                          position: "absolute",
-                          bottom: 0,
-                          left: 0,
-                          right: 0,
-                          background: "rgba(26,58,42,0.9)",
-                          borderLeft: "3px solid var(--color-dorado)",
-                          padding: "8px 12px",
-                        }}
-                      >
-                        <div
-                          style={{
-                            color: "var(--color-crema)",
-                            fontFamily: "var(--font-playfair)",
-                            fontWeight: 700,
-                            fontSize: "13px",
-                          }}
-                        >
-                          {p.nombre}
-                        </div>
-                        <div
-                          style={{
-                            color: "var(--color-dorado)",
-                            fontFamily: "var(--font-bebas)",
-                            fontSize: "10px",
-                            letterSpacing: "2px",
-                          }}
-                        >
-                          {p.equipo}
-                        </div>
-                      </div>
-                    </div>
-                  ) : (
-                    <div
-                      style={{
-                        background: "linear-gradient(135deg,#1a3a2a,#2d5c3f)",
-                        width: "100%",
-                        height: "100%",
-                        display: "flex",
-                        alignItems: "flex-end",
-                        padding: "16px",
-                      }}
-                    >
-                      <div
-                        style={{
-                          background: "rgba(26,58,42,0.9)",
-                          borderLeft: "3px solid var(--color-dorado)",
-                          padding: "8px 12px",
+                          position: "relative",
                           width: "100%",
+                          height: "100%",
+                        }}
+                      >
+                        <Image
+                          src={urlFor(p.imagen).width(220).height(300).url()}
+                          alt={p.nombre}
+                          fill
+                          style={{ objectFit: "cover" }}
+                        />
+                        <div
+                          style={{
+                            position: "absolute",
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            background: "rgba(26,58,42,0.9)",
+                            borderLeft: "3px solid var(--color-dorado)",
+                            padding: "8px 12px",
+                          }}
+                        >
+                          <div
+                            style={{
+                              color: "var(--color-crema)",
+                              fontFamily: "var(--font-playfair)",
+                              fontWeight: 700,
+                              fontSize: "13px",
+                            }}
+                          >
+                            {p.nombre}
+                          </div>
+                          <div
+                            style={{
+                              color: "var(--color-dorado)",
+                              fontFamily: "var(--font-bebas)",
+                              fontSize: "10px",
+                              letterSpacing: "2px",
+                            }}
+                          >
+                            {p.equipo}
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      <div
+                        style={{
+                          background: "linear-gradient(135deg,#1a3a2a,#2d5c3f)",
+                          width: "100%",
+                          height: "100%",
+                          display: "flex",
+                          alignItems: "flex-end",
+                          padding: "16px",
                         }}
                       >
                         <div
                           style={{
-                            color: "var(--color-crema)",
-                            fontFamily: "var(--font-playfair)",
-                            fontWeight: 700,
-                            fontSize: "13px",
+                            background: "rgba(26,58,42,0.9)",
+                            borderLeft: "3px solid var(--color-dorado)",
+                            padding: "8px 12px",
+                            width: "100%",
                           }}
                         >
-                          {p.nombre}
-                        </div>
-                        <div
-                          style={{
-                            color: "var(--color-dorado)",
-                            fontFamily: "var(--font-bebas)",
-                            fontSize: "10px",
-                            letterSpacing: "2px",
-                          }}
-                        >
-                          {p.equipo}
+                          <div
+                            style={{
+                              color: "var(--color-crema)",
+                              fontFamily: "var(--font-playfair)",
+                              fontWeight: 700,
+                              fontSize: "13px",
+                            }}
+                          >
+                            {p.nombre}
+                          </div>
+                          <div
+                            style={{
+                              color: "var(--color-dorado)",
+                              fontFamily: "var(--font-bebas)",
+                              fontSize: "10px",
+                              letterSpacing: "2px",
+                            }}
+                          >
+                            {p.equipo}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
+                    )}
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </section>

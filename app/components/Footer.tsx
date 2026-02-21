@@ -13,14 +13,21 @@ export default function Footer() {
         {/* Columnas */}
         <div
           style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-            gap: "48px",
-            marginBottom: "32px",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "flex-start",
+            gap: "clamp(32px, 5vw, 48px)",
+            marginBottom: "48px",
+            flexWrap: "wrap",
           }}
         >
           {/* Marca */}
-          <div>
+          <div
+            style={{
+              flex: "1 1 280px",
+              minWidth: "280px",
+            }}
+          >
             <div
               style={{
                 display: "flex",
@@ -93,8 +100,10 @@ export default function Footer() {
           <div
             style={{
               display: "flex",
-              gap: "160px",
-              alignItems: "flex-start",
+              gap: "clamp(32px, 8vw, 120px)",
+              alignItems: "center",
+              justifyContent: "center",
+              flex: "1 1 auto",
             }}
           >
             {/* Tienda */}
@@ -190,9 +199,10 @@ export default function Footer() {
             paddingTop: "24px",
             display: "flex",
             justifyContent: "space-between",
+            alignItems: "center",
             gap: "12px",
+            flexWrap: "wrap",
           }}
-          className="md:flex-row"
         >
           <span style={{ color: "rgba(245,239,224,0.3)", fontSize: "12px" }}>
             © 2025 El Fútbol de Antes · Todos los derechos reservados

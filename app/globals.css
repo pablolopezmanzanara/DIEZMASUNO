@@ -55,3 +55,18 @@ body::before {
   z-index: 1000;
   opacity: 0.5;
 }
+
+/* Hero responsive */
+@media (min-width: 1024px) {
+  .hero-content {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  .cards-apiladas {
+    display: flex !important;
+  }
+
+  .campo-svg {
+    display: block !important;
+  }
+}
