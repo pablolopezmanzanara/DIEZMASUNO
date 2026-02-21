@@ -23,7 +23,6 @@ export default async function HomePage() {
       <section
         style={{
           background: "var(--color-verde)",
-          minHeight: "30vh",
           display: "grid",
           gridTemplateColumns: "1fr",
           overflow: "hidden",
@@ -153,7 +152,7 @@ export default async function HomePage() {
               display: "flex",
               flexDirection: "column",
               justifyContent: "center",
-              padding: "80px 40px",
+              padding: "60px 40px",
               marginInlineStart: "40px",
             }}
           >
