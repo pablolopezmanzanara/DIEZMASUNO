@@ -23,7 +23,7 @@ export default async function HomePage() {
       <section
         style={{
           background: "var(--color-verde)",
-          minHeight: "90vh",
+          minHeight: "30vh",
           display: "grid",
           gridTemplateColumns: "1fr",
           overflow: "hidden",
@@ -183,7 +183,6 @@ export default async function HomePage() {
             <h1
               style={{
                 fontFamily: "var(--font-playfair)",
-                fontWeight: 900,
                 lineHeight: 1.05,
                 marginBottom: "8px",
               }}
@@ -193,6 +192,7 @@ export default async function HomePage() {
                   color: "var(--color-crema)",
                   fontSize: "clamp(36px, 5vw, 68px)",
                   display: "block",
+                  fontWeight: 900,
                 }}
               >
                 El arte del{" "}
@@ -200,6 +200,7 @@ export default async function HomePage() {
                   style={{
                     color: "var(--color-dorado)",
                     fontStyle: "italic",
+                    fontWeight: "initial",
                   }}
                 >
                   fútbol
@@ -214,6 +215,7 @@ export default async function HomePage() {
                   lineHeight: 0.9,
                   letterSpacing: "2px",
                   marginBottom: "28px",
+                  marginTop: "6px",
                 }}
               >
                 de antes

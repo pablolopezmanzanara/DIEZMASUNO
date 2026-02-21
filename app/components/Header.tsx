@@ -162,12 +162,16 @@ export default function Header() {
             {[
               "RAÚL GONZÁLEZ BLANCO",
               "FERNANDO TORRES",
-              "XAVI HERNÁNDEZ",
-              "IKER CASILLAS",
-              "CARLES PUYOL",
-              "FERNANDO HIERRO",
-              "LUIS ENRIQUE",
-              "MANOLO SANCHÍS",
+              "MANOLO PRECIADO",
+              "EUROMALAGA",
+              "IKER MUÑAIN",
+              "ANTONIO PUERTA",
+              "IAGO ASPAS",
+              "DANI PAREJO",
+              "JAVI MORENO",
+              "MÁGICO GONZÁLEZ",
+              "MICHEL",
+              "PABLO INFANTE",
             ].map((nombre, i) => (
               <span
                 key={i}
