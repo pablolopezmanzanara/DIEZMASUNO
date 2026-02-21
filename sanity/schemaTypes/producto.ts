@@ -92,9 +92,8 @@ export default defineType({
       type: "string",
       options: {
         list: [
-          { title: "Jugador", value: "jugador" },
-          { title: "Plantilla histórica", value: "plantilla" },
-          { title: "Escudo vintage", value: "escudo" },
+          { title: "Jugadores", value: "jugador" },
+          { title: "Otros", value: "otro" },
         ],
       },
       validation: (Rule) => Rule.required(),
