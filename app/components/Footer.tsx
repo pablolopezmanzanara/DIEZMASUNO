@@ -16,7 +16,7 @@ export default function Footer() {
             display: "grid",
             gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
             gap: "48px",
-            marginBottom: "48px",
+            marginBottom: "32px",
           }}
         >
           {/* Marca */}
@@ -89,79 +89,96 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* Tienda */}
-          <div>
-            <div
-              style={{
-                color: "var(--color-dorado)",
-                fontFamily: "var(--font-bebas)",
-                fontSize: "12px",
-                letterSpacing: "3px",
-                marginBottom: "20px",
-              }}
-            >
-              Tienda
+          {/* Grupo: Tienda e Información */}
+          <div
+            style={{
+              display: "flex",
+              gap: "160px",
+              alignItems: "flex-start",
+            }}
+          >
+            {/* Tienda */}
+            <div>
+              <div
+                style={{
+                  color: "var(--color-dorado)",
+                  fontFamily: "var(--font-bebas)",
+                  fontSize: "12px",
+                  letterSpacing: "3px",
+                  marginBottom: "20px",
+                }}
+              >
+                Tienda
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "6px",
+                }}
+              >
+                {[
+                  ["Colección actual", "/catalogo"],
+                  ["Jugadores", "/jugadores"],
+                  ["Formatos y precios", "/precios"],
+                  ["Ediciones anteriores", "/archivo"],
+                ].map(([label, href]) => (
+                  <Link
+                    key={href}
+                    href={href}
+                    style={{
+                      color: "rgba(245,239,224,0.5)",
+                      fontSize: "13px",
+                      textDecoration: "none",
+                      transition: "color 0.2s",
+                    }}
+                  >
+                    {label}
+                  </Link>
+                ))}
+              </div>
             </div>
-            <div
-              style={{ display: "flex", flexDirection: "column", gap: "12px" }}
-            >
-              {[
-                ["Colección actual", "/catalogo"],
-                ["Jugadores", "/jugadores"],
-                ["Formatos y precios", "/precios"],
-                ["Ediciones anteriores", "/archivo"],
-              ].map(([label, href]) => (
-                <Link
-                  key={href}
-                  href={href}
-                  style={{
-                    color: "rgba(245,239,224,0.5)",
-                    fontSize: "13px",
-                    textDecoration: "none",
-                    transition: "color 0.2s",
-                  }}
-                >
-                  {label}
-                </Link>
-              ))}
-            </div>
-          </div>
 
-          {/* Información */}
-          <div>
-            <div
-              style={{
-                color: "var(--color-dorado)",
-                fontFamily: "var(--font-bebas)",
-                fontSize: "12px",
-                letterSpacing: "3px",
-                marginBottom: "20px",
-              }}
-            >
-              Información
-            </div>
-            <div
-              style={{ display: "flex", flexDirection: "column", gap: "12px" }}
-            >
-              {[
-                ["Sobre el proyecto", "/sobre-nosotros"],
-                ["Envíos y devoluciones", "/envios"],
-                ["Preguntas frecuentes", "/faq"],
-                ["Contacto", "/contacto"],
-              ].map(([label, href]) => (
-                <Link
-                  key={href}
-                  href={href}
-                  style={{
-                    color: "rgba(245,239,224,0.5)",
-                    fontSize: "13px",
-                    textDecoration: "none",
-                    transition: "color 0.2s",
-                  }}
-                >
-                  {label}
-                </Link>
-              ))}
+            {/* Información */}
+            <div>
+              <div
+                style={{
+                  color: "var(--color-dorado)",
+                  fontFamily: "var(--font-bebas)",
+                  fontSize: "12px",
+                  letterSpacing: "3px",
+                  marginBottom: "20px",
+                }}
+              >
+                Información
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "6px",
+                }}
+              >
+                {[
+                  ["Sobre el proyecto", "/sobre-nosotros"],
+                  ["Envíos y devoluciones", "/envios"],
+                  ["Preguntas frecuentes", "/faq"],
+                  ["Contacto", "/contacto"],
+                ].map(([label, href]) => (
+                  <Link
+                    key={href}
+                    href={href}
+                    style={{
+                      color: "rgba(245,239,224,0.5)",
+                      fontSize: "13px",
+                      textDecoration: "none",
+                      transition: "color 0.2s",
+                    }}
+                  >
+                    {label}
+                  </Link>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -172,8 +189,6 @@ export default function Footer() {
             borderTop: "1px solid rgba(255,255,255,0.08)",
             paddingTop: "24px",
             display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
             justifyContent: "space-between",
             gap: "12px",
           }}
