@@ -109,6 +109,7 @@ export default function Header() {
           </Link>
           <Link
             href="/sobre-nosotros"
+            className="nav-sobre-nosotros"
             style={{
               color: "var(--color-crema-osc)",
               fontFamily: "var(--font-bebas)",
@@ -153,7 +154,7 @@ export default function Header() {
         <div
           style={{
             display: "flex",
-            animation: "marquee 25s linear infinite",
+            animation: "marquee 18s linear infinite",
             whiteSpace: "nowrap",
           }}
         >

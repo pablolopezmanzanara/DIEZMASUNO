@@ -39,11 +39,26 @@ export default async function HomePage() {
             right: 0,
             bottom: 0,
             pointerEvents: "none",
-            opacity: 0.015,
-            backgroundImage:
-              "repeating-linear-gradient(to right, transparent, transparent 99px, white 99px, white 100px)",
           }}
-        />
+        >
+          {[...Array(30)].map((_, i) => {
+            const esDestacada = (i + 1) % 5 === 0;
+            return (
+              <div
+                key={i}
+                style={{
+                  position: "absolute",
+                  left: `${i * 91}px`,
+                  top: 0,
+                  bottom: 0,
+                  width: esDestacada ? "2px" : "1px",
+                  background: "white",
+                  opacity: esDestacada ? 0.025 : 0.015,
+                }}
+              />
+            );
+          })}
+        </div>
 
         {/* Campo de fútbol SVG decorativo - solo desktop */}
         <svg
