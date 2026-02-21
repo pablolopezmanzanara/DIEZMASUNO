@@ -21,7 +21,7 @@ export default function Header() {
         style={{
           maxWidth: "1100px",
           margin: "0 auto",
-          padding: "0 24px",
+          padding: "0 clamp(12px, 3vw, 24px)",
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
@@ -86,16 +86,17 @@ export default function Header() {
           </div>
         </Link>
 
-        {/* Nav horizontal */}
+        {/* Nav */}
         <nav
           style={{
             display: "flex",
             alignItems: "center",
-            gap: "28px",
+            gap: "clamp(12px, 3vw, 28px)",
           }}
         >
           <Link
             href="/catalogo"
+            className="nav-desktop"
             style={{
               color: "var(--color-crema-osc)",
               fontFamily: "var(--font-bebas)",
@@ -109,7 +110,7 @@ export default function Header() {
           </Link>
           <Link
             href="/sobre-nosotros"
-            className="nav-sobre-nosotros"
+            className="nav-desktop"
             style={{
               color: "var(--color-crema-osc)",
               fontFamily: "var(--font-bebas)",
@@ -138,54 +139,79 @@ export default function Header() {
               gap: "6px",
             }}
           >
-            🛒 ({totalItems})
+            <span className="carrito-texto">🛒 Carrito</span>
+            <span className="carrito-icono">🛒</span>
+            <span>({totalItems})</span>
           </Link>
         </nav>
       </div>
 
-      {/* Franja animada debajo del nav */}
+      {/* Franja animada */}
       <div
         style={{
           background: "var(--color-dorado)",
           overflow: "hidden",
-          padding: "8px 0",
+          paddingTop: "20px",
+          paddingBottom: "10px",
+          position: "relative",
+          alignItems: "center",
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            animation: "marquee 18s linear infinite",
-            whiteSpace: "nowrap",
-          }}
-        >
-          {[...Array(3)].map((_, i) => (
-            <div key={i} style={{ display: "flex", flexShrink: 0 }}>
-              {[
-                "RAÚL GONZÁLEZ BLANCO",
-                "FERNANDO TORRES",
-                "XAVI HERNÁNDEZ",
-                "IKER CASILLAS",
-                "CARLES PUYOL",
-                "FERNANDO HIERRO",
-                "LUIS ENRIQUE",
-                "MANOLO SANCHÍS",
-              ].map((nombre) => (
-                <span
-                  key={nombre}
-                  style={{
-                    color: "var(--color-verde)",
-                    borderRight: "1px solid var(--color-verde-mid)",
-                    fontFamily: "var(--font-bebas)",
-                    fontSize: "11px",
-                    letterSpacing: "4px",
-                    padding: "0 32px",
-                  }}
-                >
-                  {nombre}
-                </span>
-              ))}
-            </div>
-          ))}
+        <div className="marquee-container">
+          <div className="marquee-content">
+            {[
+              "RAÚL GONZÁLEZ BLANCO",
+              "FERNANDO TORRES",
+              "XAVI HERNÁNDEZ",
+              "IKER CASILLAS",
+              "CARLES PUYOL",
+              "FERNANDO HIERRO",
+              "LUIS ENRIQUE",
+              "MANOLO SANCHÍS",
+            ].map((nombre, i) => (
+              <span
+                key={i}
+                style={{
+                  color: "var(--color-verde)",
+                  borderRight: "1px solid var(--color-verde-mid)",
+                  fontFamily: "var(--font-bebas)",
+                  fontSize: "13px",
+                  letterSpacing: "4px",
+                  padding: "0 32px",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {nombre}
+              </span>
+            ))}
+          </div>
+          <div className="marquee-content" aria-hidden="true">
+            {[
+              "RAÚL GONZÁLEZ BLANCO",
+              "FERNANDO TORRES",
+              "XAVI HERNÁNDEZ",
+              "IKER CASILLAS",
+              "CARLES PUYOL",
+              "FERNANDO HIERRO",
+              "LUIS ENRIQUE",
+              "MANOLO SANCHÍS",
+            ].map((nombre, i) => (
+              <span
+                key={i}
+                style={{
+                  color: "var(--color-verde)",
+                  borderRight: "1px solid var(--color-verde-mid)",
+                  fontFamily: "var(--font-bebas)",
+                  fontSize: "11px",
+                  letterSpacing: "4px",
+                  padding: "0 32px",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {nombre}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
     </header>

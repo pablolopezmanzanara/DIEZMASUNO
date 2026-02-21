@@ -16,7 +16,7 @@ export default function SobreNosotrosPage() {
           style={{
             fontFamily: "var(--font-bebas)",
             position: "absolute",
-            right: "-20px",
+            right: "10px",
             top: "50%",
             transform: "translateY(-50%)",
             fontSize: "200px",
@@ -222,8 +222,8 @@ export default function SobreNosotrosPage() {
               marginBottom: "16px",
             }}
           >
-            &ldquo;Aquellos domingos frente al televisor, con el partido de las tres,
-            no se olvidan.&rdquo;
+            &ldquo;Aquellos domingos frente al televisor, con el partido de las
+            tres, no se olvidan.&rdquo;
           </p>
           <div
             style={{
