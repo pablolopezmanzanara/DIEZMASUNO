@@ -1,12 +1,12 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode } from "react";
-
-export type Formato = {
-  id: string;
-  label: string;
-  precio: number;
-};
+import {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react";
 
 export type ItemCarrito = {
   id: number;
@@ -15,76 +15,95 @@ export type ItemCarrito = {
   equipo: string;
   dorsal: string;
   color: string;
-  formato: Formato;
+  formato: {
+    id: string;
+    label: string;
+    precio: number;
+  };
   cantidad: number;
 };
 
 type CarritoContextType = {
   items: ItemCarrito[];
-  aniadir: (item: Omit<ItemCarrito, "cantidad">) => void;
-  eliminar: (id: number, formatoId: string) => void;
-  cambiarCantidad: (id: number, formatoId: string, cantidad: number) => void;
-  vaciar: () => void;
-  total: number;
   totalItems: number;
+  totalPrecio: number;
+  aniadir: (item: Omit<ItemCarrito, "cantidad">, cantidad?: number) => void;
+  eliminar: (id: number) => void;
+  actualizar: (id: number, cantidad: number) => void;
+  vaciar: () => void;
 };
 
-const CarritoContext = createContext<CarritoContextType | null>(null);
+const CarritoContext = createContext<CarritoContextType | undefined>(undefined);
 
 export function CarritoProvider({ children }: { children: ReactNode }) {
-  const [items, setItems] = useState<ItemCarrito[]>([]);
+  const [items, setItems] = useState<ItemCarrito[]>(() => {
+    const guardado = localStorage.getItem("carrito");
+    return guardado ? JSON.parse(guardado) : [];
+  });
 
-  const aniadir = (item: Omit<ItemCarrito, "cantidad">, cant: number = 1) => {
+  // Guardar en localStorage cuando cambie
+  useEffect(() => {
+    localStorage.setItem("carrito", JSON.stringify(items));
+  }, [items]);
+
+  const aniadir = (
+    item: Omit<ItemCarrito, "cantidad">,
+    cantidad: number = 1,
+  ) => {
     setItems((prev) => {
       const existe = prev.find(
-        (i) => i.slug === item.slug && i.formato.id === item.formato.id,
+        (i) =>
+          i.slug === item.slug &&
+          i.formato.id === item.formato.id &&
+          i.color === item.color,
       );
 
       if (existe) {
         return prev.map((i) =>
-          i.slug === item.slug && i.formato.id === item.formato.id
-            ? { ...i, cantidad: i.cantidad + cant }
+          i.slug === item.slug &&
+          i.formato.id === item.formato.id &&
+          i.color === item.color
+            ? { ...i, cantidad: i.cantidad + cantidad }
             : i,
         );
       }
 
-      return [...prev, { ...item, cantidad: cant }];
+      return [...prev, { ...item, cantidad }];
     });
   };
 
-  const eliminar = (id: number, formatoId: string) => {
-    setItems((prev) =>
-      prev.filter((i) => !(i.id === id && i.formato.id === formatoId)),
-    );
+  const eliminar = (id: number) => {
+    setItems((prev) => prev.filter((item) => item.id !== id));
   };
 
-  const cambiarCantidad = (id: number, formatoId: string, cantidad: number) => {
-    if (cantidad < 1) return;
+  const actualizar = (id: number, cantidad: number) => {
     setItems((prev) =>
-      prev.map((i) =>
-        i.id === id && i.formato.id === formatoId ? { ...i, cantidad } : i,
+      prev.map((item) =>
+        item.id === id ? { ...item, cantidad: Math.max(1, cantidad) } : item,
       ),
     );
   };
 
-  const vaciar = () => setItems([]);
+  const vaciar = () => {
+    setItems([]);
+  };
 
-  const total = items.reduce(
-    (acc, i) => acc + i.formato.precio * i.cantidad,
+  const totalItems = items.reduce((sum, item) => sum + item.cantidad, 0);
+  const totalPrecio = items.reduce(
+    (sum, item) => sum + item.formato.precio * item.cantidad,
     0,
   );
-  const totalItems = items.reduce((acc, i) => acc + i.cantidad, 0);
 
   return (
     <CarritoContext.Provider
       value={{
         items,
+        totalItems,
+        totalPrecio,
         aniadir: aniadir,
         eliminar,
-        cambiarCantidad,
+        actualizar,
         vaciar,
-        total,
-        totalItems,
       }}
     >
       {children}
@@ -93,7 +112,9 @@ export function CarritoProvider({ children }: { children: ReactNode }) {
 }
 
 export function useCarrito() {
-  const ctx = useContext(CarritoContext);
-  if (!ctx) throw new Error("useCarrito debe usarse dentro de CarritoProvider");
-  return ctx;
+  const context = useContext(CarritoContext);
+  if (!context) {
+    throw new Error("useCarrito debe usarse dentro de CarritoProvider");
+  }
+  return context;
 }

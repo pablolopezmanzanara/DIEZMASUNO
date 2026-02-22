@@ -60,7 +60,7 @@ export async function getProducto(slug: string): Promise<Producto | null> {
       destacado,
       tipo
     }`,
-    { slug }, // <-- ESTO ES CRÍTICO: pasar el slug como parámetro
+    { slug },
   );
 }
 
