@@ -21,7 +21,7 @@ export type ItemCarrito = {
 
 type CarritoContextType = {
   items: ItemCarrito[];
-  añadir: (item: Omit<ItemCarrito, "cantidad">) => void;
+  aniadir: (item: Omit<ItemCarrito, "cantidad">) => void;
   eliminar: (id: number, formatoId: string) => void;
   cambiarCantidad: (id: number, formatoId: string, cantidad: number) => void;
   vaciar: () => void;
@@ -34,19 +34,21 @@ const CarritoContext = createContext<CarritoContextType | null>(null);
 export function CarritoProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<ItemCarrito[]>([]);
 
-  const añadir = (nuevoItem: Omit<ItemCarrito, "cantidad">) => {
+  const aniadir = (item: Omit<ItemCarrito, "cantidad">, cant: number = 1) => {
     setItems((prev) => {
       const existe = prev.find(
-        (i) => i.id === nuevoItem.id && i.formato.id === nuevoItem.formato.id,
+        (i) => i.slug === item.slug && i.formato.id === item.formato.id,
       );
+
       if (existe) {
         return prev.map((i) =>
-          i.id === nuevoItem.id && i.formato.id === nuevoItem.formato.id
-            ? { ...i, cantidad: i.cantidad + 1 }
+          i.slug === item.slug && i.formato.id === item.formato.id
+            ? { ...i, cantidad: i.cantidad + cant }
             : i,
         );
       }
-      return [...prev, { ...nuevoItem, cantidad: 1 }];
+
+      return [...prev, { ...item, cantidad: cant }];
     });
   };
 
@@ -77,7 +79,7 @@ export function CarritoProvider({ children }: { children: ReactNode }) {
     <CarritoContext.Provider
       value={{
         items,
-        añadir,
+        aniadir: aniadir,
         eliminar,
         cambiarCantidad,
         vaciar,

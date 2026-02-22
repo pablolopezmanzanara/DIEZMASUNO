@@ -40,15 +40,27 @@ export async function getProductosDestacados(): Promise<Producto[]> {
 }
 
 // Un producto por slug
-export async function getProducto(slug: string): Promise<Producto> {
+export async function getProducto(slug: string): Promise<Producto | null> {
   return client.fetch(
-    `
-    *[_type == "producto" && slug.current == $slug][0] {
-      _id, nombre, slug, equipo, anio, dorsal,
-      descripcion, historia, imagen, precio, badge, categoria, logros, tipo
-    }
-  `,
-    { slug },
+    `*[_type == "producto" && slug.current == $slug][0] {
+      _id,
+      nombre,
+      slug,
+      equipo,
+      anio,
+      dorsal,
+      descripcion,
+      historia,
+      imagen,
+      precio,
+      badge,
+      categoria,
+      logros,
+      disponible,
+      destacado,
+      tipo
+    }`,
+    { slug }, // <-- ESTO ES CRÍTICO: pasar el slug como parámetro
   );
 }
 

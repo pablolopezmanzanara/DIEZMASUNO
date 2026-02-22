@@ -18,7 +18,7 @@ export default function CatalogoClient({ productos }: Props) {
 
   return (
     <>
-      {/* Barra de filtros minimalista */}
+      {/* Barra de filtros minimalista responsive */}
       <div
         style={{
           marginBottom: "64px",
@@ -30,6 +30,7 @@ export default function CatalogoClient({ productos }: Props) {
             alignItems: "center",
             justifyContent: "center",
             gap: "0",
+            flexWrap: "wrap",
           }}
         >
           {[
@@ -40,6 +41,7 @@ export default function CatalogoClient({ productos }: Props) {
             <div key={value} style={{ display: "flex", alignItems: "center" }}>
               <button
                 onClick={() => setFiltro(value as "todos" | "jugador" | "otro")}
+                className="filtro-btn"
                 style={{
                   background: "transparent",
                   color:
@@ -47,13 +49,12 @@ export default function CatalogoClient({ productos }: Props) {
                       ? "var(--color-verde)"
                       : "rgba(26, 58, 42, 0.5)",
                   border: "none",
-                  fontFamily: "var(--font-playfair)",
-                  fontSize: "40px", // era 32px
+                  fontFamily: "Georgia, serif",
+                  fontSize: "clamp(24px, 5vw, 40px)",
                   fontWeight: filtro === value ? 700 : 400,
-                  fontStyle: "italic",
                   cursor: "pointer",
                   transition: "all 0.3s",
-                  padding: "8px 48px", // era 40px
+                  padding: "clamp(6px, 2vw, 8px) clamp(20px, 5vw, 48px)",
                   position: "relative",
                 }}
                 onMouseEnter={(e) => {
@@ -75,8 +76,8 @@ export default function CatalogoClient({ productos }: Props) {
                     style={{
                       position: "absolute",
                       bottom: "4px",
-                      left: "40px",
-                      right: "40px",
+                      left: "clamp(20px, 5vw, 48px)",
+                      right: "clamp(20px, 5vw, 48px)",
                       height: "3px",
                       background: "var(--color-dorado)",
                       borderRadius: "2px",
@@ -85,12 +86,12 @@ export default function CatalogoClient({ productos }: Props) {
                 )}
               </button>
 
-              {/* Separador vertical dorado - no después del último */}
+              {/* Separador vertical dorado */}
               {index < 2 && (
                 <div
                   style={{
                     width: "2px",
-                    height: "48px", // era 40px
+                    height: "clamp(32px, 6vw, 48px)",
                     background:
                       "linear-gradient(to bottom, transparent, var(--color-dorado), transparent)",
                     opacity: 0.6,

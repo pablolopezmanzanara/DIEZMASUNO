@@ -104,3 +104,11 @@ body::before {
     display: inline;
   }
 }
+
+/* Detalle producto responsive */
+@media (max-width: 768px) {
+  .detalle-grid {
+    grid-template-columns: 1fr !important;
+    gap: 40px !important;
+  }
+}
