@@ -2,9 +2,19 @@
 
 import Link from "next/link";
 import { useCarrito } from "../context/CarritoContext";
+import { useState, useEffect } from "react";
 
 export default function Header() {
   const { totalItems } = useCarrito();
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <header
@@ -146,15 +156,15 @@ export default function Header() {
         </nav>
       </div>
 
-      {/* Franja animada */}
+      {/* Franja animada - desaparece al hacer scroll */}
       <div
         style={{
           background: "var(--color-dorado)",
           overflow: "hidden",
-          paddingTop: "18px",
-          paddingBottom: "10px",
-          position: "relative",
-          alignItems: "center",
+          maxHeight: scrolled ? "0px" : "40px",
+          opacity: scrolled ? 0 : 1,
+          transition: "all 0.3s ease-in-out",
+          padding: scrolled ? "0" : "8px 0",
         }}
       >
         <div className="marquee-container">

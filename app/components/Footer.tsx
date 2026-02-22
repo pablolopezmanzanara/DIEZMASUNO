@@ -4,7 +4,7 @@ export default function Footer() {
   return (
     <footer
       style={{
-        background: "var(--color-verde)",
+        background: "var(--color-tinta)",
         color: "var(--color-crema)",
         padding: "64px 24px 24px",
         borderTop: "3px solid var(--color-dorado)",
@@ -15,7 +15,7 @@ export default function Footer() {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "1fr 1fr 1fr",
+            gridTemplateColumns: "2fr 1fr 1fr",
             gap: "48px",
             marginBottom: "48px",
           }}

@@ -186,7 +186,8 @@ export default async function HomePage() {
                   color: "var(--color-crema)",
                   fontSize: "clamp(36px, 5vw, 68px)",
                   display: "block",
-                  fontWeight: 900,
+                  fontFamily: "Playfair Display, serif",
+                  fontWeight: 700,
                 }}
               >
                 El arte del{" "}

@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { type Producto } from "../lib/queries";
 import { urlFor } from "../lib/sanity";
+import { useCarrito } from "../context/CarritoContext";
 
 type Props = {
   productos: Producto[];
@@ -12,9 +13,42 @@ type Props = {
 
 export default function CatalogoClient({ productos }: Props) {
   const [filtro, setFiltro] = useState<"todos" | "jugador" | "otro">("todos");
+  const [aniadidos, setAniadidos] = useState<Set<string>>(new Set());
+  const { aniadir } = useCarrito();
 
   const productosFiltrados =
     filtro === "todos" ? productos : productos.filter((p) => p.tipo === filtro);
+
+  const handleAniadir = (p: Producto, e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    aniadir(
+      {
+        id: parseInt(p._id.replace(/[^0-9]/g, "").slice(0, 10) || "0"), // ID limpio del _id
+        slug: p.slug.current,
+        nombre: p.nombre,
+        equipo: p.equipo,
+        dorsal: p.dorsal,
+        color: "#FFFFFF",
+        formato: {
+          id: "50x70",
+          label: "50×70 cm",
+          precio: p.precio,
+        },
+      },
+      1,
+    );
+
+    setAniadidos((prev) => new Set(prev).add(p._id));
+    setTimeout(() => {
+      setAniadidos((prev) => {
+        const newSet = new Set(prev);
+        newSet.delete(p._id);
+        return newSet;
+      });
+    }, 2000);
+  };
 
   return (
     <>
@@ -134,168 +168,162 @@ export default function CatalogoClient({ productos }: Props) {
             gap: "32px",
           }}
         >
-          {productosFiltrados.map((p: Producto) => (
-            <div
-              key={p._id}
-              className="producto-card"
-              style={{
-                background: "white",
-                borderRadius: "4px",
-                overflow: "visible",
-                display: "block",
-                transition: "all 0.3s",
-                boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
-                position: "relative",
-              }}
-            >
-              <Link
-                href={`/catalogo/${p.slug.current}`}
-                style={{ textDecoration: "none", display: "block" }}
-              >
-                <div
-                  style={{
-                    background: "var(--color-verde)",
-                    position: "relative",
-                    overflow: "hidden",
-                    aspectRatio: "3/4",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    borderRadius: "4px 4px 0 0",
-                  }}
-                >
-                  {p.imagen ? (
-                    <Image
-                      src={urlFor(p.imagen).width(400).height(533).url()}
-                      alt={p.nombre}
-                      fill
-                      style={{ objectFit: "cover" }}
-                    />
-                  ) : (
-                    <>
-                      <span
-                        style={{
-                          color: "rgba(255,255,255,0.08)",
-                          fontFamily: "var(--font-bebas)",
-                          fontSize: "80px",
-                          position: "absolute",
-                          top: "12px",
-                          right: "16px",
-                          lineHeight: 1,
-                        }}
-                      >
-                        {p.dorsal}
-                      </span>
-                      <span style={{ fontSize: "64px", opacity: 0.9 }}>⚽</span>
-                    </>
-                  )}
-                </div>
+          {productosFiltrados.map((p: Producto) => {
+            const estaAniadido = aniadidos.has(p._id);
 
-                <div
-                  style={{
-                    padding: "20px 22px 60px",
-                    borderTop: "3px solid var(--color-crema-osc)",
-                  }}
-                >
-                  <div
-                    style={{
-                      color: "var(--color-gris)",
-                      fontFamily: "var(--font-bebas)",
-                      fontSize: "10px",
-                      letterSpacing: "3px",
-                      marginBottom: "6px",
-                    }}
-                  >
-                    {p.equipo}
-                  </div>
-                  <div
-                    style={{
-                      color: "var(--color-tinta)",
-                      fontFamily: "var(--font-playfair)",
-                      fontWeight: 700,
-                      fontSize: "18px",
-                      marginBottom: "4px",
-                      lineHeight: 1.2,
-                    }}
-                  >
-                    {p.nombre}
-                  </div>
-                  <div
-                    style={{
-                      color: "var(--color-gris)",
-                      fontSize: "13px",
-                      fontStyle: "italic",
-                      marginBottom: "14px",
-                    }}
-                  >
-                    {p.anio}
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <span
-                      style={{
-                        color: "var(--color-verde)",
-                        fontFamily: "var(--font-playfair)",
-                        fontWeight: 700,
-                        fontSize: "22px",
-                      }}
-                    >
-                      {p.precio} €
-                    </span>
-                  </div>
-                </div>
-              </Link>
-
-              {/* Botón Añadir fuera del Link */}
+            return (
               <div
-                className="btn-aniadir-wrapper"
+                key={p._id}
+                className="producto-card"
                 style={{
-                  position: "absolute",
-                  bottom: "22px",
-                  right: "22px",
-                  opacity: 0,
-                  transition: "opacity 0.3s",
+                  background: "white",
+                  borderRadius: "4px",
+                  overflow: "visible",
+                  display: "block",
+                  transition: "all 0.3s",
+                  boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
+                  position: "relative",
                 }}
               >
+                <Link
+                  href={`/catalogo/${p.slug.current}`}
+                  style={{ textDecoration: "none", display: "block" }}
+                >
+                  <div
+                    style={{
+                      background: "var(--color-verde)",
+                      position: "relative",
+                      overflow: "hidden",
+                      aspectRatio: "3/4",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      borderRadius: "4px 4px 0 0",
+                    }}
+                  >
+                    {p.imagen ? (
+                      <Image
+                        src={urlFor(p.imagen).width(400).height(533).url()}
+                        alt={p.nombre}
+                        fill
+                        style={{ objectFit: "cover" }}
+                      />
+                    ) : (
+                      <>
+                        <span
+                          style={{
+                            color: "rgba(255,255,255,0.08)",
+                            fontFamily: "var(--font-bebas)",
+                            fontSize: "80px",
+                            position: "absolute",
+                            top: "12px",
+                            right: "16px",
+                            lineHeight: 1,
+                          }}
+                        >
+                          {p.dorsal}
+                        </span>
+                        <span style={{ fontSize: "64px", opacity: 0.9 }}>
+                          ⚽
+                        </span>
+                      </>
+                    )}
+                  </div>
+
+                  <div
+                    style={{
+                      padding: "20px 22px 75px",
+                      borderTop: "3px solid var(--color-crema-osc)",
+                    }}
+                  >
+                    <div
+                      style={{
+                        color: "var(--color-gris)",
+                        fontFamily: "var(--font-bebas)",
+                        fontSize: "10px",
+                        letterSpacing: "3px",
+                        marginBottom: "6px",
+                      }}
+                    >
+                      {p.equipo}
+                    </div>
+                    <div
+                      style={{
+                        color: "var(--color-tinta)",
+                        fontFamily: "var(--font-playfair)",
+                        fontWeight: 700,
+                        fontSize: "18px",
+                        marginBottom: "4px",
+                        lineHeight: 1.2,
+                      }}
+                    >
+                      {p.nombre}
+                    </div>
+                    <div
+                      style={{
+                        color: "var(--color-gris)",
+                        fontSize: "13px",
+                        fontStyle: "italic",
+                        marginBottom: "14px",
+                      }}
+                    >
+                      {p.anio}
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span
+                        style={{
+                          color: "var(--color-verde)",
+                          fontFamily: "var(--font-playfair)",
+                          fontWeight: 700,
+                          fontSize: "22px",
+                        }}
+                      >
+                        {p.precio} €
+                      </span>
+                    </div>
+                  </div>
+                </Link>
+
+                {/* Botón Añadir visible y grande */}
                 <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    window.location.href = `/catalogo/${p.slug.current}`;
-                  }}
+                  onClick={(e) => handleAniadir(p, e)}
+                  disabled={estaAniadido}
                   style={{
                     background: "transparent",
                     border: "none",
-                    color: "var(--color-verde)",
+                    color: estaAniadido
+                      ? "var(--color-gris)"
+                      : "var(--color-verde)",
                     fontFamily: "var(--font-bebas)",
                     fontSize: "11px",
                     letterSpacing: "2px",
-                    cursor: "pointer",
+                    cursor: estaAniadido ? "default" : "pointer",
                     padding: "0",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "6px",
-                    transition: "all 0.3s",
+                    transition: "color 0.3s",
+                    opacity: estaAniadido ? 0.5 : 1,
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.color = "var(--color-dorado)";
-                    e.currentTarget.style.transform = "translateX(2px)";
+                    if (!estaAniadido) {
+                      e.currentTarget.style.color = "var(--color-dorado)";
+                    }
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.color = "var(--color-verde)";
-                    e.currentTarget.style.transform = "translateX(0)";
+                    if (!estaAniadido) {
+                      e.currentTarget.style.color = "var(--color-verde)";
+                    }
                   }}
                 >
-                  AÑADIR
-                  <span style={{ fontSize: "14px" }}>→</span>
+                  {estaAniadido ? "AÑADIDO" : "AÑADIR"}
                 </button>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </>
