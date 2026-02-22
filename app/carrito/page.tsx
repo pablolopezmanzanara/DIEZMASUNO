@@ -51,7 +51,7 @@ export default function CarritoPage() {
               marginBottom: "16px",
             }}
           >
-            Tu carrito está vacío
+            Tu carrito esta vacio
           </h1>
           <p
             style={{
@@ -61,7 +61,7 @@ export default function CarritoPage() {
               marginBottom: "32px",
             }}
           >
-            Explora nuestra colección de cuadros de edición limitada y encuentra
+            Explora nuestra coleccion de cuadros de edicion limitada y encuentra
             el perfecto para tu espacio.
           </p>
           <Link
@@ -79,7 +79,7 @@ export default function CarritoPage() {
               transition: "all 0.2s",
             }}
           >
-            Ver catálogo
+            Ver catalogo
           </Link>
         </div>
       </div>
@@ -87,7 +87,15 @@ export default function CarritoPage() {
   }
 
   return (
-    <div style={{ padding: "80px 24px", maxWidth: "1200px", margin: "0 auto" }}>
+    <div
+      style={{
+        paddingTop: "20px",
+        paddingBottom: "40px",
+        paddingInline: "24px",
+        maxWidth: "1200px",
+        margin: "0 auto",
+      }}
+    >
       {/* Header */}
       <div
         style={{
@@ -112,7 +120,7 @@ export default function CarritoPage() {
             Tu carrito
           </h1>
           <p style={{ color: "var(--color-gris)", fontSize: "14px" }}>
-            {items.length} {items.length === 1 ? "artículo" : "artículos"}
+            {items.length} {items.length === 1 ? "articulo" : "articulos"}
           </p>
         </div>
         <button
@@ -137,7 +145,7 @@ export default function CarritoPage() {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "1fr 1fr", // <-- Cambiar de '1fr' a '1fr 1fr'
+          gridTemplateColumns: "1fr 1fr",
           gap: "40px",
           alignItems: "start",
         }}
@@ -146,40 +154,58 @@ export default function CarritoPage() {
         {/* Lista de productos */}
         <div>
           {items.map((item) => (
-            <div
+            <Link
               key={item.id}
+              href={`/catalogo/${item.slug}`}
               style={{
+                textDecoration: "none",
                 background: "white",
                 borderRadius: "4px",
-                padding: "24px",
+                padding: "20px",
                 marginBottom: "16px",
                 boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
                 display: "grid",
-                gridTemplateColumns: "120px 1fr auto",
-                gap: "24px",
+                gridTemplateColumns: "100px 1fr auto",
+                gap: "20px",
                 alignItems: "center",
+                cursor: "pointer",
+                transition: "all 0.2s",
               }}
               className="carrito-item"
+              onMouseEnter={(e) => {
+                e.currentTarget.style.boxShadow = "0 4px 16px rgba(0,0,0,0.1)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.boxShadow = "0 2px 8px rgba(0,0,0,0.05)";
+              }}
             >
-              {/* Imagen placeholder */}
+              {/* Imagen */}
               <div
                 style={{
                   background: "var(--color-verde)",
                   aspectRatio: "3/4",
                   borderRadius: "2px",
+                  position: "relative",
+                  overflow: "hidden",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  color: "white",
-                  fontSize: "32px",
-                  opacity: 0.3,
                 }}
               >
-                ⚽
+                <span
+                  style={{
+                    color: "rgba(255,255,255,0.3)",
+                    fontFamily: "var(--font-bebas)",
+                    fontSize: "48px",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {item.dorsal}
+                </span>
               </div>
 
               {/* Info */}
-              <div>
+              <div onClick={(e) => e.preventDefault()}>
                 <h3
                   style={{
                     color: "var(--color-tinta)",
@@ -206,7 +232,11 @@ export default function CarritoPage() {
                   style={{ display: "flex", alignItems: "center", gap: "12px" }}
                 >
                   <button
-                    onClick={() => actualizar(item.id, item.cantidad - 1)}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      actualizar(item.id, item.cantidad - 1);
+                    }}
                     disabled={item.cantidad <= 1}
                     style={{
                       background: "var(--color-crema-osc)",
@@ -234,7 +264,11 @@ export default function CarritoPage() {
                     {item.cantidad}
                   </span>
                   <button
-                    onClick={() => actualizar(item.id, item.cantidad + 1)}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      actualizar(item.id, item.cantidad + 1);
+                    }}
                     style={{
                       background: "var(--color-crema-osc)",
                       border: "none",
@@ -249,7 +283,11 @@ export default function CarritoPage() {
                     +
                   </button>
                   <button
-                    onClick={() => eliminar(item.id)}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      eliminar(item.id);
+                    }}
                     style={{
                       background: "transparent",
                       border: "none",
@@ -266,7 +304,10 @@ export default function CarritoPage() {
               </div>
 
               {/* Precio */}
-              <div style={{ textAlign: "right" }}>
+              <div
+                style={{ textAlign: "right" }}
+                onClick={(e) => e.preventDefault()}
+              >
                 <div
                   style={{
                     color: "var(--color-verde)",
@@ -289,7 +330,7 @@ export default function CarritoPage() {
                   </div>
                 )}
               </div>
-            </div>
+            </Link>
           ))}
         </div>
 
@@ -348,7 +389,7 @@ export default function CarritoPage() {
               <span
                 style={{ color: "rgba(245,239,224,0.7)", fontSize: "14px" }}
               >
-                Envío
+                Envio
               </span>
               <span
                 style={{
@@ -421,7 +462,7 @@ export default function CarritoPage() {
               lineHeight: 1.6,
             }}
           >
-            📦 Envío gratuito en 2-4 días
+            📦 Envio gratuito en 2-4 dias
             <br />
             🔒 Pago seguro con Stripe
           </div>

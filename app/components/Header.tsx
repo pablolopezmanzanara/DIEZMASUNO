@@ -6,17 +6,11 @@ import { useState, useEffect } from "react";
 
 export default function Header() {
   const { totalItems } = useCarrito();
-  const [scrolled, setScrolled] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
@@ -159,49 +153,14 @@ export default function Header() {
         </nav>
       </div>
 
-      {/* Franja animada */}
+      {/* Franja dorada estrecha */}
       <div
         style={{
           background: "var(--color-dorado)",
-          overflow: "hidden",
-          maxHeight: mounted && scrolled ? "0px" : "40px",
-          opacity: mounted && scrolled ? 0 : 1,
-          transition: "all 0.3s ease-in-out",
-          padding: mounted && scrolled ? "0" : "8px 0",
+          height: "0.2px",
+          width: "100%",
         }}
-      >
-        <div className="marquee-container">
-          {[...Array(3)].map((_, i) => (
-            <div key={i} className="marquee-content">
-              {[
-                "RAÚL GONZÁLEZ BLANCO",
-                "FERNANDO TORRES",
-                "XAVI HERNÁNDEZ",
-                "IKER CASILLAS",
-                "CARLES PUYOL",
-                "FERNANDO HIERRO",
-                "LUIS ENRIQUE",
-                "MANOLO SANCHÍS",
-              ].map((nombre, j) => (
-                <span
-                  key={`${i}-${j}`}
-                  style={{
-                    color: "var(--color-verde)",
-                    borderRight: "1px solid var(--color-verde-mid)",
-                    fontFamily: "var(--font-bebas)",
-                    fontSize: "11px",
-                    letterSpacing: "4px",
-                    padding: "0 32px",
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  {nombre}
-                </span>
-              ))}
-            </div>
-          ))}
-        </div>
-      </div>
+      />
     </header>
   );
 }

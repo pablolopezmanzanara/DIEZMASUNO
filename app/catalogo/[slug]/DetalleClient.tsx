@@ -36,7 +36,6 @@ export default function DetalleClient({ producto }: Props) {
       cantidad,
     );
     setAniadido(true);
-    setTimeout(() => setAniadido(false), 2000);
   };
 
   return (

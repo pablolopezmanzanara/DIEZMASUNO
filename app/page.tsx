@@ -1,5 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
+import Marquee from "./components/Marquee";
+
 import {
   getProductosDestacados,
   getProductos,
@@ -14,6 +16,9 @@ export default async function HomePage() {
   const productosHome = destacados.slice(0, 3);
   return (
     <>
+      {/* ── MARQUEE NOMBRES ── */}
+      <Marquee />
+
       {/* ── HERO ── */}
       <section
         style={{

@@ -269,6 +269,7 @@ export default function CatalogoClient({ productos }: Props) {
                         </div>
                       </div>
 
+                      {/* Columna derecha: Precio y boton */}
                       <div
                         style={{
                           display: "flex",
@@ -276,6 +277,7 @@ export default function CatalogoClient({ productos }: Props) {
                           alignItems: "flex-end",
                           justifyContent: "space-between",
                           minWidth: "80px",
+                          marginTop: "-10px",
                         }}
                       >
                         <span
@@ -285,38 +287,54 @@ export default function CatalogoClient({ productos }: Props) {
                             fontWeight: 700,
                             fontSize: "22px",
                             marginBottom: "8px",
+                            marginRight: "10px",
                           }}
                         >
                           {p.precio} €
                         </span>
 
+                        {/* Boton con capsula */}
                         <button
                           onClick={(e) => handleAniadir(p, e)}
                           disabled={estaAniadido}
                           style={{
-                            background: "transparent",
-                            border: "none",
+                            background: estaAniadido
+                              ? "rgba(201,168,76,0.15)"
+                              : "rgba(26,58,42,0.08)",
+                            border: estaAniadido
+                              ? "1px solid rgba(201,168,76,0.3)"
+                              : "1px solid rgba(26,58,42,0.2)",
                             color: estaAniadido
-                              ? "var(--color-gris)"
+                              ? "var(--color-dorado-osc)"
                               : "var(--color-verde)",
                             fontFamily: "Georgia, serif",
                             fontSize: "14px",
-                            fontWeight: estaAniadido ? 400 : 600,
-                            letterSpacing: "1px",
+                            fontWeight: 600,
+                            letterSpacing: "0.5px",
                             cursor: estaAniadido ? "default" : "pointer",
-                            padding: "0",
-                            transition: "color 0.3s",
-                            opacity: estaAniadido ? 0.5 : 1,
-                            textAlign: "right",
+                            padding: "8px 16px",
+                            borderRadius: "20px",
+                            transition: "all 0.3s",
+                            opacity: estaAniadido ? 0.8 : 1,
+                            textAlign: "center",
+                            whiteSpace: "nowrap",
                           }}
                           onMouseEnter={(e) => {
                             if (!estaAniadido) {
+                              e.currentTarget.style.background =
+                                "rgba(201,168,76,0.12)";
+                              e.currentTarget.style.borderColor =
+                                "rgba(201,168,76,0.4)";
                               e.currentTarget.style.color =
-                                "var(--color-dorado)";
+                                "var(--color-dorado-osc)";
                             }
                           }}
                           onMouseLeave={(e) => {
                             if (!estaAniadido) {
+                              e.currentTarget.style.background =
+                                "rgba(26,58,42,0.08)";
+                              e.currentTarget.style.borderColor =
+                                "rgba(26,58,42,0.2)";
                               e.currentTarget.style.color =
                                 "var(--color-verde)";
                             }
