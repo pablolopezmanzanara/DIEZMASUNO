@@ -50,11 +50,11 @@ export default function CatalogoClient({ productos }: Props) {
                       : "rgba(26, 58, 42, 0.5)",
                   border: "none",
                   fontFamily: "Georgia, serif",
-                  fontSize: "clamp(24px, 5vw, 40px)",
+                  fontSize: "clamp(20px, 4.5vw, 40px)", // Era 5vw, ahora 4.5vw
                   fontWeight: filtro === value ? 700 : 400,
                   cursor: "pointer",
                   transition: "all 0.3s",
-                  padding: "clamp(6px, 2vw, 8px) clamp(20px, 5vw, 48px)",
+                  padding: "clamp(6px, 2vw, 8px) clamp(16px, 4vw, 48px)", // Era 20px/5vw, ahora 16px/4vw
                   position: "relative",
                 }}
                 onMouseEnter={(e) => {
@@ -119,7 +119,6 @@ export default function CatalogoClient({ productos }: Props) {
       </div>
 
       {/* Grid de productos */}
-      {/* Grid de productos */}
       {productosFiltrados.length === 0 ? (
         <div style={{ textAlign: "center", padding: "80px 0" }}>
           <p style={{ color: "var(--color-gris)", fontSize: "16px" }}>
@@ -138,17 +137,16 @@ export default function CatalogoClient({ productos }: Props) {
           {productosFiltrados.map((p: Producto) => (
             <div
               key={p._id}
+              className="producto-card"
               style={{
-                textDecoration: "none",
                 background: "white",
                 borderRadius: "4px",
-                overflow: "hidden",
+                overflow: "visible",
                 display: "block",
                 transition: "all 0.3s",
                 boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
                 position: "relative",
               }}
-              className="producto-card"
             >
               <Link
                 href={`/catalogo/${p.slug.current}`}
@@ -163,6 +161,7 @@ export default function CatalogoClient({ productos }: Props) {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
+                    borderRadius: "4px 4px 0 0",
                   }}
                 >
                   {p.imagen ? (
@@ -194,7 +193,7 @@ export default function CatalogoClient({ productos }: Props) {
 
                 <div
                   style={{
-                    padding: "20px 22px 22px",
+                    padding: "20px 22px 60px",
                     borderTop: "3px solid var(--color-crema-osc)",
                   }}
                 >
@@ -252,35 +251,49 @@ export default function CatalogoClient({ productos }: Props) {
                 </div>
               </Link>
 
-              {/* Botón Añadir minimalista */}
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  window.location.href = `/catalogo/${p.slug.current}`;
-                }}
-                className="btn-aniadir"
+              {/* Botón Añadir fuera del Link */}
+              <div
+                className="btn-aniadir-wrapper"
                 style={{
                   position: "absolute",
                   bottom: "22px",
                   right: "22px",
-                  background: "transparent",
-                  border: "none",
-                  color: "var(--color-verde)",
-                  fontFamily: "var(--font-bebas)",
-                  fontSize: "11px",
-                  letterSpacing: "2px",
-                  cursor: "pointer",
-                  padding: "0",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "6px",
                   opacity: 0,
-                  transition: "all 0.3s",
+                  transition: "opacity 0.3s",
                 }}
               >
-                AÑADIR
-                <span style={{ fontSize: "14px" }}>→</span>
-              </button>
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    window.location.href = `/catalogo/${p.slug.current}`;
+                  }}
+                  style={{
+                    background: "transparent",
+                    border: "none",
+                    color: "var(--color-verde)",
+                    fontFamily: "var(--font-bebas)",
+                    fontSize: "11px",
+                    letterSpacing: "2px",
+                    cursor: "pointer",
+                    padding: "0",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "6px",
+                    transition: "all 0.3s",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.color = "var(--color-dorado)";
+                    e.currentTarget.style.transform = "translateX(2px)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.color = "var(--color-verde)";
+                    e.currentTarget.style.transform = "translateX(0)";
+                  }}
+                >
+                  AÑADIR
+                  <span style={{ fontSize: "14px" }}>→</span>
+                </button>
+              </div>
             </div>
           ))}
         </div>

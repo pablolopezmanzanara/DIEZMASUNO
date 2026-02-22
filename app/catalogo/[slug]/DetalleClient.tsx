@@ -53,7 +53,7 @@ export default function DetalleClient({ producto }: Props) {
     <div
       style={{
         display: "grid",
-        gridTemplateColumns: "1fr 1fr",
+        gridTemplateColumns: "1fr 1.5fr", // Era '1fr 1fr', ahora imagen más pequeña
         gap: "80px",
         maxWidth: "1200px",
         margin: "0 auto",

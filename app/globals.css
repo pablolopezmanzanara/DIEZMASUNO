@@ -114,11 +114,53 @@ body::before {
 }
 
 /* Botón añadir en hover de tarjeta */
-.producto-card:hover .btn-aniadir {
-  opacity: 1;
+.producto-card:hover .btn-aniadir-wrapper {
+  opacity: 1 !important;
 }
 
 .btn-aniadir:hover {
   color: var(--color-dorado) !important;
   transform: translateX(2px);
+}
+
+/* Carrito responsive */
+@media (max-width: 600px) {
+  .carrito-item {
+    grid-template-columns: 70px 1fr !important;
+    gap: 12px !important;
+    padding: 16px !important;
+  }
+
+  .carrito-item > div:last-child {
+    grid-column: 1 / -1;
+    text-align: left !important;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--color-crema-osc);
+  }
+}
+
+/* Footer responsive */
+@media (max-width: 768px) {
+  .footer-grid {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+    text-align: center;
+  }
+
+  .footer-marca {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .footer-bottom {
+    flex-direction: column !important;
+    gap: 8px !important;
+    text-align: center !important;
+  }
+
+  .footer-copyright {
+    order: 1;
+  }
 }

@@ -4,30 +4,25 @@ export default function Footer() {
   return (
     <footer
       style={{
-        background: "var(--color-tinta)",
+        background: "var(--color-verde)",
+        color: "var(--color-crema)",
+        padding: "64px 24px 24px",
         borderTop: "3px solid var(--color-dorado)",
-        padding: "60px 24px 32px",
       }}
     >
       <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
-        {/* Columnas */}
+        {/* Grid principal */}
         <div
           style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "flex-start",
-            gap: "clamp(32px, 5vw, 48px)",
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr 1fr",
+            gap: "48px",
             marginBottom: "48px",
-            flexWrap: "wrap",
           }}
+          className="footer-grid"
         >
-          {/* Marca */}
-          <div
-            style={{
-              flex: "1 1 280px",
-              minWidth: "280px",
-            }}
-          >
+          {/* Columna 1: Marca */}
+          <div className="footer-marca">
             <div
               style={{
                 display: "flex",
@@ -40,16 +35,14 @@ export default function Footer() {
                 style={{
                   background: "var(--color-dorado)",
                   color: "var(--color-verde)",
-                  boxShadow:
-                    "0 0 0 2px var(--color-tinta), 0 0 0 4px var(--color-dorado)",
-                  width: "36px",
-                  height: "36px",
+                  width: "44px",
+                  height: "44px",
                   borderRadius: "50%",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   fontFamily: "var(--font-bebas)",
-                  fontSize: "11px",
+                  fontSize: "12px",
                   textAlign: "center",
                   lineHeight: "1.2",
                   flexShrink: 0,
@@ -62,21 +55,19 @@ export default function Footer() {
               <div>
                 <div
                   style={{
-                    color: "var(--color-crema)",
                     fontFamily: "var(--font-playfair)",
                     fontWeight: 700,
-                    fontSize: "18px",
-                    lineHeight: "1.2",
+                    fontSize: "16px",
                   }}
                 >
                   El Fútbol de Antes
                 </div>
                 <div
                   style={{
-                    color: "var(--color-dorado)",
                     fontFamily: "var(--font-bebas)",
-                    fontSize: "11px",
-                    letterSpacing: "3px",
+                    fontSize: "10px",
+                    letterSpacing: "2px",
+                    color: "var(--color-dorado)",
                   }}
                 >
                   Arte · Nostalgia · Fútbol
@@ -85,109 +76,86 @@ export default function Footer() {
             </div>
             <p
               style={{
-                color: "rgba(245,239,224,0.4)",
                 fontSize: "13px",
-                lineHeight: "1.7",
-                maxWidth: "280px",
+                lineHeight: 1.6,
+                color: "rgba(245,239,224,0.7)",
               }}
             >
-              Cuadros de edición limitada dedicados a los jugadores y momentos
-              que hicieron grande el fútbol español.
+              Cuadros de edición limitada que reviven los momentos y jugadores
+              que definieron el fútbol español.
             </p>
           </div>
 
-          {/* Grupo: Tienda e Información */}
-          <div
-            style={{
-              display: "flex",
-              gap: "clamp(32px, 8vw, 120px)",
-              alignItems: "center",
-              justifyContent: "center",
-              flex: "1 1 auto",
-            }}
-          >
-            {/* Tienda */}
-            <div>
-              <div
-                style={{
-                  color: "var(--color-dorado)",
-                  fontFamily: "var(--font-bebas)",
-                  fontSize: "12px",
-                  letterSpacing: "3px",
-                  marginBottom: "20px",
-                }}
-              >
-                Tienda
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "6px",
-                }}
-              >
-                {[
-                  ["Colección actual", "/catalogo"],
-                  ["Jugadores", "/jugadores"],
-                  ["Formatos y precios", "/precios"],
-                  ["Ediciones anteriores", "/archivo"],
-                ].map(([label, href]) => (
-                  <Link
-                    key={href}
-                    href={href}
-                    style={{
-                      color: "rgba(245,239,224,0.5)",
-                      fontSize: "13px",
-                      textDecoration: "none",
-                      transition: "color 0.2s",
-                    }}
-                  >
-                    {label}
-                  </Link>
-                ))}
-              </div>
+          {/* Columna 2: Tienda */}
+          <div>
+            <h3
+              style={{
+                fontFamily: "var(--font-bebas)",
+                fontSize: "14px",
+                letterSpacing: "3px",
+                marginBottom: "16px",
+                color: "var(--color-dorado)",
+              }}
+            >
+              Tienda
+            </h3>
+            <div
+              style={{ display: "flex", flexDirection: "column", gap: "8px" }}
+            >
+              {[
+                ["Catálogo", "/catalogo"],
+                ["Sobre nosotros", "/sobre-nosotros"],
+              ].map(([label, href]) => (
+                <Link
+                  key={href}
+                  href={href}
+                  style={{
+                    color: "rgba(245,239,224,0.7)",
+                    fontSize: "13px",
+                    textDecoration: "none",
+                    transition: "color 0.2s",
+                  }}
+                >
+                  {label}
+                </Link>
+              ))}
             </div>
+          </div>
 
-            {/* Información */}
-            <div>
-              <div
-                style={{
-                  color: "var(--color-dorado)",
-                  fontFamily: "var(--font-bebas)",
-                  fontSize: "12px",
-                  letterSpacing: "3px",
-                  marginBottom: "20px",
-                }}
-              >
-                Información
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "6px",
-                }}
-              >
-                {[
-                  ["Sobre el proyecto", "/sobre-nosotros"],
-                  ["Envíos y devoluciones", "/envios"],
-                  ["Preguntas frecuentes", "/faq"],
-                  ["Contacto", "/contacto"],
-                ].map(([label, href]) => (
-                  <Link
-                    key={href}
-                    href={href}
-                    style={{
-                      color: "rgba(245,239,224,0.5)",
-                      fontSize: "13px",
-                      textDecoration: "none",
-                      transition: "color 0.2s",
-                    }}
-                  >
-                    {label}
-                  </Link>
-                ))}
-              </div>
+          {/* Columna 3: Información */}
+          <div>
+            <h3
+              style={{
+                fontFamily: "var(--font-bebas)",
+                fontSize: "14px",
+                letterSpacing: "3px",
+                marginBottom: "16px",
+                color: "var(--color-dorado)",
+              }}
+            >
+              Información
+            </h3>
+            <div
+              style={{ display: "flex", flexDirection: "column", gap: "8px" }}
+            >
+              {[
+                ["Envíos y devoluciones", "/envios"],
+                ["FAQ", "/faq"],
+                ["Contacto", "/contacto"],
+              ].map(([label, href]) => (
+                <Link
+                  key={href}
+                  href={href}
+                  style={{
+                    color: "rgba(245,239,224,0.7)",
+                    fontSize: "13px",
+                    textDecoration: "none",
+                    transition: "color 0.2s",
+                  }}
+                >
+                  {label}
+                </Link>
+              ))}
             </div>
           </div>
         </div>
@@ -195,29 +163,24 @@ export default function Footer() {
         {/* Barra inferior */}
         <div
           style={{
-            borderTop: "1px solid rgba(255,255,255,0.08)",
             paddingTop: "24px",
+            borderTop: "1px solid rgba(245,239,224,0.1)",
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            gap: "12px",
-            flexWrap: "wrap",
+            fontSize: "12px",
+            color: "rgba(245,239,224,0.5)",
           }}
+          className="footer-bottom"
         >
-          <span style={{ color: "rgba(245,239,224,0.3)", fontSize: "12px" }}>
+          <div className="footer-copyright">
             © 2025 El Fútbol de Antes · Todos los derechos reservados
-          </span>
-          <span
-            style={{
-              color: "var(--color-dorado)",
-              opacity: 0.4,
-              fontFamily: "var(--font-bebas)",
-              fontSize: "18px",
-              letterSpacing: "2px",
-            }}
+          </div>
+          <div
+            style={{ fontFamily: "var(--font-bebas)", letterSpacing: "2px" }}
           >
             10+1
-          </span>
+          </div>
         </div>
       </div>
     </footer>
