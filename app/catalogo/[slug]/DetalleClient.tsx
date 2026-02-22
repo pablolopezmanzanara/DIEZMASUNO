@@ -10,41 +10,31 @@ type Props = {
   producto: Producto;
 };
 
-const formatos = [
-  { id: "a4", label: "A4 · 21×29 cm", multiplicador: 0.6 },
-  { id: "a3", label: "A3 · 30×42 cm", multiplicador: 0.8 },
-  { id: "50x70", label: "50×70 cm", multiplicador: 1 },
-  { id: "70x100", label: "70×100 cm", multiplicador: 1.4 },
-];
-
 export default function DetalleClient({ producto }: Props) {
-  const [formatoSeleccionado, setFormatoSeleccionado] = useState(formatos[2]);
   const [cantidad, setCantidad] = useState(1);
   const { aniadir } = useCarrito();
   const [aniadido, setAniadido] = useState(false);
 
-  const precioFinal = Math.round(
-    producto.precio * formatoSeleccionado.multiplicador,
-  );
-
   const handleAniadir = () => {
     aniadir(
       {
-        id: Date.now(),
+        id: parseInt(
+          producto._id.replace(/[^a-zA-Z0-9]/g, "").slice(0, 10),
+          10,
+        ),
         slug: producto.slug.current,
         nombre: producto.nombre,
         equipo: producto.equipo,
         dorsal: producto.dorsal,
         color: "#FFFFFF",
         formato: {
-          id: formatoSeleccionado.id,
-          label: formatoSeleccionado.label,
-          precio: precioFinal,
+          id: "50x70",
+          label: "50×70 cm",
+          precio: producto.precio,
         },
       },
       cantidad,
-    ); // <-- Aquí va cantidad como segundo parámetro
-
+    );
     setAniadido(true);
     setTimeout(() => setAniadido(false), 2000);
   };
@@ -53,11 +43,13 @@ export default function DetalleClient({ producto }: Props) {
     <div
       style={{
         display: "grid",
-        gridTemplateColumns: "1fr 1.5fr", // Era '1fr 1fr', ahora imagen más pequeña
-        gap: "80px",
+        gridTemplateColumns: "1fr 1.5fr",
+        gap: "60px",
         maxWidth: "1200px",
         margin: "0 auto",
-        padding: "80px 24px",
+        padding: "60px 24px",
+        minHeight: "calc(100vh - 200px)",
+        alignItems: "center",
       }}
       className="detalle-grid"
     >
@@ -70,6 +62,7 @@ export default function DetalleClient({ producto }: Props) {
           borderRadius: "4px",
           overflow: "hidden",
           boxShadow: "0 20px 60px rgba(0,0,0,0.15)",
+          maxHeight: "70vh",
         }}
       >
         {producto.imagen ? (
@@ -108,7 +101,7 @@ export default function DetalleClient({ producto }: Props) {
             fontFamily: "var(--font-bebas)",
             fontSize: "11px",
             letterSpacing: "4px",
-            marginBottom: "12px",
+            marginBottom: "8px",
           }}
         >
           {producto.equipo}
@@ -120,116 +113,73 @@ export default function DetalleClient({ producto }: Props) {
             color: "var(--color-tinta)",
             fontFamily: "var(--font-playfair)",
             fontWeight: 900,
-            fontSize: "clamp(32px, 5vw, 48px)",
+            fontSize: "clamp(28px, 4vw, 42px)",
             lineHeight: 1.1,
-            marginBottom: "16px",
+            marginBottom: "12px",
           }}
         >
           {producto.nombre}
         </h1>
 
+        {/* Año */}
+        <div
+          style={{
+            color: "var(--color-gris)",
+            fontSize: "15px",
+            fontStyle: "italic",
+            marginBottom: "24px",
+          }}
+        >
+          {producto.anio}
+        </div>
+
         {/* Precio */}
         <div
           style={{
-            display: "flex",
-            alignItems: "baseline",
-            gap: "12px",
-            marginBottom: "32px",
+            color: "var(--color-verde)",
+            fontFamily: "var(--font-playfair)",
+            fontWeight: 700,
+            fontSize: "32px",
+            marginBottom: "20px",
           }}
         >
-          <span
+          {producto.precio} €
+        </div>
+
+        {/* Info formato */}
+        <div
+          style={{
+            background: "var(--color-crema)",
+            padding: "12px 16px",
+            borderRadius: "2px",
+            borderLeft: "3px solid var(--color-dorado)",
+            marginBottom: "24px",
+          }}
+        >
+          <div
             style={{
-              color: "var(--color-verde)",
-              fontFamily: "var(--font-playfair)",
-              fontWeight: 700,
-              fontSize: "36px",
+              color: "var(--color-gris)",
+              fontSize: "13px",
             }}
           >
-            {precioFinal} €
-          </span>
-          {formatoSeleccionado.multiplicador !== 1 && (
-            <span
-              style={{
-                color: "var(--color-gris)",
-                fontSize: "16px",
-                textDecoration: "line-through",
-              }}
-            >
-              {producto.precio} €
-            </span>
-          )}
+            <strong>Formato:</strong> 50×70 cm · Impresión de alta calidad
+          </div>
         </div>
 
         {/* Descripción corta */}
         <p
           style={{
             color: "var(--color-gris)",
-            fontSize: "15px",
+            fontSize: "14px",
             lineHeight: 1.7,
-            marginBottom: "32px",
-            borderLeft: "3px solid var(--color-dorado)",
-            paddingLeft: "16px",
+            marginBottom: "24px",
           }}
         >
           {producto.descripcion}
         </p>
 
-        {/* Selector de formato */}
-        <div style={{ marginBottom: "32px" }}>
-          <label
-            style={{
-              color: "var(--color-tinta)",
-              fontFamily: "var(--font-bebas)",
-              fontSize: "12px",
-              letterSpacing: "3px",
-              display: "block",
-              marginBottom: "12px",
-            }}
-          >
-            Tamaño
-          </label>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: "12px",
-            }}
-          >
-            {formatos.map((f) => (
-              <button
-                key={f.id}
-                onClick={() => setFormatoSeleccionado(f)}
-                style={{
-                  background:
-                    formatoSeleccionado.id === f.id
-                      ? "var(--color-verde)"
-                      : "white",
-                  color:
-                    formatoSeleccionado.id === f.id
-                      ? "var(--color-crema)"
-                      : "var(--color-verde)",
-                  border:
-                    formatoSeleccionado.id === f.id
-                      ? "none"
-                      : "1px solid var(--color-verde)",
-                  fontFamily: "var(--font-bebas)",
-                  fontSize: "13px",
-                  letterSpacing: "2px",
-                  padding: "14px 20px",
-                  borderRadius: "2px",
-                  cursor: "pointer",
-                  transition: "all 0.2s",
-                  textAlign: "left",
-                }}
-              >
-                {f.label}
-              </button>
-            ))}
-          </div>
-        </div>
-
         {/* Cantidad */}
-        <div style={{ marginBottom: "32px" }}>
+        <div style={{ marginBottom: "24px" }}>
           <label
             style={{
               color: "var(--color-tinta)",
@@ -237,23 +187,23 @@ export default function DetalleClient({ producto }: Props) {
               fontSize: "12px",
               letterSpacing: "3px",
               display: "block",
-              marginBottom: "12px",
+              marginBottom: "10px",
             }}
           >
             Cantidad
           </label>
-          <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
             <button
               onClick={() => setCantidad(Math.max(1, cantidad - 1))}
               style={{
                 background: "var(--color-crema-osc)",
                 border: "none",
-                width: "40px",
-                height: "40px",
+                width: "36px",
+                height: "36px",
                 borderRadius: "2px",
                 cursor: "pointer",
                 fontFamily: "var(--font-bebas)",
-                fontSize: "20px",
+                fontSize: "18px",
                 color: "var(--color-verde)",
               }}
             >
@@ -262,9 +212,9 @@ export default function DetalleClient({ producto }: Props) {
             <span
               style={{
                 fontFamily: "var(--font-playfair)",
-                fontSize: "18px",
+                fontSize: "16px",
                 fontWeight: 700,
-                minWidth: "40px",
+                minWidth: "30px",
                 textAlign: "center",
               }}
             >
@@ -275,12 +225,12 @@ export default function DetalleClient({ producto }: Props) {
               style={{
                 background: "var(--color-crema-osc)",
                 border: "none",
-                width: "40px",
-                height: "40px",
+                width: "36px",
+                height: "36px",
                 borderRadius: "2px",
                 cursor: "pointer",
                 fontFamily: "var(--font-bebas)",
-                fontSize: "20px",
+                fontSize: "18px",
                 color: "var(--color-verde)",
               }}
             >
@@ -297,58 +247,39 @@ export default function DetalleClient({ producto }: Props) {
             color: "var(--color-crema)",
             border: "none",
             fontFamily: "var(--font-bebas)",
-            fontSize: "16px",
+            fontSize: "15px",
             letterSpacing: "3px",
-            padding: "18px 40px",
+            padding: "16px 36px",
             borderRadius: "2px",
             cursor: "pointer",
             transition: "all 0.3s",
-            marginBottom: "24px",
+            marginBottom: "20px",
           }}
         >
           {aniadido ? "✓ AÑADIDO AL CARRITO" : "AÑADIR AL CARRITO"}
         </button>
 
-        {/* Detalles adicionales */}
+        {/* Detalles adicionales compactos */}
         <div
           style={{
-            background: "var(--color-crema)",
-            padding: "20px",
-            borderRadius: "2px",
-            borderLeft: "3px solid var(--color-dorado)",
+            display: "grid",
+            gridTemplateColumns: "repeat(3, 1fr)",
+            gap: "16px",
+            fontSize: "12px",
+            color: "var(--color-gris)",
           }}
         >
-          <div
-            style={{
-              marginBottom: "12px",
-              display: "flex",
-              alignItems: "center",
-              gap: "12px",
-            }}
-          >
-            <span style={{ fontSize: "16px" }}>📦</span>
-            <span style={{ color: "var(--color-gris)", fontSize: "13px" }}>
-              Envío gratuito en 2-4 días
-            </span>
+          <div style={{ textAlign: "center" }}>
+            <div style={{ fontSize: "20px", marginBottom: "4px" }}>📦</div>
+            <div>Envío 2-4 días</div>
           </div>
-          <div
-            style={{
-              marginBottom: "12px",
-              display: "flex",
-              alignItems: "center",
-              gap: "12px",
-            }}
-          >
-            <span style={{ fontSize: "16px" }}>✓</span>
-            <span style={{ color: "var(--color-gris)", fontSize: "13px" }}>
-              Impresión de alta calidad
-            </span>
+          <div style={{ textAlign: "center" }}>
+            <div style={{ fontSize: "20px", marginBottom: "4px" }}>✓</div>
+            <div>Alta calidad</div>
           </div>
-          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-            <span style={{ fontSize: "16px" }}>🔒</span>
-            <span style={{ color: "var(--color-gris)", fontSize: "13px" }}>
-              Devolución gratuita en 30 días
-            </span>
+          <div style={{ textAlign: "center" }}>
+            <div style={{ fontSize: "20px", marginBottom: "4px" }}>🔒</div>
+            <div>Devolución 30d</div>
           </div>
         </div>
       </div>

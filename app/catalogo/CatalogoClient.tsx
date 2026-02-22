@@ -25,7 +25,7 @@ export default function CatalogoClient({ productos }: Props) {
 
     aniadir(
       {
-        id: parseInt(p._id.replace(/[^0-9]/g, "").slice(0, 10) || "0"), // ID limpio del _id
+        id: parseInt(p._id.replace(/[^a-zA-Z0-9]/g, "").slice(0, 10)) || 0,
         slug: p.slug.current,
         nombre: p.nombre,
         equipo: p.equipo,
@@ -41,13 +41,6 @@ export default function CatalogoClient({ productos }: Props) {
     );
 
     setAniadidos((prev) => new Set(prev).add(p._id));
-    setTimeout(() => {
-      setAniadidos((prev) => {
-        const newSet = new Set(prev);
-        newSet.delete(p._id);
-        return newSet;
-      });
-    }, 2000);
   };
 
   return (
@@ -84,11 +77,11 @@ export default function CatalogoClient({ productos }: Props) {
                       : "rgba(26, 58, 42, 0.5)",
                   border: "none",
                   fontFamily: "Georgia, serif",
-                  fontSize: "clamp(20px, 4.5vw, 40px)", // Era 5vw, ahora 4.5vw
+                  fontSize: "clamp(20px, 4.5vw, 40px)",
                   fontWeight: filtro === value ? 700 : 400,
                   cursor: "pointer",
                   transition: "all 0.3s",
-                  padding: "clamp(6px, 2vw, 8px) clamp(16px, 4vw, 48px)", // Era 20px/5vw, ahora 16px/4vw
+                  padding: "clamp(6px, 2vw, 8px) clamp(16px, 4vw, 48px)",
                   position: "relative",
                 }}
                 onMouseEnter={(e) => {
@@ -110,8 +103,8 @@ export default function CatalogoClient({ productos }: Props) {
                     style={{
                       position: "absolute",
                       bottom: "4px",
-                      left: "clamp(20px, 5vw, 48px)",
-                      right: "clamp(20px, 5vw, 48px)",
+                      left: "clamp(16px, 4vw, 48px)",
+                      right: "clamp(16px, 4vw, 48px)",
                       height: "3px",
                       background: "var(--color-dorado)",
                       borderRadius: "2px",
@@ -120,7 +113,6 @@ export default function CatalogoClient({ productos }: Props) {
                 )}
               </button>
 
-              {/* Separador vertical dorado */}
               {index < 2 && (
                 <div
                   style={{
@@ -136,7 +128,6 @@ export default function CatalogoClient({ productos }: Props) {
           ))}
         </div>
 
-        {/* Contador de resultados */}
         <div
           style={{
             textAlign: "center",
@@ -232,95 +223,111 @@ export default function CatalogoClient({ productos }: Props) {
 
                   <div
                     style={{
-                      padding: "20px 22px 75px",
+                      padding: "20px 22px 22px",
                       borderTop: "3px solid var(--color-crema-osc)",
                     }}
                   >
                     <div
                       style={{
-                        color: "var(--color-gris)",
-                        fontFamily: "var(--font-bebas)",
-                        fontSize: "10px",
-                        letterSpacing: "3px",
-                        marginBottom: "6px",
-                      }}
-                    >
-                      {p.equipo}
-                    </div>
-                    <div
-                      style={{
-                        color: "var(--color-tinta)",
-                        fontFamily: "var(--font-playfair)",
-                        fontWeight: 700,
-                        fontSize: "18px",
-                        marginBottom: "4px",
-                        lineHeight: 1.2,
-                      }}
-                    >
-                      {p.nombre}
-                    </div>
-                    <div
-                      style={{
-                        color: "var(--color-gris)",
-                        fontSize: "13px",
-                        fontStyle: "italic",
-                        marginBottom: "14px",
-                      }}
-                    >
-                      {p.anio}
-                    </div>
-                    <div
-                      style={{
                         display: "flex",
-                        alignItems: "center",
                         justifyContent: "space-between",
+                        gap: "16px",
                       }}
                     >
-                      <span
+                      <div style={{ flex: 1 }}>
+                        <div
+                          style={{
+                            color: "var(--color-gris)",
+                            fontFamily: "var(--font-bebas)",
+                            fontSize: "10px",
+                            letterSpacing: "3px",
+                            marginBottom: "6px",
+                          }}
+                        >
+                          {p.equipo}
+                        </div>
+                        <div
+                          style={{
+                            color: "var(--color-tinta)",
+                            fontFamily: "var(--font-playfair)",
+                            fontWeight: 700,
+                            fontSize: "18px",
+                            marginBottom: "4px",
+                            lineHeight: 1.2,
+                          }}
+                        >
+                          {p.nombre}
+                        </div>
+                        <div
+                          style={{
+                            color: "var(--color-gris)",
+                            fontSize: "13px",
+                            fontStyle: "italic",
+                          }}
+                        >
+                          {p.anio}
+                        </div>
+                      </div>
+
+                      <div
                         style={{
-                          color: "var(--color-verde)",
-                          fontFamily: "var(--font-playfair)",
-                          fontWeight: 700,
-                          fontSize: "22px",
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "flex-end",
+                          justifyContent: "space-between",
+                          minWidth: "80px",
                         }}
                       >
-                        {p.precio} €
-                      </span>
+                        <span
+                          style={{
+                            color: "var(--color-verde)",
+                            fontFamily: "var(--font-playfair)",
+                            fontWeight: 700,
+                            fontSize: "22px",
+                            marginBottom: "8px",
+                          }}
+                        >
+                          {p.precio} €
+                        </span>
+
+                        <button
+                          onClick={(e) => handleAniadir(p, e)}
+                          disabled={estaAniadido}
+                          style={{
+                            background: "transparent",
+                            border: "none",
+                            color: estaAniadido
+                              ? "var(--color-gris)"
+                              : "var(--color-verde)",
+                            fontFamily: "Georgia, serif",
+                            fontSize: "14px",
+                            fontWeight: estaAniadido ? 400 : 600,
+                            letterSpacing: "1px",
+                            cursor: estaAniadido ? "default" : "pointer",
+                            padding: "0",
+                            transition: "color 0.3s",
+                            opacity: estaAniadido ? 0.5 : 1,
+                            textAlign: "right",
+                          }}
+                          onMouseEnter={(e) => {
+                            if (!estaAniadido) {
+                              e.currentTarget.style.color =
+                                "var(--color-dorado)";
+                            }
+                          }}
+                          onMouseLeave={(e) => {
+                            if (!estaAniadido) {
+                              e.currentTarget.style.color =
+                                "var(--color-verde)";
+                            }
+                          }}
+                        >
+                          {estaAniadido ? "Añadido" : "Añadir"}
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </Link>
-
-                {/* Botón Añadir visible y grande */}
-                <button
-                  onClick={(e) => handleAniadir(p, e)}
-                  disabled={estaAniadido}
-                  style={{
-                    background: "transparent",
-                    border: "none",
-                    color: estaAniadido
-                      ? "var(--color-gris)"
-                      : "var(--color-verde)",
-                    fontFamily: "var(--font-bebas)",
-                    fontSize: "11px",
-                    letterSpacing: "2px",
-                    cursor: estaAniadido ? "default" : "pointer",
-                    padding: "0",
-                    transition: "color 0.3s",
-                    opacity: estaAniadido ? 0.5 : 1,
-                  }}
-                  onMouseEnter={(e) => {
-                    if (!estaAniadido) {
-                      e.currentTarget.style.color = "var(--color-dorado)";
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!estaAniadido) {
-                      e.currentTarget.style.color = "var(--color-verde)";
-                    }
-                  }}
-                >
-                  {estaAniadido ? "AÑADIDO" : "AÑADIR"}
-                </button>
               </div>
             );
           })}

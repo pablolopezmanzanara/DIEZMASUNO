@@ -135,7 +135,12 @@ export default function CarritoPage() {
       </div>
 
       <div
-        style={{ display: "grid", gridTemplateColumns: "1fr", gap: "40px" }}
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr", // <-- Cambiar de '1fr' a '1fr 1fr'
+          gap: "40px",
+          alignItems: "start",
+        }}
         className="carrito-layout"
       >
         {/* Lista de productos */}

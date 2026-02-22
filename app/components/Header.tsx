@@ -7,8 +7,11 @@ import { useState, useEffect } from "react";
 export default function Header() {
   const { totalItems } = useCarrito();
   const [scrolled, setScrolled] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMounted(true);
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
     };
@@ -151,20 +154,20 @@ export default function Header() {
           >
             <span className="carrito-texto">🛒 Carrito</span>
             <span className="carrito-icono">🛒</span>
-            <span>({totalItems})</span>
+            {mounted && <span>({totalItems})</span>}
           </Link>
         </nav>
       </div>
 
-      {/* Franja animada - desaparece al hacer scroll */}
+      {/* Franja animada */}
       <div
         style={{
           background: "var(--color-dorado)",
           overflow: "hidden",
-          maxHeight: scrolled ? "0px" : "40px",
-          opacity: scrolled ? 0 : 1,
+          maxHeight: mounted && scrolled ? "0px" : "40px",
+          opacity: mounted && scrolled ? 0 : 1,
           transition: "all 0.3s ease-in-out",
-          padding: scrolled ? "0" : "8px 0",
+          padding: mounted && scrolled ? "0" : "8px 0",
         }}
       >
         <div className="marquee-container">
@@ -173,16 +176,12 @@ export default function Header() {
               {[
                 "RAÚL GONZÁLEZ BLANCO",
                 "FERNANDO TORRES",
-                "MANOLO PRECIADO",
-                "EUROMALAGA",
-                "IKER MUÑAIN",
-                "ANTONIO PUERTA",
-                "IAGO ASPAS",
-                "DANI PAREJO",
-                "JAVI MORENO",
-                "MÁGICO GONZÁLEZ",
-                "MICHEL",
-                "PABLO INFANTE",
+                "XAVI HERNÁNDEZ",
+                "IKER CASILLAS",
+                "CARLES PUYOL",
+                "FERNANDO HIERRO",
+                "LUIS ENRIQUE",
+                "MANOLO SANCHÍS",
               ].map((nombre, j) => (
                 <span
                   key={`${i}-${j}`}
@@ -190,7 +189,7 @@ export default function Header() {
                     color: "var(--color-verde)",
                     borderRight: "1px solid var(--color-verde-mid)",
                     fontFamily: "var(--font-bebas)",
-                    fontSize: "13px",
+                    fontSize: "11px",
                     letterSpacing: "4px",
                     padding: "0 32px",
                     whiteSpace: "nowrap",
