@@ -119,6 +119,7 @@ export default function CatalogoClient({ productos }: Props) {
       </div>
 
       {/* Grid de productos */}
+      {/* Grid de productos */}
       {productosFiltrados.length === 0 ? (
         <div style={{ textAlign: "center", padding: "80px 0" }}>
           <p style={{ color: "var(--color-gris)", fontSize: "16px" }}>
@@ -135,9 +136,8 @@ export default function CatalogoClient({ productos }: Props) {
           }}
         >
           {productosFiltrados.map((p: Producto) => (
-            <Link
+            <div
               key={p._id}
-              href={`/catalogo/${p.slug.current}`}
               style={{
                 textDecoration: "none",
                 background: "white",
@@ -146,115 +146,142 @@ export default function CatalogoClient({ productos }: Props) {
                 display: "block",
                 transition: "all 0.3s",
                 boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
+                position: "relative",
               }}
+              className="producto-card"
             >
-              <div
-                style={{
-                  background: "var(--color-verde)",
-                  position: "relative",
-                  overflow: "hidden",
-                  aspectRatio: "3/4",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                {p.imagen ? (
-                  <Image
-                    src={urlFor(p.imagen).width(400).height(533).url()}
-                    alt={p.nombre}
-                    fill
-                    style={{ objectFit: "cover" }}
-                  />
-                ) : (
-                  <>
-                    <span
-                      style={{
-                        color: "rgba(255,255,255,0.08)",
-                        fontFamily: "var(--font-bebas)",
-                        fontSize: "80px",
-                        position: "absolute",
-                        top: "12px",
-                        right: "16px",
-                        lineHeight: 1,
-                      }}
-                    >
-                      {p.dorsal}
-                    </span>
-                    <span style={{ fontSize: "64px", opacity: 0.9 }}>⚽</span>
-                  </>
-                )}
-              </div>
-
-              <div
-                style={{
-                  padding: "20px 22px 22px",
-                  borderTop: "3px solid var(--color-crema-osc)",
-                }}
+              <Link
+                href={`/catalogo/${p.slug.current}`}
+                style={{ textDecoration: "none", display: "block" }}
               >
                 <div
                   style={{
-                    color: "var(--color-gris)",
-                    fontFamily: "var(--font-bebas)",
-                    fontSize: "10px",
-                    letterSpacing: "3px",
-                    marginBottom: "6px",
-                  }}
-                >
-                  {p.equipo}
-                </div>
-                <div
-                  style={{
-                    color: "var(--color-tinta)",
-                    fontFamily: "var(--font-playfair)",
-                    fontWeight: 700,
-                    fontSize: "18px",
-                    marginBottom: "4px",
-                    lineHeight: 1.2,
-                  }}
-                >
-                  {p.nombre}
-                </div>
-                <div
-                  style={{
-                    color: "var(--color-gris)",
-                    fontSize: "13px",
-                    fontStyle: "italic",
-                    marginBottom: "14px",
-                  }}
-                >
-                  {p.anio}
-                </div>
-                <div
-                  style={{
+                    background: "var(--color-verde)",
+                    position: "relative",
+                    overflow: "hidden",
+                    aspectRatio: "3/4",
                     display: "flex",
                     alignItems: "center",
-                    justifyContent: "space-between",
+                    justifyContent: "center",
                   }}
                 >
-                  <span
+                  {p.imagen ? (
+                    <Image
+                      src={urlFor(p.imagen).width(400).height(533).url()}
+                      alt={p.nombre}
+                      fill
+                      style={{ objectFit: "cover" }}
+                    />
+                  ) : (
+                    <>
+                      <span
+                        style={{
+                          color: "rgba(255,255,255,0.08)",
+                          fontFamily: "var(--font-bebas)",
+                          fontSize: "80px",
+                          position: "absolute",
+                          top: "12px",
+                          right: "16px",
+                          lineHeight: 1,
+                        }}
+                      >
+                        {p.dorsal}
+                      </span>
+                      <span style={{ fontSize: "64px", opacity: 0.9 }}>⚽</span>
+                    </>
+                  )}
+                </div>
+
+                <div
+                  style={{
+                    padding: "20px 22px 22px",
+                    borderTop: "3px solid var(--color-crema-osc)",
+                  }}
+                >
+                  <div
                     style={{
-                      color: "var(--color-verde)",
+                      color: "var(--color-gris)",
+                      fontFamily: "var(--font-bebas)",
+                      fontSize: "10px",
+                      letterSpacing: "3px",
+                      marginBottom: "6px",
+                    }}
+                  >
+                    {p.equipo}
+                  </div>
+                  <div
+                    style={{
+                      color: "var(--color-tinta)",
                       fontFamily: "var(--font-playfair)",
                       fontWeight: 700,
-                      fontSize: "22px",
+                      fontSize: "18px",
+                      marginBottom: "4px",
+                      lineHeight: 1.2,
                     }}
                   >
-                    {p.precio} €
-                  </span>
-                  <span
+                    {p.nombre}
+                  </div>
+                  <div
                     style={{
-                      color: "var(--color-verde)",
-                      fontFamily: "var(--font-bebas)",
-                      fontSize: "12px",
-                      letterSpacing: "2px",
+                      color: "var(--color-gris)",
+                      fontSize: "13px",
+                      fontStyle: "italic",
+                      marginBottom: "14px",
                     }}
                   >
-                    Ver cuadro →
-                  </span>
+                    {p.anio}
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <span
+                      style={{
+                        color: "var(--color-verde)",
+                        fontFamily: "var(--font-playfair)",
+                        fontWeight: 700,
+                        fontSize: "22px",
+                      }}
+                    >
+                      {p.precio} €
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </Link>
+              </Link>
+
+              {/* Botón Añadir minimalista */}
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.location.href = `/catalogo/${p.slug.current}`;
+                }}
+                className="btn-aniadir"
+                style={{
+                  position: "absolute",
+                  bottom: "22px",
+                  right: "22px",
+                  background: "transparent",
+                  border: "none",
+                  color: "var(--color-verde)",
+                  fontFamily: "var(--font-bebas)",
+                  fontSize: "11px",
+                  letterSpacing: "2px",
+                  cursor: "pointer",
+                  padding: "0",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  opacity: 0,
+                  transition: "all 0.3s",
+                }}
+              >
+                AÑADIR
+                <span style={{ fontSize: "14px" }}>→</span>
+              </button>
+            </div>
           ))}
         </div>
       )}

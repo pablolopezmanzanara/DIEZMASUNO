@@ -112,3 +112,13 @@ body::before {
     gap: 40px !important;
   }
 }
+
+/* Botón añadir en hover de tarjeta */
+.producto-card:hover .btn-aniadir {
+  opacity: 1;
+}
+
+.btn-aniadir:hover {
+  color: var(--color-dorado) !important;
+  transform: translateX(2px);
+}

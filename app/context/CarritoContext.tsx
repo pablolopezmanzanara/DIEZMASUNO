@@ -36,14 +36,20 @@ type CarritoContextType = {
 const CarritoContext = createContext<CarritoContextType | undefined>(undefined);
 
 export function CarritoProvider({ children }: { children: ReactNode }) {
+  // Inicialización lazy: solo lee localStorage la primera vez
   const [items, setItems] = useState<ItemCarrito[]>(() => {
-    const guardado = localStorage.getItem("carrito");
-    return guardado ? JSON.parse(guardado) : [];
+    if (typeof window !== "undefined") {
+      const guardado = localStorage.getItem("carrito");
+      return guardado ? JSON.parse(guardado) : [];
+    }
+    return [];
   });
 
-  // Guardar en localStorage cuando cambie
+  // Solo guardar cuando cambie items
   useEffect(() => {
-    localStorage.setItem("carrito", JSON.stringify(items));
+    if (typeof window !== "undefined") {
+      localStorage.setItem("carrito", JSON.stringify(items));
+    }
   }, [items]);
 
   const aniadir = (
