@@ -288,13 +288,29 @@ export default async function HomePage() {
             <div
               style={{ position: "relative", width: "280px", height: "380px" }}
             >
-              {productosHome.slice(0, 3).map((p: Producto, i: number) => {
+              {[
+                {
+                  color: "#8B4A6B",
+                  jugador: "Fernando Morientes",
+                  equipo: "Real Madrid · 1997-2005",
+                },
+                {
+                  color: "#4A5B8B",
+                  jugador: "Manolo Preciado",
+                  equipo: "Sporting de Gijon",
+                },
+                {
+                  color: "#6B4A4A",
+                  jugador: "Ivan de la Pena",
+                  equipo: "FC Barcelona",
+                },
+              ].map((card, i) => {
                 const rotaciones = ["-4deg", "2deg", "-1deg"];
                 const tops = ["0px", "40px", "20px"];
                 const lefts = ["40px", "10px", "60px"];
                 return (
                   <div
-                    key={p._id}
+                    key={i}
                     style={{
                       position: "absolute",
                       top: tops[i],
@@ -306,97 +322,67 @@ export default async function HomePage() {
                       borderRadius: "4px",
                       overflow: "hidden",
                       boxShadow: "0 20px 60px rgba(0,0,0,0.5)",
+                      backgroundImage: `url(/heroes/img${i + 1}.png)`,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
                     }}
                   >
-                    {p.imagen ? (
+                    {/* Medalla decorativa */}
+                    <div
+                      style={{
+                        width: "80px",
+                        height: "80px",
+                        borderRadius: "50%",
+                        background: "rgba(201,168,76,0.3)",
+                        border: "3px solid rgba(201,168,76,0.5)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontFamily: "var(--font-bebas)",
+                        fontSize: "32px",
+                        color: "rgba(245,239,224,0.4)",
+                      }}
+                    >
+                      {i + 1}
+                    </div>
+
+                    {/* Info del jugador */}
+                    <div
+                      style={{
+                        position: "absolute",
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        background: "rgba(26,58,42,0.95)",
+                        borderLeft: "3px solid var(--color-dorado)",
+                        padding: "12px 16px",
+                      }}
+                    >
                       <div
                         style={{
-                          position: "relative",
-                          width: "100%",
-                          height: "100%",
+                          color: "var(--color-crema)",
+                          fontFamily: "var(--font-playfair)",
+                          fontWeight: 700,
+                          fontSize: "13px",
+                          marginBottom: "4px",
                         }}
                       >
-                        <Image
-                          src={urlFor(p.imagen).width(220).height(300).url()}
-                          alt={p.nombre}
-                          fill
-                          style={{ objectFit: "cover" }}
-                        />
-                        <div
-                          style={{
-                            position: "absolute",
-                            bottom: 0,
-                            left: 0,
-                            right: 0,
-                            background: "rgba(26,58,42,0.9)",
-                            borderLeft: "3px solid var(--color-dorado)",
-                            padding: "8px 12px",
-                          }}
-                        >
-                          <div
-                            style={{
-                              color: "var(--color-crema)",
-                              fontFamily: "var(--font-playfair)",
-                              fontWeight: 700,
-                              fontSize: "13px",
-                            }}
-                          >
-                            {p.nombre}
-                          </div>
-                          <div
-                            style={{
-                              color: "var(--color-dorado)",
-                              fontFamily: "var(--font-bebas)",
-                              fontSize: "10px",
-                              letterSpacing: "2px",
-                            }}
-                          >
-                            {p.equipo}
-                          </div>
-                        </div>
+                        {card.jugador}
                       </div>
-                    ) : (
                       <div
                         style={{
-                          background: "linear-gradient(135deg,#1a3a2a,#2d5c3f)",
-                          width: "100%",
-                          height: "100%",
-                          display: "flex",
-                          alignItems: "flex-end",
-                          padding: "16px",
+                          color: "var(--color-dorado)",
+                          fontFamily: "var(--font-bebas)",
+                          fontSize: "9px",
+                          letterSpacing: "1px",
                         }}
                       >
-                        <div
-                          style={{
-                            background: "rgba(26,58,42,0.9)",
-                            borderLeft: "3px solid var(--color-dorado)",
-                            padding: "8px 12px",
-                            width: "100%",
-                          }}
-                        >
-                          <div
-                            style={{
-                              color: "var(--color-crema)",
-                              fontFamily: "var(--font-playfair)",
-                              fontWeight: 700,
-                              fontSize: "13px",
-                            }}
-                          >
-                            {p.nombre}
-                          </div>
-                          <div
-                            style={{
-                              color: "var(--color-dorado)",
-                              fontFamily: "var(--font-bebas)",
-                              fontSize: "10px",
-                              letterSpacing: "2px",
-                            }}
-                          >
-                            {p.equipo}
-                          </div>
-                        </div>
+                        {card.equipo}
                       </div>
-                    )}
+                    </div>
                   </div>
                 );
               })}

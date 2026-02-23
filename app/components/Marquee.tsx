@@ -22,8 +22,8 @@ export default function Marquee() {
       }}
     >
       <div className="marquee-container">
-        {/* Duplicar 4 veces para loop perfecto */}
-        {[...Array(4)].map((_, i) => (
+        {/* Duplicar exactamente 2 veces */}
+        {[0, 1].map((i) => (
           <div key={i} className="marquee-content">
             {nombres.map((nombre, j) => (
               <span

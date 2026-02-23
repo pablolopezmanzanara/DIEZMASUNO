@@ -47,7 +47,7 @@ body::before {
 /* Marquee animation */
 .marquee-container {
   display: flex;
-  animation: scroll 20s linear infinite;
+  animation: scroll 30s linear infinite;
   will-change: transform;
 }
 
@@ -61,7 +61,7 @@ body::before {
     transform: translateX(0);
   }
   100% {
-    transform: translateX(-25%); /* 4 copias = -25% para loop perfecto */
+    transform: translateX(-50%); /* Siempre -50% para 2 copias exactas */
   }
 }
 
@@ -107,13 +107,13 @@ body::before {
 
 /* Carrito layout */
 .carrito-layout {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 40px;
-  align-items: start;
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 40px !important;
+  align-items: start !important;
 }
 
-@media (min-width: 769px) {
+@media (min-width: 901px) {
   .carrito-layout {
     grid-template-columns: 1fr 1fr !important;
   }

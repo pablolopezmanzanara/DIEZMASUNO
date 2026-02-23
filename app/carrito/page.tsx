@@ -143,15 +143,7 @@ export default function CarritoPage() {
         </button>
       </div>
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr", // Base móvil
-          gap: "40px",
-          alignItems: "start",
-        }}
-        className="carrito-layout"
-      >
+      <div className="carrito-layout">
         {/* Lista de productos */}
         <div>
           {items.map((item) => (
