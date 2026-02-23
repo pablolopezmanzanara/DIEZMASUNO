@@ -12,16 +12,15 @@ type Props = {
 
 export default function DetalleClient({ producto }: Props) {
   const [cantidad, setCantidad] = useState(1);
+  const [vista, setVista] = useState<"diseno" | "visualizer">("diseno");
   const { aniadir } = useCarrito();
   const [aniadido, setAniadido] = useState(false);
 
   const handleAniadir = () => {
     aniadir(
       {
-        id: parseInt(
-          producto._id.replace(/[^a-zA-Z0-9]/g, "").slice(0, 10),
-          10,
-        ),
+        id:
+          parseInt(producto._id.replace(/[^a-zA-Z0-9]/g, "").slice(0, 10)) || 0,
         slug: producto.slug.current,
         nombre: producto.nombre,
         equipo: producto.equipo,
@@ -36,6 +35,7 @@ export default function DetalleClient({ producto }: Props) {
       cantidad,
     );
     setAniadido(true);
+    setTimeout(() => setAniadido(false), 2000);
   };
 
   return (
@@ -52,40 +52,154 @@ export default function DetalleClient({ producto }: Props) {
       }}
       className="detalle-grid"
     >
-      {/* Imagen */}
-      <div
-        style={{
-          position: "relative",
-          aspectRatio: "3/4",
-          background: "var(--color-verde)",
-          borderRadius: "4px",
-          overflow: "hidden",
-          boxShadow: "0 20px 60px rgba(0,0,0,0.15)",
-          maxHeight: "70vh",
-        }}
-      >
-        {producto.imagen ? (
-          <Image
-            src={urlFor(producto.imagen).width(600).height(800).url()}
-            alt={producto.nombre}
-            fill
-            style={{ objectFit: "cover" }}
-          />
-        ) : (
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              height: "100%",
-            }}
-          >
-            <span style={{ fontSize: "120px", opacity: 0.3 }}>⚽</span>
-          </div>
-        )}
+      {/* Columna izquierda: Tabs + Imagen */}
+      <div>
+        {/* Tabs DISENO / VISUALIZER */}
+        <div
+          style={{
+            display: "flex",
+            gap: "24px",
+            marginBottom: "24px",
+            justifyContent: "center",
+          }}
+        >
+          {[
+            ["DISEÑO", "diseno"],
+            ["VISUALIZER", "visualizer"],
+          ].map(([label, value]) => (
+            <button
+              key={value}
+              onClick={() => setVista(value as "diseno" | "visualizer")}
+              style={{
+                background: "transparent",
+                color:
+                  vista === value
+                    ? "var(--color-verde)"
+                    : "rgba(26, 58, 42, 0.4)",
+                border: "none",
+                fontFamily: "Georgia, serif",
+                fontSize: "20px",
+                fontWeight: vista === value ? 700 : 400,
+                cursor: "pointer",
+                transition: "all 0.3s",
+                padding: "8px 16px",
+                position: "relative",
+              }}
+              onMouseEnter={(e) => {
+                if (vista !== value) {
+                  e.currentTarget.style.color = "var(--color-verde)";
+                  e.currentTarget.style.opacity = "0.7";
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (vista !== value) {
+                  e.currentTarget.style.color = "rgba(26, 58, 42, 0.4)";
+                  e.currentTarget.style.opacity = "1";
+                }
+              }}
+            >
+              {label}
+              {vista === value && (
+                <span
+                  style={{
+                    position: "absolute",
+                    bottom: "0",
+                    left: "16px",
+                    right: "16px",
+                    height: "3px",
+                    background: "var(--color-dorado)",
+                    borderRadius: "2px",
+                  }}
+                />
+              )}
+            </button>
+          ))}
+        </div>
+
+        {/* Imagen segun vista */}
+        <div
+          style={{
+            position: "relative",
+            aspectRatio: vista === "diseno" ? "3/4" : "16/10",
+            background: vista === "diseno" ? "var(--color-verde)" : "#f0f0f0",
+            borderRadius: "4px",
+            overflow: "hidden",
+            boxShadow: "0 20px 60px rgba(0,0,0,0.15)",
+            maxHeight: "70vh",
+          }}
+        >
+          {vista === "diseno" ? (
+            producto.imagen ? (
+              <Image
+                src={urlFor(producto.imagen).width(600).height(800).url()}
+                alt={producto.nombre}
+                fill
+                style={{ objectFit: "cover" }}
+              />
+            ) : (
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  height: "100%",
+                }}
+              >
+                <span style={{ fontSize: "120px", opacity: 0.3 }}>⚽</span>
+              </div>
+            )
+          ) : (
+            <div
+              style={{
+                width: "100%",
+                height: "100%",
+                background: "linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                position: "relative",
+              }}
+            >
+              {/* Simulacion pared con cuadro */}
+              <div
+                style={{
+                  position: "absolute",
+                  width: "40%",
+                  aspectRatio: "3/4",
+                  background: "white",
+                  boxShadow: "0 10px 40px rgba(0,0,0,0.2)",
+                  border: "12px solid #8B7355",
+                  borderRadius: "2px",
+                }}
+              >
+                {producto.imagen ? (
+                  <Image
+                    src={urlFor(producto.imagen).width(400).height(533).url()}
+                    alt={producto.nombre}
+                    fill
+                    style={{ objectFit: "cover" }}
+                  />
+                ) : (
+                  <div
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      background: "var(--color-verde)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <span style={{ fontSize: "48px", opacity: 0.3 }}>⚽</span>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
 
-      {/* Info y compra */}
+      {/* Columna derecha: Info y compra */}
       <div
         style={{
           display: "flex",
@@ -120,7 +234,7 @@ export default function DetalleClient({ producto }: Props) {
           {producto.nombre}
         </h1>
 
-        {/* Año */}
+        {/* Anio */}
         <div
           style={{
             color: "var(--color-gris)",
@@ -161,11 +275,11 @@ export default function DetalleClient({ producto }: Props) {
               fontSize: "13px",
             }}
           >
-            <strong>Formato:</strong> 50×70 cm · Impresión de alta calidad
+            <strong>Formato:</strong> 50×70 cm · Impresion de alta calidad
           </div>
         </div>
 
-        {/* Descripción corta */}
+        {/* Descripcion corta */}
         <p
           style={{
             color: "var(--color-gris)",
@@ -238,7 +352,7 @@ export default function DetalleClient({ producto }: Props) {
           </div>
         </div>
 
-        {/* Botón añadir */}
+        {/* Boton aniadir */}
         <button
           onClick={handleAniadir}
           style={{
@@ -255,7 +369,7 @@ export default function DetalleClient({ producto }: Props) {
             marginBottom: "20px",
           }}
         >
-          {aniadido ? "✓ AÑADIDO AL CARRITO" : "AÑADIR AL CARRITO"}
+          {aniadido ? "✓ ANADIDO AL CARRITO" : "ANADIR AL CARRITO"}
         </button>
 
         {/* Detalles adicionales compactos */}
@@ -270,7 +384,7 @@ export default function DetalleClient({ producto }: Props) {
         >
           <div style={{ textAlign: "center" }}>
             <div style={{ fontSize: "20px", marginBottom: "4px" }}>📦</div>
-            <div>Envío 2-4 días</div>
+            <div>Envio 2-4 dias</div>
           </div>
           <div style={{ textAlign: "center" }}>
             <div style={{ fontSize: "20px", marginBottom: "4px" }}>✓</div>
@@ -278,7 +392,7 @@ export default function DetalleClient({ producto }: Props) {
           </div>
           <div style={{ textAlign: "center" }}>
             <div style={{ fontSize: "20px", marginBottom: "4px" }}>🔒</div>
-            <div>Devolución 30d</div>
+            <div>Devolucion 30d</div>
           </div>
         </div>
       </div>

@@ -145,7 +145,7 @@ export default function CarritoPage() {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "1fr 1fr",
+          gridTemplateColumns: "1fr",
           gap: "40px",
           alignItems: "start",
         }}

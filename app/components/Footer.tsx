@@ -79,10 +79,22 @@ export default function Footer() {
                 fontSize: "13px",
                 lineHeight: 1.6,
                 color: "rgba(245,239,224,0.7)",
+                fontStyle: "italic",
               }}
             >
-              Cuadros de edición limitada que reviven los momentos y jugadores
-              que definieron el fútbol español.
+              Cuadros de edición limitada que reviven los momentos
+            </p>
+            <br />
+            <p
+              style={{
+                fontSize: "13px",
+                lineHeight: 1.6,
+                color: "rgba(245,239,224,0.7)",
+                marginTop: "-20px",
+                fontStyle: "italic",
+              }}
+            >
+              y jugadores que definieron el fútbol español.
             </p>
           </div>
 
