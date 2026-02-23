@@ -288,102 +288,29 @@ export default async function HomePage() {
             <div
               style={{ position: "relative", width: "280px", height: "380px" }}
             >
-              {[
-                {
-                  color: "#8B4A6B",
-                  jugador: "Fernando Morientes",
-                  equipo: "Real Madrid · 1997-2005",
-                },
-                {
-                  color: "#4A5B8B",
-                  jugador: "Manolo Preciado",
-                  equipo: "Sporting de Gijon",
-                },
-                {
-                  color: "#6B4A4A",
-                  jugador: "Ivan de la Pena",
-                  equipo: "FC Barcelona",
-                },
-              ].map((card, i) => {
+              {[2, 3].map((i) => {
                 const rotaciones = ["-4deg", "2deg", "-1deg"];
                 const tops = ["0px", "40px", "20px"];
-                const lefts = ["40px", "10px", "60px"];
+                const lefts = ["40px", "0px", "60px"];
                 return (
                   <div
                     key={i}
                     style={{
                       position: "absolute",
-                      top: tops[i],
-                      left: lefts[i],
-                      transform: `rotate(${rotaciones[i]})`,
-                      zIndex: i + 1,
+                      top: tops[i - 1],
+                      left: lefts[i - 1],
+                      transform: `rotate(${rotaciones[i - 1]})`,
+                      zIndex: i,
                       width: "220px",
                       height: "300px",
                       borderRadius: "4px",
                       overflow: "hidden",
                       boxShadow: "0 20px 60px rgba(0,0,0,0.5)",
-                      backgroundImage: `url(/heroes/img${i + 1}.png)`,
+                      backgroundImage: `url(/heroes/img${i}.jpg)`,
                       backgroundSize: "cover",
-                      backgroundPosition: "center",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
+                      backgroundPosition: "top-center",
                     }}
-                  >
-                    {/* Medalla decorativa */}
-                    <div
-                      style={{
-                        width: "80px",
-                        height: "80px",
-                        borderRadius: "50%",
-                        background: "rgba(201,168,76,0.3)",
-                        border: "3px solid rgba(201,168,76,0.5)",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        fontFamily: "var(--font-bebas)",
-                        fontSize: "32px",
-                        color: "rgba(245,239,224,0.4)",
-                      }}
-                    >
-                      {i + 1}
-                    </div>
-
-                    {/* Info del jugador */}
-                    <div
-                      style={{
-                        position: "absolute",
-                        bottom: 0,
-                        left: 0,
-                        right: 0,
-                        background: "rgba(26,58,42,0.95)",
-                        borderLeft: "3px solid var(--color-dorado)",
-                        padding: "12px 16px",
-                      }}
-                    >
-                      <div
-                        style={{
-                          color: "var(--color-crema)",
-                          fontFamily: "var(--font-playfair)",
-                          fontWeight: 700,
-                          fontSize: "13px",
-                          marginBottom: "4px",
-                        }}
-                      >
-                        {card.jugador}
-                      </div>
-                      <div
-                        style={{
-                          color: "var(--color-dorado)",
-                          fontFamily: "var(--font-bebas)",
-                          fontSize: "9px",
-                          letterSpacing: "1px",
-                        }}
-                      >
-                        {card.equipo}
-                      </div>
-                    </div>
-                  </div>
+                  />
                 );
               })}
             </div>
