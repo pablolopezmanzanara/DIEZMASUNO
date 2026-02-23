@@ -8,6 +8,7 @@ import "./globals.css";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { CarritoProvider } from "./context/CarritoContext";
+import ScrollToTop from "./components/ScrollToTop";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -41,12 +42,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es">
-      <body
-        className={`${playfair.variable} ${baskerville.variable} ${bebas.variable}`}
-      >
+      <body>
+        <ScrollToTop />
         <CarritoProvider>
           <Header />
-          <main>{children}</main>
+          {children}
           <Footer />
         </CarritoProvider>
       </body>

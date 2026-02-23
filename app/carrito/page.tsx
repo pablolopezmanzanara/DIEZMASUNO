@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useCarrito } from "../context/CarritoContext";
 import { useState } from "react";
+import { urlFor } from "../lib/sanity";
 
 export default function CarritoPage() {
   const { items, totalPrecio, eliminar, actualizar, vaciar } = useCarrito();
@@ -187,21 +188,36 @@ export default function CarritoPage() {
                   borderRadius: "2px",
                   position: "relative",
                   overflow: "hidden",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
                 }}
               >
-                <span
-                  style={{
-                    color: "rgba(255,255,255,0.3)",
-                    fontFamily: "var(--font-bebas)",
-                    fontSize: "48px",
-                    fontWeight: "bold",
-                  }}
-                >
-                  {item.dorsal}
-                </span>
+                {item.imagen ? (
+                  <Image
+                    src={urlFor(item.imagen).width(100).height(133).url()}
+                    alt={item.nombre}
+                    fill
+                    style={{ objectFit: "cover" }}
+                  />
+                ) : (
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      height: "100%",
+                    }}
+                  >
+                    <span
+                      style={{
+                        color: "rgba(255,255,255,0.3)",
+                        fontFamily: "var(--font-bebas)",
+                        fontSize: "48px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {item.dorsal}
+                    </span>
+                  </div>
+                )}
               </div>
 
               {/* Info */}

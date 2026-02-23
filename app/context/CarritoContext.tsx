@@ -15,6 +15,7 @@ export type ItemCarrito = {
   equipo: string;
   dorsal: string;
   color: string;
+  imagen?: string;
   formato: {
     id: string;
     label: string;

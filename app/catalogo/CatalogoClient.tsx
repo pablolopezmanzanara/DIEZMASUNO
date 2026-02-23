@@ -31,6 +31,7 @@ export default function CatalogoClient({ productos }: Props) {
         equipo: p.equipo,
         dorsal: p.dorsal,
         color: "#FFFFFF",
+        imagen: p.imagen, // AÑADIR ESTA LÍNEA
         formato: {
           id: "50x70",
           label: "50×70 cm",

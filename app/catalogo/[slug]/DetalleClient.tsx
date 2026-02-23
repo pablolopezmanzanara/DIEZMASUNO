@@ -24,6 +24,7 @@ export default function DetalleClient({ producto }: Props) {
         equipo: producto.equipo,
         dorsal: producto.dorsal,
         color: "#FFFFFF",
+        imagen: producto.imagen, // AÑADIR ESTA LÍNEA
         formato: {
           id: "50x70",
           label: "50×70 cm",
@@ -35,7 +36,6 @@ export default function DetalleClient({ producto }: Props) {
     setAniadido(true);
     setTimeout(() => setAniadido(false), 2000);
   };
-
   return (
     <div
       style={{
@@ -127,16 +127,15 @@ export default function DetalleClient({ producto }: Props) {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            maxHeight: "70vh",
-            minHeight: "400px",
+            width: "100%",
           }}
         >
           <div
             style={{
               position: "relative",
               width: "100%",
+              maxWidth: vista === "diseno" ? "500px" : "100%",
               aspectRatio: vista === "diseno" ? "3/4" : "16/10",
-              maxHeight: "100%",
               background: vista === "diseno" ? "var(--color-verde)" : "#f0f0f0",
               borderRadius: "4px",
               overflow: "hidden",
