@@ -72,7 +72,7 @@ export default function DetalleClient({ producto }: Props) {
           ].map(([label, value]) => (
             <button
               key={value}
-              onClick={() => setVista(value as any)}
+              onClick={() => setVista(value as "diseno" | "visualizer")}
               style={{
                 background: "transparent",
                 color:
