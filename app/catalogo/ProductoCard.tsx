@@ -29,12 +29,18 @@ export default function ProductoCard({
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        // Mostrar flechas cuando el card este visible entre 33% y 66% del viewport
-        const ratio = entry.intersectionRatio;
-        setMostrarFlechas(ratio > 0.33 && ratio < 0.99);
+        const rect = entry.boundingClientRect;
+        const viewportHeight = window.innerHeight;
+
+        // Calcular en qué cuarto del viewport está la tarjeta
+        const cardCenter = rect.top + rect.height / 2;
+        const relativePosition = cardCenter / viewportHeight;
+
+        // Mostrar flechas solo si está entre 25% y 75% del viewport (cuartos 2 y 3)
+        setMostrarFlechas(relativePosition >= 0.25 && relativePosition <= 0.75);
       },
       {
-        threshold: [0, 0.33, 0.66, 0.99, 1],
+        threshold: Array.from({ length: 101 }, (_, i) => i / 100), // Detectar cualquier cambio
       },
     );
 
