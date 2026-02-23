@@ -155,3 +155,10 @@ body::before {
     text-align: center !important;
   }
 }
+
+/* Ocultar flechas en movil */
+@media (max-width: 768px) {
+  .flecha-galeria {
+    display: none !important;
+  }
+}

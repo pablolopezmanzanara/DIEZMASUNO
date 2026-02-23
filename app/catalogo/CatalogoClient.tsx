@@ -6,6 +6,7 @@ import Image from "next/image";
 import { type Producto } from "../lib/queries";
 import { urlFor } from "../lib/sanity";
 import { useCarrito } from "../context/CarritoContext";
+import ProductoCard from "./ProductoCard";
 
 type Props = {
   productos: Producto[];
@@ -25,7 +26,6 @@ export default function CatalogoClient({ productos }: Props) {
 
     aniadir(
       {
-        id: parseInt(p._id.replace(/[^a-zA-Z0-9]/g, "").slice(0, 10)) || 0,
         slug: p.slug.current,
         nombre: p.nombre,
         equipo: p.equipo,
@@ -161,192 +161,13 @@ export default function CatalogoClient({ productos }: Props) {
         >
           {productosFiltrados.map((p: Producto) => {
             const estaAniadido = aniadidos.has(p._id);
-
             return (
-              <div
+              <ProductoCard
                 key={p._id}
-                className="producto-card"
-                style={{
-                  background: "white",
-                  borderRadius: "4px",
-                  overflow: "visible",
-                  display: "block",
-                  transition: "all 0.3s",
-                  boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
-                  position: "relative",
-                }}
-              >
-                <Link
-                  href={`/catalogo/${p.slug.current}`}
-                  style={{ textDecoration: "none", display: "block" }}
-                >
-                  <div
-                    style={{
-                      background: "var(--color-verde)",
-                      position: "relative",
-                      overflow: "hidden",
-                      aspectRatio: "3/4",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      borderRadius: "4px 4px 0 0",
-                    }}
-                  >
-                    {p.imagen ? (
-                      <Image
-                        src={urlFor(p.imagen).width(400).height(533).url()}
-                        alt={p.nombre}
-                        fill
-                        style={{ objectFit: "cover" }}
-                      />
-                    ) : (
-                      <>
-                        <span
-                          style={{
-                            color: "rgba(255,255,255,0.08)",
-                            fontFamily: "var(--font-bebas)",
-                            fontSize: "80px",
-                            position: "absolute",
-                            top: "12px",
-                            right: "16px",
-                            lineHeight: 1,
-                          }}
-                        >
-                          {p.dorsal}
-                        </span>
-                        <span style={{ fontSize: "64px", opacity: 0.9 }}>
-                          ⚽
-                        </span>
-                      </>
-                    )}
-                  </div>
-
-                  <div
-                    style={{
-                      padding: "20px 22px 22px",
-                      borderTop: "3px solid var(--color-crema-osc)",
-                    }}
-                  >
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        gap: "16px",
-                      }}
-                    >
-                      <div style={{ flex: 1 }}>
-                        <div
-                          style={{
-                            color: "var(--color-gris)",
-                            fontFamily: "var(--font-bebas)",
-                            fontSize: "10px",
-                            letterSpacing: "3px",
-                            marginBottom: "6px",
-                          }}
-                        >
-                          {p.equipo}
-                        </div>
-                        <div
-                          style={{
-                            color: "var(--color-tinta)",
-                            fontFamily: "var(--font-playfair)",
-                            fontWeight: 700,
-                            fontSize: "18px",
-                            marginBottom: "4px",
-                            lineHeight: 1.2,
-                          }}
-                        >
-                          {p.nombre}
-                        </div>
-                        <div
-                          style={{
-                            color: "var(--color-gris)",
-                            fontSize: "13px",
-                            fontStyle: "italic",
-                          }}
-                        >
-                          {p.anio}
-                        </div>
-                      </div>
-
-                      {/* Columna derecha: Precio y boton */}
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "flex-end",
-                          justifyContent: "space-between",
-                          minWidth: "80px",
-                          marginTop: "-10px",
-                        }}
-                      >
-                        <span
-                          style={{
-                            color: "var(--color-verde)",
-                            fontFamily: "var(--font-playfair)",
-                            fontWeight: 700,
-                            fontSize: "22px",
-                            marginBottom: "8px",
-                            marginRight: "10px",
-                          }}
-                        >
-                          {p.precio} €
-                        </span>
-
-                        {/* Boton con capsula */}
-                        <button
-                          onClick={(e) => handleAniadir(p, e)}
-                          disabled={estaAniadido}
-                          style={{
-                            background: estaAniadido
-                              ? "rgba(201,168,76,0.15)"
-                              : "rgba(26,58,42,0.08)",
-                            border: estaAniadido
-                              ? "1px solid rgba(201,168,76,0.3)"
-                              : "1px solid rgba(26,58,42,0.2)",
-                            color: estaAniadido
-                              ? "var(--color-dorado-osc)"
-                              : "var(--color-verde)",
-                            fontFamily: "Georgia, serif",
-                            fontSize: "14px",
-                            fontWeight: 600,
-                            letterSpacing: "0.5px",
-                            cursor: estaAniadido ? "default" : "pointer",
-                            padding: "8px 16px",
-                            borderRadius: "20px",
-                            transition: "all 0.3s",
-                            opacity: estaAniadido ? 0.8 : 1,
-                            textAlign: "center",
-                            whiteSpace: "nowrap",
-                          }}
-                          onMouseEnter={(e) => {
-                            if (!estaAniadido) {
-                              e.currentTarget.style.background =
-                                "rgba(201,168,76,0.12)";
-                              e.currentTarget.style.borderColor =
-                                "rgba(201,168,76,0.4)";
-                              e.currentTarget.style.color =
-                                "var(--color-dorado-osc)";
-                            }
-                          }}
-                          onMouseLeave={(e) => {
-                            if (!estaAniadido) {
-                              e.currentTarget.style.background =
-                                "rgba(26,58,42,0.08)";
-                              e.currentTarget.style.borderColor =
-                                "rgba(26,58,42,0.2)";
-                              e.currentTarget.style.color =
-                                "var(--color-verde)";
-                            }
-                          }}
-                        >
-                          {estaAniadido ? "Añadido" : "Añadir"}
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              </div>
+                producto={p}
+                estaAniadido={estaAniadido}
+                onAniadir={handleAniadir}
+              />
             );
           })}
         </div>

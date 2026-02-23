@@ -117,6 +117,7 @@ export default function Footer() {
               {[
                 ["Catálogo", "/catalogo"],
                 ["Sobre nosotros", "/sobre-nosotros"],
+                ["Peticiones", "/peticiones"],
               ].map(([label, href]) => (
                 <Link
                   key={href}

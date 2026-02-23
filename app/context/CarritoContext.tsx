@@ -27,7 +27,10 @@ type CarritoContextType = {
   items: ItemCarrito[];
   totalItems: number;
   totalPrecio: number;
-  aniadir: (item: Omit<ItemCarrito, "cantidad">, cantidad?: number) => void;
+  aniadir: (
+    item: Omit<ItemCarrito, "cantidad" | "id">,
+    cantidad?: number,
+  ) => void;
   eliminar: (id: number) => void;
   actualizar: (id: number, cantidad: number) => void;
   vaciar: () => void;
@@ -53,28 +56,16 @@ export function CarritoProvider({ children }: { children: ReactNode }) {
   }, [items]);
 
   const aniadir = (
-    item: Omit<ItemCarrito, "cantidad">,
+    item: Omit<ItemCarrito, "cantidad" | "id">,
     cantidad: number = 1,
   ) => {
     setItems((prev) => {
-      const existe = prev.find(
-        (i) =>
-          i.slug === item.slug &&
-          i.formato.id === item.formato.id &&
-          i.color === item.color,
-      );
+      // Generar ID unico basado en timestamp + random
+      const nuevoId = Math.floor(Date.now() + Math.random() * 1000);
 
-      if (existe) {
-        return prev.map((i) =>
-          i.slug === item.slug &&
-          i.formato.id === item.formato.id &&
-          i.color === item.color
-            ? { ...i, cantidad: i.cantidad + cantidad }
-            : i,
-        );
-      }
+      const itemCompleto = { ...item, id: nuevoId, cantidad };
 
-      return [...prev, { ...item, cantidad }];
+      return [...prev, itemCompleto];
     });
   };
 

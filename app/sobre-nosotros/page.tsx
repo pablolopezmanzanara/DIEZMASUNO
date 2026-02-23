@@ -2,241 +2,221 @@ export const dynamic = "force-dynamic";
 
 export default function SobreNosotrosPage() {
   return (
-    <>
-      {/* Cabecera */}
+    <div style={{ background: "var(--color-crema)", minHeight: "100vh" }}>
+      {/* Hero */}
       <section
         style={{
           background: "var(--color-verde)",
           padding: "80px 24px",
-          position: "relative",
-          overflow: "hidden",
+          textAlign: "center",
         }}
       >
-        <span
-          style={{
-            fontFamily: "var(--font-bebas)",
-            position: "absolute",
-            right: "10px",
-            top: "50%",
-            transform: "translateY(-50%)",
-            fontSize: "200px",
-            color: "rgba(255,255,255,0.03)",
-            lineHeight: 1,
-            pointerEvents: "none",
-          }}
-        >
-          10+1
-        </span>
-        <div
-          style={{
-            maxWidth: "800px",
-            margin: "0 auto",
-            position: "relative",
-            zIndex: 1,
-          }}
-        >
-          <div
-            style={{
-              color: "var(--color-dorado)",
-              fontFamily: "var(--font-bebas)",
-              fontSize: "11px",
-              letterSpacing: "5px",
-              marginBottom: "16px",
-            }}
-          >
-            El proyecto
-          </div>
+        <div style={{ maxWidth: "800px", margin: "0 auto" }}>
           <h1
             style={{
               color: "var(--color-crema)",
               fontFamily: "var(--font-playfair)",
+              fontSize: "clamp(36px,5vw,56px)",
               fontWeight: 900,
-              fontSize: "clamp(36px,5vw,64px)",
-              lineHeight: 1.05,
-              marginBottom: "24px",
+              marginBottom: "16px",
             }}
           >
-            Sobre{" "}
-            <em style={{ color: "var(--color-dorado)", fontStyle: "italic" }}>
-              nosotros
-            </em>
+            Sobre nosotros
           </h1>
           <p
             style={{
-              color: "rgba(245,239,224,0.7)",
+              color: "rgba(245,239,224,0.8)",
               fontSize: "16px",
-              lineHeight: 1.8,
-              maxWidth: "600px",
+              lineHeight: 1.7,
             }}
           >
-            Un proyecto nacido del amor por el fútbol español de los años 90 y
-            2000 y por el arte que inspira.
+            Reviviendo la magia del futbol español
           </p>
         </div>
       </section>
 
       {/* Contenido */}
-      <section
-        style={{ padding: "80px 24px", maxWidth: "800px", margin: "0 auto" }}
+      <div
+        style={{ padding: "80px 24px", maxWidth: "1100px", margin: "0 auto" }}
       >
-        <div style={{ marginBottom: "56px" }}>
-          <div
-            style={{
-              width: "48px",
-              height: "3px",
-              background: "var(--color-dorado)",
-              marginBottom: "24px",
-            }}
-          />
-          <h2
-            style={{
-              color: "var(--color-verde)",
-              fontFamily: "var(--font-playfair)",
-              fontWeight: 900,
-              fontSize: "28px",
-              marginBottom: "20px",
-            }}
-          >
-            ¿Qué es El Fútbol de Antes?
-          </h2>
-          <p
-            style={{
-              color: "var(--color-gris)",
-              fontSize: "15px",
-              lineHeight: 1.9,
-              marginBottom: "16px",
-            }}
-          >
-            El Fútbol de Antes es una tienda de cuadros de edición limitada
-            dedicados a los jugadores y momentos que hicieron grande el fútbol
-            español. Cada semana publicamos una nueva selección de ilustraciones
-            de alta calidad, disponibles por tiempo limitado.
-          </p>
-          <p
-            style={{
-              color: "var(--color-gris)",
-              fontSize: "15px",
-              lineHeight: 1.9,
-            }}
-          >
-            Nuestras impresiones están pensadas para quienes vivieron aquellos
-            domingos frente al televisor y quieren llevar ese recuerdo a su
-            hogar en forma de arte.
-          </p>
-        </div>
-
-        <div style={{ marginBottom: "56px" }}>
-          <div
-            style={{
-              width: "48px",
-              height: "3px",
-              background: "var(--color-dorado)",
-              marginBottom: "24px",
-            }}
-          />
-          <h2
-            style={{
-              color: "var(--color-verde)",
-              fontFamily: "var(--font-playfair)",
-              fontWeight: 900,
-              fontSize: "28px",
-              marginBottom: "20px",
-            }}
-          >
-            Edición limitada semanal
-          </h2>
-          <p
-            style={{
-              color: "var(--color-gris)",
-              fontSize: "15px",
-              lineHeight: 1.9,
-              marginBottom: "16px",
-            }}
-          >
-            Cada viernes renovamos la colección con nuevos jugadores y momentos
-            icónicos. Cuando se acaba la semana, los cuadros dejan de estar
-            disponibles para siempre. No hay reposición.
-          </p>
-          <p
-            style={{
-              color: "var(--color-gris)",
-              fontSize: "15px",
-              lineHeight: 1.9,
-            }}
-          >
-            Esto garantiza que cada pieza sea verdaderamente exclusiva y que
-            quien la tenga posea algo único.
-          </p>
-        </div>
-
-        <div style={{ marginBottom: "56px" }}>
-          <div
-            style={{
-              width: "48px",
-              height: "3px",
-              background: "var(--color-dorado)",
-              marginBottom: "24px",
-            }}
-          />
-          <h2
-            style={{
-              color: "var(--color-verde)",
-              fontFamily: "var(--font-playfair)",
-              fontWeight: 900,
-              fontSize: "28px",
-              marginBottom: "20px",
-            }}
-          >
-            Calidad de archivo
-          </h2>
-          <p
-            style={{
-              color: "var(--color-gris)",
-              fontSize: "15px",
-              lineHeight: 1.9,
-            }}
-          >
-            Imprimimos en papel Hahnemühle 308g con tintas pigmentadas de alta
-            durabilidad. Cada cuadro está diseñado para durar más de 75 años sin
-            perder color ni definición. Disponible en varios formatos, con y sin
-            marco.
-          </p>
-        </div>
-
-        {/* Cita */}
         <div
+          className="sobre-nosotros-grid"
           style={{
-            background: "var(--color-verde)",
-            borderLeft: "4px solid var(--color-dorado)",
-            padding: "32px 40px",
-            borderRadius: "2px",
+            display: "grid",
+            gridTemplateColumns: "1fr",
+            gap: "48px",
           }}
         >
-          <p
-            style={{
-              color: "var(--color-crema)",
-              fontFamily: "var(--font-playfair)",
-              fontStyle: "italic",
-              fontSize: "20px",
-              lineHeight: 1.6,
-              marginBottom: "16px",
-            }}
-          >
-            &ldquo;Aquellos domingos frente al televisor, con el partido de las
-            tres, no se olvidan.&rdquo;
-          </p>
-          <div
-            style={{
-              color: "var(--color-dorado)",
-              fontFamily: "var(--font-bebas)",
-              fontSize: "12px",
-              letterSpacing: "3px",
-            }}
-          >
-            El Fútbol de Antes · 10+1
+          {/* Seccion informativa */}
+          <div>
+            <div style={{ marginBottom: "48px" }}>
+              <h2
+                style={{
+                  color: "var(--color-verde)",
+                  fontFamily: "var(--font-playfair)",
+                  fontSize: "28px",
+                  fontWeight: 700,
+                  marginBottom: "16px",
+                }}
+              >
+                Que es El Futbol de Antes
+              </h2>
+              <p
+                style={{
+                  color: "var(--color-gris)",
+                  fontSize: "15px",
+                  lineHeight: 1.8,
+                }}
+              >
+                Somos un proyecto que nace de la pasion por el futbol español y
+                su historia. Creamos cuadros de edicion limitada que capturan
+                momentos iconicos y jugadores legendarios que marcaron epocas
+                doradas del futbol en España.
+              </p>
+            </div>
+
+            <div style={{ marginBottom: "48px" }}>
+              <h2
+                style={{
+                  color: "var(--color-verde)",
+                  fontFamily: "var(--font-playfair)",
+                  fontSize: "28px",
+                  fontWeight: 700,
+                  marginBottom: "16px",
+                }}
+              >
+                Edicion limitada semanal
+              </h2>
+              <p
+                style={{
+                  color: "var(--color-gris)",
+                  fontSize: "15px",
+                  lineHeight: 1.8,
+                }}
+              >
+                Cada semana lanzamos nuevos diseños en ediciones limitadas. Una
+                vez agotados, no vuelven. Esto hace que cada cuadro sea una
+                pieza unica y coleccionable.
+              </p>
+            </div>
+
+            <div style={{ marginBottom: "48px" }}>
+              <h2
+                style={{
+                  color: "var(--color-verde)",
+                  fontFamily: "var(--font-playfair)",
+                  fontSize: "28px",
+                  fontWeight: 700,
+                  marginBottom: "16px",
+                }}
+              >
+                Calidad de archivo
+              </h2>
+              <p
+                style={{
+                  color: "var(--color-gris)",
+                  fontSize: "15px",
+                  lineHeight: 1.8,
+                }}
+              >
+                Todos nuestros diseños son creados con la maxima calidad.
+                Imprimimos en papel mate premium de 200g y utilizamos tintas de
+                alta durabilidad que mantienen los colores vibrantes durante
+                años.
+              </p>
+            </div>
+
+            <div
+              style={{
+                borderLeft: "4px solid var(--color-dorado)",
+                paddingLeft: "24px",
+                background: "rgba(201,168,76,0.05)",
+                padding: "24px",
+              }}
+            >
+              <p
+                style={{
+                  color: "var(--color-verde)",
+                  fontFamily: "var(--font-playfair)",
+                  fontSize: "18px",
+                  fontStyle: "italic",
+                  lineHeight: 1.7,
+                }}
+              >
+                &ldquo;El futbol no es solo un deporte, es memoria, emocion y
+                arte. Queremos que cada cuadro te lleve de vuelta a esos
+                momentos magicos.&ldquo;
+              </p>
+            </div>
+          </div>
+
+          {/* FAQs simples */}
+          <div>
+            <h2
+              style={{
+                color: "var(--color-verde)",
+                fontFamily: "var(--font-playfair)",
+                fontSize: "28px",
+                fontWeight: 700,
+                marginBottom: "32px",
+              }}
+            >
+              Preguntas frecuentes
+            </h2>
+
+            {[
+              [
+                "Como funciona la edicion limitada?",
+                "Cada diseño se produce en cantidades limitadas. Una vez agotado, ese diseño especifico no vuelve a estar disponible.",
+              ],
+              [
+                "Donde se fabrican los cuadros?",
+                "Todos nuestros cuadros se diseñan e imprimen en España con materiales de maxima calidad.",
+              ],
+              [
+                "Puedo enmarcar los cuadros?",
+                "Si. Nuestros formatos son estandar (A4, A3, 50x70, 70x100) compatibles con marcos disponibles en cualquier tienda.",
+              ],
+              [
+                "Aceptais pedidos personalizados?",
+                "Por ahora no ofrecemos personalizaciones, pero puedes solicitar jugadores o equipos especificos en nuestra seccion de Peticiones.",
+              ],
+            ].map(([pregunta, respuesta], i) => (
+              <div
+                key={i}
+                style={{
+                  marginBottom: "24px",
+                  padding: "20px",
+                  background: "white",
+                  borderRadius: "4px",
+                  border: "1px solid var(--color-crema-osc)",
+                }}
+              >
+                <h3
+                  style={{
+                    color: "var(--color-verde)",
+                    fontFamily: "var(--font-playfair)",
+                    fontSize: "16px",
+                    fontWeight: 700,
+                    marginBottom: "12px",
+                  }}
+                >
+                  {pregunta}
+                </h3>
+                <p
+                  style={{
+                    color: "var(--color-gris)",
+                    fontSize: "14px",
+                    lineHeight: 1.7,
+                  }}
+                >
+                  {respuesta}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
-      </section>
-    </>
+      </div>
+    </div>
   );
 }

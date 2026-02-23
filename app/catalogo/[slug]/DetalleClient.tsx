@@ -19,8 +19,6 @@ export default function DetalleClient({ producto }: Props) {
   const handleAniadir = () => {
     aniadir(
       {
-        id:
-          parseInt(producto._id.replace(/[^a-zA-Z0-9]/g, "").slice(0, 10)) || 0,
         slug: producto.slug.current,
         nombre: producto.nombre,
         equipo: producto.equipo,
@@ -48,13 +46,18 @@ export default function DetalleClient({ producto }: Props) {
         margin: "0 auto",
         padding: "60px 24px",
         minHeight: "calc(100vh - 200px)",
-        alignItems: "center",
       }}
       className="detalle-grid"
     >
-      {/* Columna izquierda: Tabs + Imagen */}
-      <div>
-        {/* Tabs DISENO / VISUALIZER */}
+      {/* Columna izquierda: Tabs fijos + Imagen centrada */}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          height: "100%",
+        }}
+      >
+        {/* Tabs DISENO / VISUALIZER - fijos arriba */}
         <div
           style={{
             display: "flex",
@@ -116,86 +119,99 @@ export default function DetalleClient({ producto }: Props) {
           ))}
         </div>
 
-        {/* Imagen segun vista */}
+        {/* Contenedor de imagen - centrado y con limites verticales */}
         <div
           style={{
-            position: "relative",
-            aspectRatio: vista === "diseno" ? "3/4" : "16/10",
-            background: vista === "diseno" ? "var(--color-verde)" : "#f0f0f0",
-            borderRadius: "4px",
-            overflow: "hidden",
-            boxShadow: "0 20px 60px rgba(0,0,0,0.15)",
+            flex: 1,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
             maxHeight: "70vh",
+            minHeight: "400px",
           }}
         >
-          {vista === "diseno" ? (
-            producto.imagen ? (
-              <Image
-                src={urlFor(producto.imagen).width(600).height(800).url()}
-                alt={producto.nombre}
-                fill
-                style={{ objectFit: "cover" }}
-              />
+          <div
+            style={{
+              position: "relative",
+              width: "100%",
+              aspectRatio: vista === "diseno" ? "3/4" : "16/10",
+              maxHeight: "100%",
+              background: vista === "diseno" ? "var(--color-verde)" : "#f0f0f0",
+              borderRadius: "4px",
+              overflow: "hidden",
+              boxShadow: "0 20px 60px rgba(0,0,0,0.15)",
+            }}
+          >
+            {vista === "diseno" ? (
+              producto.imagen ? (
+                <Image
+                  src={urlFor(producto.imagen).width(600).height(800).url()}
+                  alt={producto.nombre}
+                  fill
+                  style={{ objectFit: "cover" }}
+                />
+              ) : (
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    height: "100%",
+                  }}
+                >
+                  <span style={{ fontSize: "120px", opacity: 0.3 }}>⚽</span>
+                </div>
+              )
             ) : (
               <div
                 style={{
+                  width: "100%",
+                  height: "100%",
+                  background:
+                    "linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  height: "100%",
+                  position: "relative",
                 }}
               >
-                <span style={{ fontSize: "120px", opacity: 0.3 }}>⚽</span>
+                {/* Simulacion pared con cuadro */}
+                <div
+                  style={{
+                    position: "absolute",
+                    width: "40%",
+                    aspectRatio: "3/4",
+                    background: "white",
+                    boxShadow: "0 10px 40px rgba(0,0,0,0.2)",
+                    border: "12px solid #8B7355",
+                    borderRadius: "2px",
+                  }}
+                >
+                  {producto.imagen ? (
+                    <Image
+                      src={urlFor(producto.imagen).width(400).height(533).url()}
+                      alt={producto.nombre}
+                      fill
+                      style={{ objectFit: "cover" }}
+                    />
+                  ) : (
+                    <div
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        background: "var(--color-verde)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <span style={{ fontSize: "48px", opacity: 0.3 }}>⚽</span>
+                    </div>
+                  )}
+                </div>
               </div>
-            )
-          ) : (
-            <div
-              style={{
-                width: "100%",
-                height: "100%",
-                background: "linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                position: "relative",
-              }}
-            >
-              {/* Simulacion pared con cuadro */}
-              <div
-                style={{
-                  position: "absolute",
-                  width: "40%",
-                  aspectRatio: "3/4",
-                  background: "white",
-                  boxShadow: "0 10px 40px rgba(0,0,0,0.2)",
-                  border: "12px solid #8B7355",
-                  borderRadius: "2px",
-                }}
-              >
-                {producto.imagen ? (
-                  <Image
-                    src={urlFor(producto.imagen).width(400).height(533).url()}
-                    alt={producto.nombre}
-                    fill
-                    style={{ objectFit: "cover" }}
-                  />
-                ) : (
-                  <div
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      background: "var(--color-verde)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <span style={{ fontSize: "48px", opacity: 0.3 }}>⚽</span>
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
 
