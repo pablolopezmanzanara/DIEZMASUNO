@@ -162,3 +162,25 @@ body::before {
     display: none !important;
   }
 }
+
+/* Detalle producto responsive */
+@media (max-width: 768px) {
+  .detalle-grid {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+
+  .detalle-tabs {
+    order: 1;
+  }
+
+  .detalle-imagen {
+    order: 2;
+    max-height: 50vh !important;
+    min-height: 300px !important;
+  }
+
+  .detalle-info {
+    order: 3;
+  }
+}

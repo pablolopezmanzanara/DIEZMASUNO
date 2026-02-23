@@ -45,7 +45,6 @@ export default function DetalleClient({ producto }: Props) {
         maxWidth: "1200px",
         margin: "0 auto",
         padding: "60px 24px",
-        minHeight: "calc(100vh - 200px)",
       }}
       className="detalle-grid"
     >
@@ -59,6 +58,7 @@ export default function DetalleClient({ producto }: Props) {
       >
         {/* Tabs DISENO / VISUALIZER - fijos arriba */}
         <div
+          className="detalle-tabs"
           style={{
             display: "flex",
             gap: "24px",
@@ -67,12 +67,12 @@ export default function DetalleClient({ producto }: Props) {
           }}
         >
           {[
-            ["DISEÑO", "diseno"],
+            ["DISENO", "diseno"],
             ["VISUALIZER", "visualizer"],
           ].map(([label, value]) => (
             <button
               key={value}
-              onClick={() => setVista(value as "diseno" | "visualizer")}
+              onClick={() => setVista(value as any)}
               style={{
                 background: "transparent",
                 color:
@@ -81,7 +81,7 @@ export default function DetalleClient({ producto }: Props) {
                     : "rgba(26, 58, 42, 0.4)",
                 border: "none",
                 fontFamily: "Georgia, serif",
-                fontSize: "20px",
+                fontSize: "clamp(16px, 4vw, 20px)",
                 fontWeight: vista === value ? 700 : 400,
                 cursor: "pointer",
                 transition: "all 0.3s",
@@ -121,6 +121,7 @@ export default function DetalleClient({ producto }: Props) {
 
         {/* Contenedor de imagen - centrado y con limites verticales */}
         <div
+          className="detalle-imagen"
           style={{
             flex: 1,
             display: "flex",
@@ -217,6 +218,7 @@ export default function DetalleClient({ producto }: Props) {
 
       {/* Columna derecha: Info y compra */}
       <div
+        className="detalle-info"
         style={{
           display: "flex",
           flexDirection: "column",
