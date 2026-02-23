@@ -32,15 +32,15 @@ export default function ProductoCard({
         const rect = entry.boundingClientRect;
         const viewportHeight = window.innerHeight;
 
-        // Calcular en qué cuarto del viewport está la tarjeta
+        // Calcular en qué tercio del viewport está la tarjeta
         const cardCenter = rect.top + rect.height / 2;
         const relativePosition = cardCenter / viewportHeight;
 
-        // Mostrar flechas solo si está entre 25% y 75% del viewport (cuartos 2 y 3)
-        setMostrarFlechas(relativePosition >= 0.25 && relativePosition <= 0.75);
+        // Mostrar flechas solo si está en el tercio central (33% a 66%)
+        setMostrarFlechas(relativePosition >= 0.33 && relativePosition <= 0.66);
       },
       {
-        threshold: Array.from({ length: 101 }, (_, i) => i / 100), // Detectar cualquier cambio
+        threshold: Array.from({ length: 101 }, (_, i) => i / 100),
       },
     );
 
