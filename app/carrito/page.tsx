@@ -146,7 +146,7 @@ export default function CarritoPage() {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "1fr",
+          gridTemplateColumns: "1fr", // Base móvil
           gap: "40px",
           alignItems: "start",
         }}

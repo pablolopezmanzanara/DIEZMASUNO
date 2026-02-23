@@ -47,7 +47,7 @@ body::before {
 /* Marquee animation */
 .marquee-container {
   display: flex;
-  animation: scroll 35s linear infinite;
+  animation: scroll 20s linear infinite;
   will-change: transform;
 }
 
@@ -61,7 +61,7 @@ body::before {
     transform: translateX(0);
   }
   100% {
-    transform: translateX(-33.333%);
+    transform: translateX(-25%); /* 4 copias = -25% para loop perfecto */
   }
 }
 
@@ -108,14 +108,14 @@ body::before {
 /* Carrito layout */
 .carrito-layout {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 40px;
   align-items: start;
 }
 
-@media (max-width: 900px) {
+@media (min-width: 769px) {
   .carrito-layout {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: 1fr 1fr !important;
   }
 }
 

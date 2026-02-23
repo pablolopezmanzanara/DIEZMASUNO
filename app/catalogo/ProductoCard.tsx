@@ -1,11 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { type Producto } from "../lib/queries";
 import { urlFor } from "../lib/sanity";
-import { useCarrito } from "../context/CarritoContext";
 
 type Props = {
   producto: Producto;
@@ -22,9 +21,37 @@ export default function ProductoCard({
     "diseno",
   );
   const [hover, setHover] = useState(false);
+  const [mostrarFlechas, setMostrarFlechas] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // Mostrar flechas cuando el card este visible entre 33% y 66% del viewport
+        const ratio = entry.intersectionRatio;
+        setMostrarFlechas(ratio > 0.33 && ratio < 0.99);
+      },
+      {
+        threshold: [0, 0.33, 0.66, 0.99, 1],
+      },
+    );
+
+    if (cardRef.current) {
+      observer.observe(cardRef.current);
+    }
+
+    return () => {
+      if (cardRef.current) {
+        observer.unobserve(cardRef.current);
+      }
+    };
+  }, []);
 
   return (
     <div
+      ref={cardRef}
       className="producto-card"
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
@@ -115,8 +142,8 @@ export default function ProductoCard({
             </div>
           )}
 
-          {/* Flechas en hover - solo desktop */}
-          {hover && (
+          {/* Flechas - desktop hover o movil scroll visible */}
+          {(hover || mostrarFlechas) && (
             <>
               <button
                 onClick={(e) => {
@@ -124,7 +151,6 @@ export default function ProductoCard({
                   e.stopPropagation();
                   setVistaActual("diseno");
                 }}
-                className="flecha-galeria"
                 style={{
                   position: "absolute",
                   left: "12px",
@@ -144,6 +170,7 @@ export default function ProductoCard({
                   boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
                   opacity: vistaActual === "diseno" ? 0.3 : 1,
                   pointerEvents: vistaActual === "diseno" ? "none" : "auto",
+                  zIndex: 10,
                 }}
               >
                 ←
@@ -154,7 +181,6 @@ export default function ProductoCard({
                   e.stopPropagation();
                   setVistaActual("visualizer");
                 }}
-                className="flecha-galeria"
                 style={{
                   position: "absolute",
                   right: "12px",
@@ -174,6 +200,7 @@ export default function ProductoCard({
                   boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
                   opacity: vistaActual === "visualizer" ? 0.3 : 1,
                   pointerEvents: vistaActual === "visualizer" ? "none" : "auto",
+                  zIndex: 10,
                 }}
               >
                 →
