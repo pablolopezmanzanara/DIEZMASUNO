@@ -530,10 +530,6 @@ export default async function HomePage() {
         )}
       </section>
 
-      <section style={{ padding: "80px 24px", background: "white" }}>
-        <CatalogoIntegrado productos={todosProductos} />
-      </section>
-
       {/* ── PROCESO ── */}
       <section
         style={{
