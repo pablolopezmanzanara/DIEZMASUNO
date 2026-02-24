@@ -15,6 +15,10 @@ export default function DetalleClient({ producto }: Props) {
   const [vista, setVista] = useState<"diseno" | "visualizer">("diseno");
   const { aniadir } = useCarrito();
   const [aniadido, setAniadido] = useState(false);
+  const imagenes = [
+    ...(producto.imagen ? [producto.imagen] : []),
+    ...(producto.galeria || []),
+  ];
 
   const handleAniadir = () => {
     aniadir(

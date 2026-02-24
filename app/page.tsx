@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import Marquee from "./components/Marquee";
+import CatalogoIntegrado from "./components/CatalogoIntegrado";
 
 import {
   getProductosDestacados,
@@ -14,11 +15,12 @@ export const dynamic = "force-dynamic";
 export default async function HomePage() {
   const destacados = await getProductosDestacados();
   const productosHome = destacados.slice(0, 3);
+  const todosProductos = await getProductos();
+
   return (
     <>
       {/* ── MARQUEE NOMBRES ── */}
       <Marquee />
-
       {/* ── HERO ── */}
       <section
         style={{
@@ -317,7 +319,6 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
-
       {/* ── PRODUCTOS DESTACADOS ── */}
       <section
         style={{ padding: "96px 24px", maxWidth: "1100px", margin: "0 auto" }}
@@ -529,6 +530,10 @@ export default async function HomePage() {
         )}
       </section>
 
+      <section style={{ padding: "80px 24px", background: "white" }}>
+        <CatalogoIntegrado productos={todosProductos} />
+      </section>
+
       {/* ── PROCESO ── */}
       <section
         style={{
@@ -661,7 +666,6 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
-
       {/* ── CITA NOSTALGIA ── */}
       <section
         style={{

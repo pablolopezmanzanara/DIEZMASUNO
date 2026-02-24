@@ -17,7 +17,8 @@ export default function Marquee() {
       style={{
         background: "var(--color-dorado)",
         overflow: "hidden",
-        padding: "8px 0",
+        paddingTop: "12px",
+        paddingBottom: "8px",
         position: "relative",
       }}
     >
@@ -32,7 +33,7 @@ export default function Marquee() {
                   color: "var(--color-verde)",
                   borderRight: "1px solid var(--color-verde-mid)",
                   fontFamily: "var(--font-bebas)",
-                  fontSize: "11px",
+                  fontSize: "13px",
                   letterSpacing: "4px",
                   padding: "0 32px",
                   whiteSpace: "nowrap",

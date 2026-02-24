@@ -116,6 +116,14 @@ export default defineType({
       type: "boolean",
       description: "Marcar para mostrar en la página principal",
     }),
+    defineField({
+      name: "galeria",
+      title: "Galería de imágenes",
+      type: "array",
+      of: [{ type: "image" }],
+      description:
+        "Imágenes adicionales del cuadro (diseño, visualizer, detalles, etc.)",
+    }),
   ],
   preview: {
     select: {

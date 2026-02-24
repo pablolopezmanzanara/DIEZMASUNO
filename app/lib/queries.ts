@@ -8,15 +8,16 @@ export type Producto = {
   anio: string;
   dorsal: string;
   descripcion: string;
-  historia: string;
-  imagen: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  historia?: string;
+  imagen?: string;
+  galeria?: string[]; // AÑADIR ESTA LÍNEA
   precio: number;
-  badge: string;
-  categoria: string;
-  logros: string[];
+  badge?: string;
+  categoria?: string;
+  logros?: string[];
   disponible: boolean;
-  destacado: boolean;
-  tipo: "jugador" | "otro";
+  destacado?: boolean;
+  tipo?: "jugador" | "otro";
 };
 
 // Todos los productos disponibles
@@ -52,6 +53,7 @@ export async function getProducto(slug: string): Promise<Producto | null> {
       descripcion,
       historia,
       imagen,
+      galeria,  // AÑADIR ESTA LÍNEA
       precio,
       badge,
       categoria,
