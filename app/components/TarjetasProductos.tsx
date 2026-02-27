@@ -19,7 +19,7 @@ export default function TarjetasProductos({ productos }: Props) {
   );
   const [animacionesUsadas, setAnimacionesUsadas] = useState<Set<string>>(
     new Set(),
-  ); // NUEVO
+  );
   const { aniadir } = useCarrito();
 
   const handleAniadir = (p: Producto, e: React.MouseEvent) => {
@@ -112,7 +112,7 @@ export default function TarjetasProductos({ productos }: Props) {
             ...(p.galeria || []),
           ];
           const imagenActual = imagenesActuales.get(p._id) || 0;
-          const animacionDisponible = !animacionesUsadas.has(p._id); // NUEVO
+          const animacionDisponible = !animacionesUsadas.has(p._id);
 
           return (
             <TarjetaProducto
@@ -121,10 +121,10 @@ export default function TarjetasProductos({ productos }: Props) {
               estaAniadido={estaAniadido}
               imagenes={imagenes}
               imagenActual={imagenActual}
-              animacionDisponible={animacionDisponible} // NUEVO
+              animacionDisponible={animacionDisponible}
               onAniadir={handleAniadir}
               onCambiarImagen={() => cambiarImagen(p._id, imagenes)}
-              onMarcarAnimacionUsada={() => marcarAnimacionUsada(p._id)} // NUEVO
+              onMarcarAnimacionUsada={() => marcarAnimacionUsada(p._id)}
             />
           );
         })}
@@ -156,8 +156,10 @@ function TarjetaProducto({
   const [hover, setHover] = useState(false);
   const [mostrarFlechas, setMostrarFlechas] = useState(false);
   const [enTercioCentral, setEnTercioCentral] = useState(false);
+  const [tiempoEnCentro, setTiempoEnCentro] = useState(0);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const flechasTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const tiempoEnCentroRef = useRef<NodeJS.Timeout | null>(null);
   const cardRef = useRef<HTMLDivElement | null>(null);
 
   // Hover en desktop - cambiar imagen solo si animación disponible
@@ -168,22 +170,18 @@ function TarjetaProducto({
     if (!esDesktop) return;
 
     if (hover) {
-      // Iniciar autoplay
       intervalRef.current = setInterval(() => {
         onCambiarImagen();
       }, 1500);
 
-      // Mostrar flechas 1 segundo después
       flechasTimeoutRef.current = setTimeout(() => {
         setMostrarFlechas(true);
       }, 1000);
 
-      // Marcar como usada después del primer cambio
       setTimeout(() => {
         onMarcarAnimacionUsada();
       }, 1500);
     } else {
-      // Limpiar al quitar hover
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
         intervalRef.current = null;
@@ -207,40 +205,50 @@ function TarjetaProducto({
     onMarcarAnimacionUsada,
   ]);
 
-  // IntersectionObserver móvil - solo si animación disponible
+  // IntersectionObserver móvil - timer 1.5s en tercio central
   useEffect(() => {
-    if (imagenes.length <= 1 || !animacionDisponible) return;
+    if (imagenes.length <= 1) return;
     if (typeof window === "undefined") return;
 
     const esMobile = window.innerWidth <= 768;
     if (!esMobile) return;
 
+    const headerHeight = 70;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         const rect = entry.boundingClientRect;
-        const viewportHeight = window.innerHeight;
-        const cardCenter = rect.top + rect.height / 2;
+        const viewportHeight = window.innerHeight - headerHeight;
+        const cardCenter = rect.top - headerHeight + rect.height / 2;
         const relativePosition = cardCenter / viewportHeight;
 
         const estaCentrado =
           relativePosition >= 0.33 && relativePosition <= 0.66;
         setEnTercioCentral(estaCentrado);
 
-        // Autoplay solo una vez
-        if (estaCentrado) {
-          setTimeout(() => {
+        if (estaCentrado && animacionDisponible) {
+          // Iniciar contador de tiempo en centro
+          tiempoEnCentroRef.current = setTimeout(() => {
+            // Después de 1.5s en centro, activar animación
             onCambiarImagen();
             onMarcarAnimacionUsada();
+
             // Mostrar flechas 1 segundo después
             setTimeout(() => {
               setMostrarFlechas(true);
             }, 1000);
-          }, 2000);
-        }
+          }, 1500);
+        } else {
+          // Limpiar timer si sale del centro
+          if (tiempoEnCentroRef.current) {
+            clearTimeout(tiempoEnCentroRef.current);
+            tiempoEnCentroRef.current = null;
+          }
 
-        // Ocultar flechas si sale del tercio central
-        if (!estaCentrado) {
-          setTimeout(() => setMostrarFlechas(false), 0);
+          // Ocultar flechas solo si ya se usó la animación
+          if (!animacionDisponible) {
+            setTimeout(() => setMostrarFlechas(false), 0);
+          }
         }
       },
       { threshold: Array.from({ length: 101 }, (_, i) => i / 100) },
@@ -254,6 +262,9 @@ function TarjetaProducto({
       if (cardRef.current) {
         observer.unobserve(cardRef.current);
       }
+      if (tiempoEnCentroRef.current) {
+        clearTimeout(tiempoEnCentroRef.current);
+      }
     };
   }, [
     imagenes.length,
@@ -264,7 +275,7 @@ function TarjetaProducto({
 
   const esMobile = typeof window !== "undefined" && window.innerWidth <= 768;
   const mostrarFlechasActual = esMobile
-    ? mostrarFlechas && enTercioCentral
+    ? mostrarFlechas && enTercioCentral && !animacionDisponible
     : mostrarFlechas && hover;
 
   return (
@@ -329,7 +340,7 @@ function TarjetaProducto({
               </div>
             )}
 
-            {/* Flechas - desktop: solo con hover, móvil: solo en tercio central */}
+            {/* Flechas */}
             {mostrarFlechasActual && imagenes.length > 1 && (
               <>
                 <button
@@ -403,6 +414,7 @@ function TarjetaProducto({
           >
             <div>
               <div
+                className="equipo-text"
                 style={{
                   color: "var(--color-gris)",
                   fontFamily: "var(--font-bebas)",
@@ -414,6 +426,7 @@ function TarjetaProducto({
                 {producto.equipo}
               </div>
               <div
+                className="nombre-text"
                 style={{
                   color: "var(--color-tinta)",
                   fontFamily: "var(--font-playfair)",
@@ -426,6 +439,7 @@ function TarjetaProducto({
                 {producto.nombre}
               </div>
               <div
+                className="anio-text"
                 style={{
                   color: "var(--color-gris)",
                   fontSize: "13px",
@@ -438,6 +452,7 @@ function TarjetaProducto({
 
             <div>
               <div
+                className="precio-text"
                 style={{
                   color: "var(--color-verde)",
                   fontFamily: "var(--font-playfair)",
@@ -452,6 +467,7 @@ function TarjetaProducto({
               <button
                 onClick={(e) => onAniadir(producto, e)}
                 disabled={estaAniadido}
+                className="boton-anadir"
                 style={{
                   width: "100%",
                   background: estaAniadido

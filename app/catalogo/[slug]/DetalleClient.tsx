@@ -86,6 +86,7 @@ export default function DetalleClient({ producto }: Props) {
             boxShadow: "0 20px 60px rgba(0,0,0,0.15)",
             marginBottom: "20px",
           }}
+          className="detalle-imagen-container"
         >
           {imagenes.length > 0 ? (
             <Image
