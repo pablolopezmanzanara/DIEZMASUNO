@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import Marquee from "./components/Marquee";
-import CatalogoIntegrado from "./components/CatalogoIntegrado";
 import TarjetasProductos from "./components/TarjetasProductos";
 
 import {
