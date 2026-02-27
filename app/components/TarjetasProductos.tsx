@@ -62,37 +62,80 @@ export default function TarjetasProductos({ productos }: Props) {
   return (
     <div style={{ maxWidth: "1400px", margin: "0 auto" }}>
       {/* Título */}
-      <div style={{ marginBottom: "48px" }}>
-        <div
-          style={{
-            color: "var(--color-dorado-osc)",
-            fontFamily: "var(--font-bebas)",
-            fontSize: "11px",
-            letterSpacing: "5px",
-            marginBottom: "10px",
-          }}
-        >
-          Descubre
-        </div>
-        <h2
-          style={{
-            color: "var(--color-verde)",
-            fontFamily: "var(--font-playfair)",
-            fontWeight: 900,
-            fontSize: "clamp(28px,4vw,44px)",
-            lineHeight: 1.1,
-          }}
-        >
-          Algunos de nuestros{" "}
-          <em
+      {/* Título con estilo colección activa */}
+      <div
+        style={{
+          marginBottom: "64px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          flexWrap: "wrap",
+          gap: "16px",
+        }}
+      >
+        <div>
+          <div
             style={{
-              fontStyle: "italic",
               color: "var(--color-dorado-osc)",
+              fontFamily: "var(--font-bebas)",
+              fontSize: "11px",
+              letterSpacing: "5px",
+              marginBottom: "10px",
             }}
           >
-            cuadros
-          </em>
-        </h2>
+            Coleccion 2025 · Temporada I
+          </div>
+          <h2
+            style={{
+              color: "var(--color-verde)",
+              fontFamily: "var(--font-playfair)",
+              fontWeight: 900,
+              fontSize: "clamp(28px,4vw,44px)",
+              lineHeight: 1.1,
+            }}
+          >
+            Edicion{" "}
+            <em
+              style={{
+                fontStyle: "italic",
+                color: "var(--color-dorado-osc)",
+              }}
+            >
+              limitada
+            </em>
+          </h2>
+        </div>
+
+        <div
+          style={{
+            background: "rgba(201,168,76,0.12)",
+            border: "1px solid var(--color-dorado)",
+            borderRadius: "4px",
+            padding: "12px 20px",
+          }}
+        >
+          <div
+            style={{
+              color: "var(--color-dorado-osc)",
+              fontFamily: "var(--font-bebas)",
+              fontSize: "11px",
+              letterSpacing: "2px",
+              marginBottom: "4px",
+            }}
+          >
+            Disponibles ahora
+          </div>
+          <div
+            style={{
+              color: "var(--color-verde)",
+              fontFamily: "var(--font-playfair)",
+              fontWeight: 700,
+              fontSize: "20px",
+            }}
+          >
+            {productos.length} cuadros
+          </div>
+        </div>
       </div>
 
       {/* Grid de tarjetas */}
@@ -226,29 +269,33 @@ function TarjetaProducto({
           relativePosition >= 0.33 && relativePosition <= 0.66;
         setEnTercioCentral(estaCentrado);
 
-        if (estaCentrado && animacionDisponible) {
-          // Iniciar contador de tiempo en centro
-          tiempoEnCentroRef.current = setTimeout(() => {
-            // Después de 1.5s en centro, activar animación
-            onCambiarImagen();
-            onMarcarAnimacionUsada();
+        if (estaCentrado) {
+          // Si animación disponible: esperar 1.5s, cambiar imagen, esperar 1s más, mostrar flechas
+          if (animacionDisponible) {
+            tiempoEnCentroRef.current = setTimeout(() => {
+              // Después de 1.5s en centro, activar animación
+              onCambiarImagen();
+              onMarcarAnimacionUsada();
 
-            // Mostrar flechas 1 segundo después
-            setTimeout(() => {
-              setMostrarFlechas(true);
-            }, 1000);
-          }, 1500);
+              // Mostrar flechas 1 segundo después (total 2.5s)
+              setTimeout(() => {
+                setMostrarFlechas(true);
+              }, 1000);
+            }, 1500);
+          } else {
+            // Si ya se usó la animación, mostrar flechas directamente
+            setTimeout(() => setMostrarFlechas(true), 0);
+          }
         } else {
-          // Limpiar timer si sale del centro
+          // Salió del centro
+          // Limpiar timer si está esperando la animación
           if (tiempoEnCentroRef.current) {
             clearTimeout(tiempoEnCentroRef.current);
             tiempoEnCentroRef.current = null;
           }
 
-          // Ocultar flechas solo si ya se usó la animación
-          if (!animacionDisponible) {
-            setTimeout(() => setMostrarFlechas(false), 0);
-          }
+          // Ocultar flechas
+          setTimeout(() => setMostrarFlechas(false), 0);
         }
       },
       { threshold: Array.from({ length: 101 }, (_, i) => i / 100) },
@@ -490,7 +537,7 @@ function TarjetaProducto({
                   opacity: estaAniadido ? 0.8 : 1,
                 }}
               >
-                {estaAniadido ? "Anadido" : "Anadir"}
+                {estaAniadido ? "Añadido" : "Añadir"}
               </button>
             </div>
           </div>

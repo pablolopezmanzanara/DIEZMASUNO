@@ -114,6 +114,7 @@ export default function DetalleClient({ producto }: Props) {
           <>
             <button
               onClick={anterior}
+              className="flecha-detalle-izq"
               style={{
                 position: "absolute",
                 left: "-60px",
@@ -146,6 +147,7 @@ export default function DetalleClient({ producto }: Props) {
             </button>
             <button
               onClick={siguiente}
+              className="flecha-detalle-der"
               style={{
                 position: "absolute",
                 right: "-60px",
@@ -371,7 +373,7 @@ export default function DetalleClient({ producto }: Props) {
             marginBottom: "20px",
           }}
         >
-          {aniadido ? "✓ ANADIDO AL CARRITO" : "ANADIR AL CARRITO"}
+          {aniadido ? "✓ AÑADIDO AL CARRITO" : "AÑADIR AL CARRITO"}
         </button>
 
         <div

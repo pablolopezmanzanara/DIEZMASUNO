@@ -177,7 +177,7 @@ body::before {
 }
 
 /* Tarjetas responsive */
-@media (max-width: 768px) {
+/*@media (max-width: 768px) {
   .tarjetas-grid {
     grid-template-columns: 1fr !important;
     padding: 0 20px;
@@ -201,7 +201,7 @@ body::before {
     padding: 16px 10px !important;
   }
 
-  /* Ajustar textos del panel derecho */
+  /* Ajustar textos del panel derecho 
   .tarjeta-interior .equipo-text {
     font-size: 8px !important;
   }
@@ -222,19 +222,65 @@ body::before {
     font-size: 12px !important;
     padding: 10px 12px !important;
   }
+}*/
+
+/* Tarjetas responsive - diseño vertical */
+@media (max-width: 768px) {
+  .tarjetas-grid {
+    grid-template-columns: 1fr !important;
+    padding: 0 20px;
+    gap: 32px !important;
+  }
+
+  .tarjeta-producto {
+    max-width: 75%;
+    margin-left: 12.5%;
+  }
+
+  .tarjeta-interior {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto auto !important;
+    height: auto !important;
+  }
+
+  .tarjeta-interior > div:first-child {
+    height: auto !important;
+    aspect-ratio: 3/4 !important;
+  }
+
+  .tarjeta-interior > div:last-child {
+    padding: 20px !important;
+    border-top: 3px solid var(--color-crema-osc);
+  }
 }
 
 /* Detalle producto responsive - versión más pequeña */
+/* Detalle producto responsive */
 @media (max-width: 768px) {
   .detalle-grid {
     grid-template-columns: 1fr !important;
     gap: 24px !important;
-    padding: 40px 12px !important;
+    padding: 40px 16px !important;
   }
 
   .detalle-imagen-container {
-    max-width: 70% !important;
+    max-width: calc(100% - 120px) !important;
     margin-left: auto !important;
     margin-right: auto !important;
+  }
+
+  /* Flechas móvil - posicionadas fuera de la imagen */
+  .flecha-detalle-izq {
+    left: -10px !important;
+    width: 40px !important;
+    height: 40px !important;
+    font-size: 20px !important;
+  }
+
+  .flecha-detalle-der {
+    right: -10px !important;
+    width: 40px !important;
+    height: 40px !important;
+    font-size: 20px !important;
   }
 }
