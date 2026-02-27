@@ -79,6 +79,7 @@ export default function Header() {
               }}
             >
               El Fútbol de Antes
+              ------------------------------------------------------
             </span>
             <span
               style={{
