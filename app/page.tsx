@@ -332,7 +332,7 @@ export default async function HomePage() {
       <section
         style={{
           background: "var(--color-verde)",
-          padding: "96px 24px",
+          padding: "120px 24px",
           position: "relative",
           overflow: "hidden",
         }}

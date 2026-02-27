@@ -189,11 +189,15 @@ body::before {
   }
 
   .tarjeta-interior {
-    grid-template-columns: 1fr !important;
-    height: auto !important;
+    grid-template-columns: 180px 1fr !important;
+    height: 280px !important;
   }
 
   .tarjeta-interior > div:first-child {
-    height: 300px !important;
+    height: 280px !important;
+  }
+
+  .tarjeta-interior > div:last-child {
+    padding: 16px !important;
   }
 }

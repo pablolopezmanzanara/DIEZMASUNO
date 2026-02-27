@@ -17,6 +17,9 @@ export default function TarjetasProductos({ productos }: Props) {
   const [imagenesActuales, setImagenesActuales] = useState<Map<string, number>>(
     new Map(),
   );
+  const [animacionesUsadas, setAnimacionesUsadas] = useState<Set<string>>(
+    new Set(),
+  ); // NUEVO
   const { aniadir } = useCarrito();
 
   const handleAniadir = (p: Producto, e: React.MouseEvent) => {
@@ -50,6 +53,10 @@ export default function TarjetasProductos({ productos }: Props) {
       nuevo.set(productoId, (actual + 1) % imagenes.length);
       return nuevo;
     });
+  };
+
+  const marcarAnimacionUsada = (productoId: string) => {
+    setAnimacionesUsadas((prev) => new Set(prev).add(productoId));
   };
 
   return (
@@ -88,7 +95,7 @@ export default function TarjetasProductos({ productos }: Props) {
         </h2>
       </div>
 
-      {/* Grid de tarjetas - RESPONSIVE */}
+      {/* Grid de tarjetas */}
       <div
         className="tarjetas-grid"
         style={{
@@ -105,6 +112,7 @@ export default function TarjetasProductos({ productos }: Props) {
             ...(p.galeria || []),
           ];
           const imagenActual = imagenesActuales.get(p._id) || 0;
+          const animacionDisponible = !animacionesUsadas.has(p._id); // NUEVO
 
           return (
             <TarjetaProducto
@@ -113,8 +121,10 @@ export default function TarjetasProductos({ productos }: Props) {
               estaAniadido={estaAniadido}
               imagenes={imagenes}
               imagenActual={imagenActual}
+              animacionDisponible={animacionDisponible} // NUEVO
               onAniadir={handleAniadir}
               onCambiarImagen={() => cambiarImagen(p._id, imagenes)}
+              onMarcarAnimacionUsada={() => marcarAnimacionUsada(p._id)} // NUEVO
             />
           );
         })}
@@ -129,49 +139,77 @@ function TarjetaProducto({
   estaAniadido,
   imagenes,
   imagenActual,
+  animacionDisponible,
   onAniadir,
   onCambiarImagen,
+  onMarcarAnimacionUsada,
 }: {
   producto: any;
   estaAniadido: boolean;
   imagenes: any[];
   imagenActual: number;
+  animacionDisponible: boolean;
   onAniadir: (p: any, e: React.MouseEvent) => void;
   onCambiarImagen: () => void;
+  onMarcarAnimacionUsada: () => void;
 }) {
   const [hover, setHover] = useState(false);
-  const [autoplayActivado, setAutoplayActivado] = useState(false);
   const [mostrarFlechas, setMostrarFlechas] = useState(false);
+  const [enTercioCentral, setEnTercioCentral] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const flechasTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const cardRef = useRef<HTMLDivElement | null>(null);
 
-  // Hover en desktop - cambiar imagen cada 1.5s
+  // Hover en desktop - cambiar imagen solo si animación disponible
   useEffect(() => {
-    if (imagenes.length <= 1) return;
+    if (imagenes.length <= 1 || !animacionDisponible) return;
 
     const esDesktop = window.innerWidth > 768;
-    if (!esDesktop || !hover) return;
+    if (!esDesktop) return;
 
-    intervalRef.current = setInterval(() => {
-      onCambiarImagen();
-    }, 1500);
+    if (hover) {
+      // Iniciar autoplay
+      intervalRef.current = setInterval(() => {
+        onCambiarImagen();
+      }, 1500);
 
-    // Mostrar flechas 1 segundo después del primer cambio
-    setTimeout(() => {
-      setMostrarFlechas(true);
-    }, 1500);
+      // Mostrar flechas 1 segundo después
+      flechasTimeoutRef.current = setTimeout(() => {
+        setMostrarFlechas(true);
+      }, 1000);
 
-    return () => {
+      // Marcar como usada después del primer cambio
+      setTimeout(() => {
+        onMarcarAnimacionUsada();
+      }, 1500);
+    } else {
+      // Limpiar al quitar hover
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
         intervalRef.current = null;
       }
-    };
-  }, [hover, imagenes.length]);
+      if (flechasTimeoutRef.current) {
+        clearTimeout(flechasTimeoutRef.current);
+        flechasTimeoutRef.current = null;
+      }
+      setTimeout(() => setMostrarFlechas(false), 0);
+    }
 
-  // IntersectionObserver móvil - autoplay una vez
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+      if (flechasTimeoutRef.current) clearTimeout(flechasTimeoutRef.current);
+    };
+  }, [
+    hover,
+    imagenes.length,
+    animacionDisponible,
+    onCambiarImagen,
+    onMarcarAnimacionUsada,
+  ]);
+
+  // IntersectionObserver móvil - solo si animación disponible
   useEffect(() => {
-    if (imagenes.length <= 1 || autoplayActivado) return;
+    if (imagenes.length <= 1 || !animacionDisponible) return;
     if (typeof window === "undefined") return;
 
     const esMobile = window.innerWidth <= 768;
@@ -184,19 +222,25 @@ function TarjetaProducto({
         const cardCenter = rect.top + rect.height / 2;
         const relativePosition = cardCenter / viewportHeight;
 
-        if (
-          relativePosition >= 0.33 &&
-          relativePosition <= 0.66 &&
-          !autoplayActivado
-        ) {
+        const estaCentrado =
+          relativePosition >= 0.33 && relativePosition <= 0.66;
+        setEnTercioCentral(estaCentrado);
+
+        // Autoplay solo una vez
+        if (estaCentrado) {
           setTimeout(() => {
             onCambiarImagen();
-            setAutoplayActivado(true);
+            onMarcarAnimacionUsada();
             // Mostrar flechas 1 segundo después
             setTimeout(() => {
               setMostrarFlechas(true);
             }, 1000);
           }, 2000);
+        }
+
+        // Ocultar flechas si sale del tercio central
+        if (!estaCentrado) {
+          setTimeout(() => setMostrarFlechas(false), 0);
         }
       },
       { threshold: Array.from({ length: 101 }, (_, i) => i / 100) },
@@ -211,7 +255,17 @@ function TarjetaProducto({
         observer.unobserve(cardRef.current);
       }
     };
-  }, [imagenes.length, autoplayActivado]);
+  }, [
+    imagenes.length,
+    animacionDisponible,
+    onCambiarImagen,
+    onMarcarAnimacionUsada,
+  ]);
+
+  const esMobile = typeof window !== "undefined" && window.innerWidth <= 768;
+  const mostrarFlechasActual = esMobile
+    ? mostrarFlechas && enTercioCentral
+    : mostrarFlechas && hover;
 
   return (
     <div ref={cardRef} className="tarjeta-producto">
@@ -275,8 +329,8 @@ function TarjetaProducto({
               </div>
             )}
 
-            {/* Flechas - aparecen 1s después */}
-            {mostrarFlechas && imagenes.length > 1 && (
+            {/* Flechas - desktop: solo con hover, móvil: solo en tercio central */}
+            {mostrarFlechasActual && imagenes.length > 1 && (
               <>
                 <button
                   onClick={(e) => {
