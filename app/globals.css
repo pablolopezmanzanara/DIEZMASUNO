@@ -175,3 +175,25 @@ body::before {
     display: none !important;
   }
 }
+
+/* Tarjetas responsive */
+@media (max-width: 768px) {
+  .tarjetas-grid {
+    grid-template-columns: 1fr !important;
+    padding: 0 16px;
+    gap: 24px !important;
+  }
+
+  .tarjeta-producto {
+    max-width: 100%;
+  }
+
+  .tarjeta-interior {
+    grid-template-columns: 1fr !important;
+    height: auto !important;
+  }
+
+  .tarjeta-interior > div:first-child {
+    height: 300px !important;
+  }
+}

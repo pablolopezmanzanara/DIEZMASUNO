@@ -88,8 +88,9 @@ export default function TarjetasProductos({ productos }: Props) {
         </h2>
       </div>
 
-      {/* Grid de tarjetas */}
+      {/* Grid de tarjetas - RESPONSIVE */}
       <div
+        className="tarjetas-grid"
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, 500px)",
@@ -122,7 +123,7 @@ export default function TarjetasProductos({ productos }: Props) {
   );
 }
 
-// Componente tarjeta individual con autoplay
+// Componente tarjeta individual
 function TarjetaProducto({
   producto,
   estaAniadido,
@@ -153,6 +154,10 @@ function TarjetaProducto({
 
     intervalRef.current = setInterval(() => {
       onCambiarImagen();
+    }, 1500);
+
+    // Mostrar flechas 1 segundo después del primer cambio
+    setTimeout(() => {
       setMostrarFlechas(true);
     }, 1500);
 
@@ -161,7 +166,7 @@ function TarjetaProducto({
     };
   }, [hover, imagenes.length]);
 
-  // IntersectionObserver móvil - autoplay una vez en tercio central
+  // IntersectionObserver móvil - autoplay una vez
   useEffect(() => {
     if (imagenes.length <= 1 || autoplayActivado) return;
     if (typeof window === "undefined") return;
@@ -176,7 +181,6 @@ function TarjetaProducto({
         const cardCenter = rect.top + rect.height / 2;
         const relativePosition = cardCenter / viewportHeight;
 
-        // Si está en tercio central (33%-66%)
         if (
           relativePosition >= 0.33 &&
           relativePosition <= 0.66 &&
@@ -185,7 +189,10 @@ function TarjetaProducto({
           setTimeout(() => {
             onCambiarImagen();
             setAutoplayActivado(true);
-            setMostrarFlechas(true);
+            // Mostrar flechas 1 segundo después
+            setTimeout(() => {
+              setMostrarFlechas(true);
+            }, 1000);
           }, 2000);
         }
       },
@@ -204,7 +211,7 @@ function TarjetaProducto({
   }, [imagenes.length, autoplayActivado]);
 
   return (
-    <div ref={cardRef}>
+    <div ref={cardRef} className="tarjeta-producto">
       <Link
         href={`/catalogo/${producto.slug.current}`}
         style={{ textDecoration: "none" }}
@@ -224,6 +231,7 @@ function TarjetaProducto({
             cursor: "pointer",
             position: "relative",
           }}
+          className="tarjeta-interior"
           onMouseEnter={(e) => {
             e.currentTarget.style.boxShadow = "0 8px 24px rgba(0,0,0,0.12)";
             e.currentTarget.style.transform = "translateY(-2px)";
@@ -264,7 +272,7 @@ function TarjetaProducto({
               </div>
             )}
 
-            {/* Flechas - solo si hay galería y se activaron */}
+            {/* Flechas - aparecen 1s después */}
             {mostrarFlechas && imagenes.length > 1 && (
               <>
                 <button
@@ -327,7 +335,7 @@ function TarjetaProducto({
             )}
           </div>
 
-          {/* Panel info derecho */}
+          {/* Panel info */}
           <div
             style={{
               padding: "24px",
