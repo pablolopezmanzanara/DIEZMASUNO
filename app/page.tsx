@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Marquee from "./components/Marquee";
 import CatalogoIntegrado from "./components/CatalogoIntegrado";
+import TarjetasProductos from "./components/TarjetasProductos";
 
 import {
   getProductosDestacados,
@@ -29,6 +30,7 @@ export default async function HomePage() {
           gridTemplateColumns: "1fr",
           overflow: "hidden",
           position: "relative",
+          paddingBottom: "30px",
         }}
       >
         {/* Líneas verticales decorativas - espaciado fijo */}
@@ -233,9 +235,9 @@ export default async function HomePage() {
                 marginBottom: "40px",
               }}
             >
-              Cuadros de edición limitada que reviven los momentos y jugadores
-              que definieron el fútbol español. Impresiones de alta calidad,
-              renovadas cada semana.
+              Aquí cuelga la historia: retratos de las leyendas que hicieron del
+              fútbol una religión, desde los grandes colosos hasta los héroes
+              del barrio.
             </p>
 
             <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
@@ -319,215 +321,12 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
-      {/* ── PRODUCTOS DESTACADOS ── */}
+
+      {/* ── TODOS LOS PRODUCTOS ── */}
       <section
-        style={{ padding: "96px 24px", maxWidth: "1100px", margin: "0 auto" }}
+        style={{ padding: "80px 24px", background: "var(--color-crema)" }}
       >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "flex-end",
-            justifyContent: "space-between",
-            marginBottom: "56px",
-            gap: "24px",
-            flexWrap: "wrap",
-          }}
-        >
-          <div>
-            <div
-              style={{
-                color: "var(--color-dorado-osc)",
-                fontFamily: "var(--font-bebas)",
-                fontSize: "11px",
-                letterSpacing: "5px",
-                marginBottom: "10px",
-              }}
-            >
-              Descubre
-            </div>
-            <h2
-              style={{
-                color: "var(--color-verde)",
-                fontFamily: "var(--font-playfair)",
-                fontWeight: 900,
-                fontSize: "clamp(28px,4vw,44px)",
-                lineHeight: 1.1,
-              }}
-            >
-              Algunos de nuestros{" "}
-              <em
-                style={{
-                  fontStyle: "italic",
-                  color: "var(--color-dorado-osc)",
-                }}
-              >
-                cuadros
-              </em>
-            </h2>
-          </div>
-          <Link
-            href="/catalogo"
-            style={{
-              color: "var(--color-verde-mid)",
-              fontFamily: "var(--font-bebas)",
-              fontSize: "13px",
-              letterSpacing: "2px",
-              textDecoration: "none",
-              borderBottom: "1px solid var(--color-verde-mid)",
-              paddingBottom: "2px",
-              whiteSpace: "nowrap",
-            }}
-          >
-            Ver colección completa →
-          </Link>
-        </div>
-
-        {productosHome.length === 0 ? (
-          <div style={{ textAlign: "center", padding: "80px 0" }}>
-            <p
-              style={{
-                color: "var(--color-gris)",
-                fontFamily: "var(--font-playfair)",
-                fontStyle: "italic",
-                fontSize: "18px",
-              }}
-            >
-              Próximamente nuevos cuadros disponibles.
-            </p>
-          </div>
-        ) : (
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, 320px)",
-              justifyContent: "center",
-              gap: "32px",
-            }}
-          >
-            {productosHome.slice(0, 3).map((p: Producto) => (
-              <Link
-                key={p._id}
-                href={`/catalogo/${p.slug.current}`}
-                style={{
-                  textDecoration: "none",
-                  background: "white",
-                  borderRadius: "4px",
-                  overflow: "hidden",
-                  display: "block",
-                  transition: "all 0.3s",
-                }}
-              >
-                <div
-                  style={{
-                    background: "var(--color-verde)",
-                    position: "relative",
-                    overflow: "hidden",
-                    aspectRatio: "3/4",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  {p.imagen ? (
-                    <Image
-                      src={urlFor(p.imagen).width(400).height(533).url()}
-                      alt={p.nombre}
-                      fill
-                      style={{ objectFit: "cover" }}
-                    />
-                  ) : (
-                    <>
-                      <span
-                        style={{
-                          color: "rgba(255,255,255,0.08)",
-                          fontFamily: "var(--font-bebas)",
-                          fontSize: "80px",
-                          position: "absolute",
-                          top: "12px",
-                          right: "16px",
-                          lineHeight: 1,
-                          userSelect: "none",
-                        }}
-                      >
-                        {p.dorsal}
-                      </span>
-                      <span style={{ fontSize: "64px", opacity: 0.9 }}>⚽</span>
-                    </>
-                  )}
-                </div>
-
-                <div
-                  style={{
-                    padding: "20px 22px 22px",
-                    borderTop: "3px solid var(--color-crema-osc)",
-                  }}
-                >
-                  <div
-                    style={{
-                      color: "var(--color-gris)",
-                      fontFamily: "var(--font-bebas)",
-                      fontSize: "10px",
-                      letterSpacing: "3px",
-                      marginBottom: "6px",
-                    }}
-                  >
-                    {p.equipo}
-                  </div>
-                  <div
-                    style={{
-                      color: "var(--color-tinta)",
-                      fontFamily: "var(--font-playfair)",
-                      fontWeight: 700,
-                      fontSize: "18px",
-                      marginBottom: "4px",
-                      lineHeight: 1.2,
-                    }}
-                  >
-                    {p.nombre}
-                  </div>
-                  <div
-                    style={{
-                      color: "var(--color-gris)",
-                      fontSize: "13px",
-                      fontStyle: "italic",
-                      marginBottom: "14px",
-                    }}
-                  >
-                    {p.anio}
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <span
-                      style={{
-                        color: "var(--color-verde)",
-                        fontFamily: "var(--font-playfair)",
-                        fontWeight: 700,
-                        fontSize: "22px",
-                      }}
-                    >
-                      {p.precio} €
-                    </span>
-                    <span
-                      style={{
-                        color: "var(--color-verde)",
-                        fontFamily: "var(--font-bebas)",
-                        fontSize: "12px",
-                        letterSpacing: "2px",
-                      }}
-                    >
-                      Ver cuadro →
-                    </span>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        )}
+        <TarjetasProductos productos={todosProductos} />
       </section>
 
       {/* ── PROCESO ── */}
@@ -603,18 +402,18 @@ export default async function HomePage() {
             {[
               {
                 num: "01",
-                titulo: "Elige tu leyenda",
-                desc: "Cada semana renovamos la colección con nuevos jugadores y momentos icónicos del fútbol español de los años 90 y principios de los 2000.",
+                titulo: "Tu equipo, tu leyenda",
+                desc: "Revive momentos icónicos y jugadores del fútbol español de los años 90 y principios de los 2000.",
               },
               {
                 num: "02",
                 titulo: "Impresión de calidad",
-                desc: "Cada cuadro se imprime bajo demanda en papel de archivo de alta gramaje con tintas de larga duración. Disponible en varios formatos.",
+                desc: "Cada cuadro se imprime bajo demanda en papel de archivo de alto gramaje con tintas de larga duración.",
               },
               {
                 num: "03",
-                titulo: "En tu pared en 48h",
-                desc: "Enviamos en tubo protector o con marco incluido. Cada pedido incluye certificado de edición y ficha del jugador.",
+                titulo: "Envío a domicilio",
+                desc: "Enviamos el producto empaquetado con su propio marco.",
               },
             ].map((paso) => (
               <div
@@ -700,8 +499,8 @@ export default async function HomePage() {
               zIndex: 1,
             }}
           >
-            Aquellos domingos frente al televisor, con el partido de las tres,
-            no se olvidan.
+            Aquellos domingos frente al televisor, con el partido de las nueve,
+            y el teletexto de la jornada.
           </p>
         </blockquote>
         <div

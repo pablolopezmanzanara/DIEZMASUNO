@@ -12,9 +12,11 @@ type Props = {
 
 export default function DetalleClient({ producto }: Props) {
   const [cantidad, setCantidad] = useState(1);
-  const [vista, setVista] = useState<"diseno" | "visualizer">("diseno");
+  const [imagenActual, setImagenActual] = useState(0);
   const { aniadir } = useCarrito();
   const [aniadido, setAniadido] = useState(false);
+
+  // Array de imágenes - combina imagen principal + galería
   const imagenes = [
     ...(producto.imagen ? [producto.imagen] : []),
     ...(producto.galeria || []),
@@ -28,7 +30,7 @@ export default function DetalleClient({ producto }: Props) {
         equipo: producto.equipo,
         dorsal: producto.dorsal,
         color: "#FFFFFF",
-        imagen: producto.imagen, // AÑADIR ESTA LÍNEA
+        imagen: producto.imagen,
         formato: {
           id: "50x70",
           label: "50×70 cm",
@@ -40,195 +42,180 @@ export default function DetalleClient({ producto }: Props) {
     setAniadido(true);
     setTimeout(() => setAniadido(false), 2000);
   };
+
+  const siguiente = () => {
+    setImagenActual((prev) => (prev + 1) % imagenes.length);
+  };
+
+  const anterior = () => {
+    setImagenActual((prev) => (prev - 1 + imagenes.length) % imagenes.length);
+  };
+
   return (
     <div
       style={{
         display: "grid",
-        gridTemplateColumns: "1fr 1.5fr",
-        gap: "60px",
+        gridTemplateColumns: "1fr 2fr",
+        gap: "80px",
         maxWidth: "1200px",
         margin: "0 auto",
         padding: "60px 24px",
       }}
       className="detalle-grid"
     >
-      {/* Columna izquierda: Tabs fijos + Imagen centrada */}
+      {/* Galería de imágenes con flechas */}
       <div
         style={{
           display: "flex",
           flexDirection: "column",
-          height: "100%",
+          alignItems: "center",
+          justifyContent: "center",
+          position: "relative",
         }}
       >
-        {/* Tabs DISENO / VISUALIZER - fijos arriba */}
+        {/* Imagen */}
         <div
-          className="detalle-tabs"
           style={{
-            display: "flex",
-            gap: "24px",
-            marginBottom: "24px",
-            justifyContent: "center",
+            position: "relative",
+            width: "100%",
+            maxWidth: "500px",
+            aspectRatio: "3/4",
+            background: "var(--color-verde)",
+            borderRadius: "4px",
+            overflow: "hidden",
+            boxShadow: "0 20px 60px rgba(0,0,0,0.15)",
+            marginBottom: "20px",
           }}
         >
-          {[
-            ["DISENO", "diseno"],
-            ["VISUALIZER", "visualizer"],
-          ].map(([label, value]) => (
-            <button
-              key={value}
-              onClick={() => setVista(value as "diseno" | "visualizer")}
+          {imagenes.length > 0 ? (
+            <Image
+              src={urlFor(imagenes[imagenActual]).width(600).height(800).url()}
+              alt={producto.nombre}
+              fill
+              style={{ objectFit: "cover" }}
+            />
+          ) : (
+            <div
               style={{
-                background: "transparent",
-                color:
-                  vista === value
-                    ? "var(--color-verde)"
-                    : "rgba(26, 58, 42, 0.4)",
-                border: "none",
-                fontFamily: "Georgia, serif",
-                fontSize: "clamp(16px, 4vw, 20px)",
-                fontWeight: vista === value ? 700 : 400,
-                cursor: "pointer",
-                transition: "all 0.3s",
-                padding: "8px 16px",
-                position: "relative",
-              }}
-              onMouseEnter={(e) => {
-                if (vista !== value) {
-                  e.currentTarget.style.color = "var(--color-verde)";
-                  e.currentTarget.style.opacity = "0.7";
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (vista !== value) {
-                  e.currentTarget.style.color = "rgba(26, 58, 42, 0.4)";
-                  e.currentTarget.style.opacity = "1";
-                }
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                height: "100%",
               }}
             >
-              {label}
-              {vista === value && (
-                <span
-                  style={{
-                    position: "absolute",
-                    bottom: "0",
-                    left: "16px",
-                    right: "16px",
-                    height: "3px",
-                    background: "var(--color-dorado)",
-                    borderRadius: "2px",
-                  }}
-                />
-              )}
-            </button>
-          ))}
+              <span style={{ fontSize: "120px", opacity: 0.3 }}>⚽</span>
+            </div>
+          )}
         </div>
 
-        {/* Contenedor de imagen - centrado y con limites verticales */}
-        <div
-          className="detalle-imagen"
-          style={{
-            flex: 1,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            width: "100%",
-          }}
-        >
+        {/* Flechas navegación - solo si hay más de 1 imagen */}
+        {imagenes.length > 1 && (
+          <>
+            <button
+              onClick={anterior}
+              style={{
+                position: "absolute",
+                left: "-60px",
+                top: "45%",
+                transform: "translateY(-50%)",
+                background: "white",
+                border: "none",
+                width: "48px",
+                height: "48px",
+                borderRadius: "50%",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "24px",
+                color: "var(--color-verde)",
+                boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+                transition: "all 0.3s",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "var(--color-dorado)";
+                e.currentTarget.style.color = "var(--color-verde)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "white";
+                e.currentTarget.style.color = "var(--color-verde)";
+              }}
+            >
+              ←
+            </button>
+            <button
+              onClick={siguiente}
+              style={{
+                position: "absolute",
+                right: "-60px",
+                top: "45%",
+                transform: "translateY(-50%)",
+                background: "white",
+                border: "none",
+                width: "48px",
+                height: "48px",
+                borderRadius: "50%",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "24px",
+                color: "var(--color-verde)",
+                boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+                transition: "all 0.3s",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "var(--color-dorado)";
+                e.currentTarget.style.color = "var(--color-verde)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "white";
+                e.currentTarget.style.color = "var(--color-verde)";
+              }}
+            >
+              →
+            </button>
+          </>
+        )}
+
+        {/* Indicador de imagen actual - debajo */}
+        {imagenes.length > 1 && (
           <div
             style={{
-              position: "relative",
-              width: "100%",
-              maxWidth: vista === "diseno" ? "500px" : "100%",
-              aspectRatio: vista === "diseno" ? "3/4" : "16/10",
-              background: vista === "diseno" ? "var(--color-verde)" : "#f0f0f0",
-              borderRadius: "4px",
-              overflow: "hidden",
-              boxShadow: "0 20px 60px rgba(0,0,0,0.15)",
+              display: "flex",
+              gap: "8px",
+              justifyContent: "center",
             }}
           >
-            {vista === "diseno" ? (
-              producto.imagen ? (
-                <Image
-                  src={urlFor(producto.imagen).width(600).height(800).url()}
-                  alt={producto.nombre}
-                  fill
-                  style={{ objectFit: "cover" }}
-                />
-              ) : (
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    height: "100%",
-                  }}
-                >
-                  <span style={{ fontSize: "120px", opacity: 0.3 }}>⚽</span>
-                </div>
-              )
-            ) : (
+            {imagenes.map((_, i) => (
               <div
+                key={i}
                 style={{
-                  width: "100%",
-                  height: "100%",
+                  width: i === imagenActual ? "24px" : "8px",
+                  height: "8px",
+                  borderRadius: "4px",
                   background:
-                    "linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  position: "relative",
+                    i === imagenActual
+                      ? "var(--color-dorado)"
+                      : "rgba(26,58,42,0.3)",
+                  transition: "all 0.3s",
+                  cursor: "pointer",
                 }}
-              >
-                {/* Simulacion pared con cuadro */}
-                <div
-                  style={{
-                    position: "absolute",
-                    width: "40%",
-                    aspectRatio: "3/4",
-                    background: "white",
-                    boxShadow: "0 10px 40px rgba(0,0,0,0.2)",
-                    border: "12px solid #8B7355",
-                    borderRadius: "2px",
-                  }}
-                >
-                  {producto.imagen ? (
-                    <Image
-                      src={urlFor(producto.imagen).width(400).height(533).url()}
-                      alt={producto.nombre}
-                      fill
-                      style={{ objectFit: "cover" }}
-                    />
-                  ) : (
-                    <div
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        background: "var(--color-verde)",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <span style={{ fontSize: "48px", opacity: 0.3 }}>⚽</span>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
+                onClick={() => setImagenActual(i)}
+              />
+            ))}
           </div>
-        </div>
+        )}
       </div>
 
-      {/* Columna derecha: Info y compra */}
+      {/* Info y compra */}
       <div
-        className="detalle-info"
         style={{
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
         }}
       >
-        {/* Equipo */}
         <div
           style={{
             color: "var(--color-gris)",
@@ -241,7 +228,6 @@ export default function DetalleClient({ producto }: Props) {
           {producto.equipo}
         </div>
 
-        {/* Nombre */}
         <h1
           style={{
             color: "var(--color-tinta)",
@@ -255,7 +241,6 @@ export default function DetalleClient({ producto }: Props) {
           {producto.nombre}
         </h1>
 
-        {/* Anio */}
         <div
           style={{
             color: "var(--color-gris)",
@@ -267,7 +252,6 @@ export default function DetalleClient({ producto }: Props) {
           {producto.anio}
         </div>
 
-        {/* Precio */}
         <div
           style={{
             color: "var(--color-verde)",
@@ -280,7 +264,6 @@ export default function DetalleClient({ producto }: Props) {
           {producto.precio} €
         </div>
 
-        {/* Info formato */}
         <div
           style={{
             background: "var(--color-crema)",
@@ -300,7 +283,6 @@ export default function DetalleClient({ producto }: Props) {
           </div>
         </div>
 
-        {/* Descripcion corta */}
         <p
           style={{
             color: "var(--color-gris)",
@@ -312,7 +294,6 @@ export default function DetalleClient({ producto }: Props) {
           {producto.descripcion}
         </p>
 
-        {/* Cantidad */}
         <div style={{ marginBottom: "24px" }}>
           <label
             style={{
@@ -373,7 +354,6 @@ export default function DetalleClient({ producto }: Props) {
           </div>
         </div>
 
-        {/* Boton aniadir */}
         <button
           onClick={handleAniadir}
           style={{
@@ -393,7 +373,6 @@ export default function DetalleClient({ producto }: Props) {
           {aniadido ? "✓ ANADIDO AL CARRITO" : "ANADIR AL CARRITO"}
         </button>
 
-        {/* Detalles adicionales compactos */}
         <div
           style={{
             display: "grid",

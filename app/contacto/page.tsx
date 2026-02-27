@@ -83,12 +83,7 @@ export default function ContactoPage() {
               style={{ display: "flex", flexDirection: "column", gap: "20px" }}
             >
               {[
-                { label: "Email general", valor: "hola@elfutboldeantes.com" },
-                {
-                  label: "Pedidos y envíos",
-                  valor: "pedidos@elfutboldeantes.com",
-                },
-                { label: "Horario", valor: "Lunes a viernes, 9:00–18:00" },
+                { label: "Email general", valor: "diezmasuno.fa@gmail.com" },
               ].map((item) => (
                 <div key={item.label}>
                   <div

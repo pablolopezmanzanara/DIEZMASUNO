@@ -1,5 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { client } from "./sanity";
-
 export type Producto = {
   _id: string;
   nombre: string;
@@ -9,8 +9,8 @@ export type Producto = {
   dorsal: string;
   descripcion: string;
   historia?: string;
-  imagen?: string;
-  galeria?: string[]; // AÑADIR ESTA LÍNEA
+  imagen?: any;
+  galeria?: any[]; // AÑADIR
   precio: number;
   badge?: string;
   categoria?: string;
@@ -20,27 +20,6 @@ export type Producto = {
   tipo?: "jugador" | "otro";
 };
 
-// Todos los productos disponibles
-export async function getProductos(): Promise<Producto[]> {
-  return client.fetch(`
-    *[_type == "producto" && disponible == true] | order(_createdAt desc) {
-      _id, nombre, slug, equipo, anio, dorsal,
-      descripcion, imagen, precio, badge, categoria, disponible, destacado, tipo
-    }
-  `);
-}
-
-// Productos destacados para la página de inicio
-export async function getProductosDestacados(): Promise<Producto[]> {
-  return client.fetch(`
-    *[_type == "producto" && disponible == true && destacado == true] | order(_createdAt desc) {
-      _id, nombre, slug, equipo, anio, dorsal,
-      descripcion, imagen, precio, badge, categoria, tipo
-    }
-  `);
-}
-
-// Un producto por slug
 export async function getProducto(slug: string): Promise<Producto | null> {
   return client.fetch(
     `*[_type == "producto" && slug.current == $slug][0] {
@@ -53,7 +32,7 @@ export async function getProducto(slug: string): Promise<Producto | null> {
       descripcion,
       historia,
       imagen,
-      galeria,  // AÑADIR ESTA LÍNEA
+      galeria,  // AÑADIR
       precio,
       badge,
       categoria,
@@ -66,11 +45,41 @@ export async function getProducto(slug: string): Promise<Producto | null> {
   );
 }
 
-// Slugs para generateStaticParams
-export async function getProductoSlugs(): Promise<{ slug: string }[]> {
-  return client.fetch(`
-    *[_type == "producto" && disponible == true] {
-      "slug": slug.current
-    }
-  `);
+export async function getProductos(): Promise<Producto[]> {
+  return client.fetch(
+    `*[_type == "producto" && disponible == true] | order(_createdAt desc) {
+      _id,
+      nombre,
+      slug,
+      equipo,
+      anio,
+      dorsal,
+      descripcion,
+      imagen,
+      galeria,  // AÑADIR
+      precio,
+      badge,
+      destacado,
+      tipo
+    }`,
+  );
+}
+
+export async function getProductosDestacados(): Promise<Producto[]> {
+  return client.fetch(
+    `*[_type == "producto" && disponible == true && destacado == true] | order(_createdAt desc) {
+      _id,
+      nombre,
+      slug,
+      equipo,
+      anio,
+      dorsal,
+      descripcion,
+      imagen,
+      galeria,  // AÑADIR
+      precio,
+      badge,
+      tipo
+    }`,
+  );
 }

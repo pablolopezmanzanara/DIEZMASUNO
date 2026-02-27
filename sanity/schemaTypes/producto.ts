@@ -53,6 +53,24 @@ export default defineType({
       options: { hotspot: true },
     }),
     defineField({
+      name: "galeria",
+      title: "Galería de imágenes",
+      type: "array",
+      of: [
+        {
+          type: "image",
+          options: {
+            hotspot: true,
+          },
+        },
+      ],
+      description:
+        "Imágenes adicionales del producto (diseño, visualizer, detalles, etc.)",
+      options: {
+        layout: "grid",
+      },
+    }),
+    defineField({
       name: "precio",
       title: "Precio base (€)",
       type: "number",
@@ -115,14 +133,6 @@ export default defineType({
       title: "Destacado en home",
       type: "boolean",
       description: "Marcar para mostrar en la página principal",
-    }),
-    defineField({
-      name: "galeria",
-      title: "Galería de imágenes",
-      type: "array",
-      of: [{ type: "image" }],
-      description:
-        "Imágenes adicionales del cuadro (diseño, visualizer, detalles, etc.)",
     }),
   ],
   preview: {

@@ -94,9 +94,8 @@ export default function SobreNosotrosPage() {
                   lineHeight: 1.8,
                 }}
               >
-                Cada semana lanzamos nuevos diseños en ediciones limitadas. Una
-                vez agotados, no vuelven. Esto hace que cada cuadro sea una
-                pieza unica y coleccionable.
+                Cada diseño estrá disponible por un tiempo limitado, lanzanado
+                nuevos diseños de forma periódica.
               </p>
             </div>
 
@@ -120,9 +119,9 @@ export default function SobreNosotrosPage() {
                 }}
               >
                 Todos nuestros diseños son creados con la maxima calidad.
-                Imprimimos en papel mate premium de 200g y utilizamos tintas de
-                alta durabilidad que mantienen los colores vibrantes durante
-                años.
+                Imprimimos en papel tamaño A4 y utilizamos tintas de alta
+                durabilidad que mantienen los colores vibrantes durante años.
+                Por supuesto, con el marco incluido.
               </p>
             </div>
 
@@ -148,72 +147,6 @@ export default function SobreNosotrosPage() {
                 momentos magicos.&ldquo;
               </p>
             </div>
-          </div>
-
-          {/* FAQs simples */}
-          <div>
-            <h2
-              style={{
-                color: "var(--color-verde)",
-                fontFamily: "var(--font-playfair)",
-                fontSize: "28px",
-                fontWeight: 700,
-                marginBottom: "32px",
-              }}
-            >
-              Preguntas frecuentes
-            </h2>
-
-            {[
-              [
-                "Como funciona la edicion limitada?",
-                "Cada diseño se produce en cantidades limitadas. Una vez agotado, ese diseño especifico no vuelve a estar disponible.",
-              ],
-              [
-                "Donde se fabrican los cuadros?",
-                "Todos nuestros cuadros se diseñan e imprimen en España con materiales de maxima calidad.",
-              ],
-              [
-                "Puedo enmarcar los cuadros?",
-                "Si. Nuestros formatos son estandar (A4, A3, 50x70, 70x100) compatibles con marcos disponibles en cualquier tienda.",
-              ],
-              [
-                "Aceptais pedidos personalizados?",
-                "Por ahora no ofrecemos personalizaciones, pero puedes solicitar jugadores o equipos especificos en nuestra seccion de Peticiones.",
-              ],
-            ].map(([pregunta, respuesta], i) => (
-              <div
-                key={i}
-                style={{
-                  marginBottom: "24px",
-                  padding: "20px",
-                  background: "white",
-                  borderRadius: "4px",
-                  border: "1px solid var(--color-crema-osc)",
-                }}
-              >
-                <h3
-                  style={{
-                    color: "var(--color-verde)",
-                    fontFamily: "var(--font-playfair)",
-                    fontSize: "16px",
-                    fontWeight: 700,
-                    marginBottom: "12px",
-                  }}
-                >
-                  {pregunta}
-                </h3>
-                <p
-                  style={{
-                    color: "var(--color-gris)",
-                    fontSize: "14px",
-                    lineHeight: 1.7,
-                  }}
-                >
-                  {respuesta}
-                </p>
-              </div>
-            ))}
           </div>
         </div>
       </div>

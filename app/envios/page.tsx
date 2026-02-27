@@ -7,7 +7,7 @@ const secciones = [
       {
         pregunta: "¿Cuándo recibiré mi pedido?",
         respuesta:
-          "Los pedidos se procesan en 24-48 horas laborables. El tiempo de entrega estimado es de 2 a 4 días hábiles para España peninsular, 4-6 días para Canarias, Baleares, Ceuta y Melilla, y 5-8 días para el resto de Europa.",
+          "Los pedidos se procesan en 24-48 horas laborables. El tiempo de entrega estimado es de 2 a 4 días hábiles para España peninsular, 4-6 días para Canarias, Baleares, Ceuta y Melilla",
       },
       {
         pregunta: "¿Cuándo se envía mi pedido?",
@@ -22,12 +22,12 @@ const secciones = [
       {
         pregunta: "¿Cuánto cuesta el envío?",
         respuesta:
-          "El envío es gratuito en pedidos superiores a 50€. Para pedidos inferiores, el coste es de 4,95€ para España y 9,95€ para el resto de Europa.",
+          "El envío es gratuito en pedidos superiores a 30€. Para pedidos inferiores, el coste es de 3€ para España peninsular y 5€ para Canarias, Baleares, Ceuta y Melilla.",
       },
       {
         pregunta: "¿Cómo se embala el pedido?",
         respuesta:
-          "Los cuadros sin marco se envían en tubo protector rígido. Los cuadros con marco se envían en caja de cartón reforzado con esquineras de protección. Todos los envíos incluyen seguro de transporte.",
+          "Los cuadros se envían en caja de cartón reforzado y embalaje de seguridad. Todos los envíos incluyen seguro de transporte.",
       },
     ],
   },
@@ -37,12 +37,12 @@ const secciones = [
       {
         pregunta: "¿Puedo devolver mi pedido?",
         respuesta:
-          "Sí. Aceptamos devoluciones en un plazo de 30 días desde la recepción del pedido. El producto debe estar en perfectas condiciones y en su embalaje original.",
+          "Sí. Aceptamos devoluciones en un plazo de 30 días desde la recepción del pedido. El producto debe estar en perfectas condiciones y en su embalaje original. No incluido el importe de los gastos de la devolución, salvo en casos de productos defectuosos o errores en el pedido.",
       },
       {
         pregunta: "¿Cómo gestiono una devolución?",
         respuesta:
-          "Escríbenos a contacto@elfutboldeantes.com indicando tu número de pedido y el motivo de la devolución. Te enviaremos las instrucciones para el proceso de recogida, que es gratuito si el producto llegó en mal estado.",
+          "Escríbenos a contacto diezmasuno.fa@gmail.com indicando tu número de pedido y el motivo de la devolución. Te enviaremos las instrucciones para el proceso de recogida, que es gratuito si el producto llegó en mal estado.",
       },
       {
         pregunta: "¿Cuándo recibiré el reembolso?",
