@@ -142,8 +142,8 @@ function TarjetaProducto({
   const [hover, setHover] = useState(false);
   const [autoplayActivado, setAutoplayActivado] = useState(false);
   const [mostrarFlechas, setMostrarFlechas] = useState(false);
-  const intervalRef = useRef<NodeJS.Timeout>();
-  const cardRef = useRef<HTMLDivElement>(null);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const cardRef = useRef<HTMLDivElement | null>(null);
 
   // Hover en desktop - cambiar imagen cada 1.5s
   useEffect(() => {
@@ -162,7 +162,10 @@ function TarjetaProducto({
     }, 1500);
 
     return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
     };
   }, [hover, imagenes.length]);
 
