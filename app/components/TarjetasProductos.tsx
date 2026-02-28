@@ -199,13 +199,11 @@ function TarjetaProducto({
   const [hover, setHover] = useState(false);
   const [mostrarFlechas, setMostrarFlechas] = useState(false);
   const [enTercioCentral, setEnTercioCentral] = useState(false);
-  const [tiempoEnCentro, setTiempoEnCentro] = useState(0);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const flechasTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const tiempoEnCentroRef = useRef<NodeJS.Timeout | null>(null);
   const cardRef = useRef<HTMLDivElement | null>(null);
 
-  // Hover en desktop - cambiar imagen solo si animación disponible
+  // === DESKTOP: Hover ===
   useEffect(() => {
     if (imagenes.length <= 1 || !animacionDisponible) return;
 
@@ -248,7 +246,7 @@ function TarjetaProducto({
     onMarcarAnimacionUsada,
   ]);
 
-  // IntersectionObserver móvil - timer 1.5s en tercio central
+  // === MÓVIL: IntersectionObserver + Timer ===
   useEffect(() => {
     if (imagenes.length <= 1) return;
     if (typeof window === "undefined") return;
@@ -257,6 +255,8 @@ function TarjetaProducto({
     if (!esMobile) return;
 
     const headerHeight = 70;
+    let timerEnCentro: NodeJS.Timeout | null = null;
+    let enCentroDesdeInicio = false;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -270,32 +270,40 @@ function TarjetaProducto({
         setEnTercioCentral(estaCentrado);
 
         if (estaCentrado) {
-          // Si animación disponible: esperar 1.5s, cambiar imagen, esperar 1s más, mostrar flechas
-          if (animacionDisponible) {
-            tiempoEnCentroRef.current = setTimeout(() => {
-              // Después de 1.5s en centro, activar animación
+          // ENTRÓ al tercio central
+
+          if (animacionDisponible && !enCentroDesdeInicio) {
+            // Primera vez en centro CON animación disponible
+            enCentroDesdeInicio = true;
+
+            // Esperar 1.5s → cambiar imagen
+            timerEnCentro = setTimeout(() => {
               onCambiarImagen();
               onMarcarAnimacionUsada();
 
-              // Mostrar flechas 1 segundo después (total 2.5s)
+              // Esperar 1s más → mostrar flechas
               setTimeout(() => {
                 setMostrarFlechas(true);
               }, 1000);
             }, 1500);
-          } else {
-            // Si ya se usó la animación, mostrar flechas directamente
-            setTimeout(() => setMostrarFlechas(true), 0);
+          } else if (!animacionDisponible) {
+            // Ya se usó la animación, mostrar flechas inmediatamente
+            setMostrarFlechas(true);
           }
         } else {
-          // Salió del centro
-          // Limpiar timer si está esperando la animación
-          if (tiempoEnCentroRef.current) {
-            clearTimeout(tiempoEnCentroRef.current);
-            tiempoEnCentroRef.current = null;
+          // SALIÓ del tercio central
+
+          // Cancelar timer si estaba esperando
+          if (timerEnCentro) {
+            clearTimeout(timerEnCentro);
+            timerEnCentro = null;
           }
 
+          // Resetear flag
+          enCentroDesdeInicio = false;
+
           // Ocultar flechas
-          setTimeout(() => setMostrarFlechas(false), 0);
+          setMostrarFlechas(false);
         }
       },
       { threshold: Array.from({ length: 101 }, (_, i) => i / 100) },
@@ -309,8 +317,8 @@ function TarjetaProducto({
       if (cardRef.current) {
         observer.unobserve(cardRef.current);
       }
-      if (tiempoEnCentroRef.current) {
-        clearTimeout(tiempoEnCentroRef.current);
+      if (timerEnCentro) {
+        clearTimeout(timerEnCentro);
       }
     };
   }, [
@@ -322,7 +330,7 @@ function TarjetaProducto({
 
   const esMobile = typeof window !== "undefined" && window.innerWidth <= 768;
   const mostrarFlechasActual = esMobile
-    ? mostrarFlechas && enTercioCentral && !animacionDisponible
+    ? mostrarFlechas && enTercioCentral
     : mostrarFlechas && hover;
 
   return (
@@ -450,7 +458,7 @@ function TarjetaProducto({
             )}
           </div>
 
-          {/* Panel info */}
+          {/* Panel info - con las clases y estructura correcta */}
           <div
             style={{
               padding: "24px",
@@ -497,7 +505,14 @@ function TarjetaProducto({
               </div>
             </div>
 
-            <div>
+            <div
+              className="columna-derecha"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "12px",
+              }}
+            >
               <div
                 className="precio-text"
                 style={{
@@ -505,7 +520,6 @@ function TarjetaProducto({
                   fontFamily: "var(--font-playfair)",
                   fontWeight: 700,
                   fontSize: "28px",
-                  marginBottom: "12px",
                 }}
               >
                 {producto.precio} €
@@ -535,9 +549,10 @@ function TarjetaProducto({
                   borderRadius: "20px",
                   transition: "all 0.3s",
                   opacity: estaAniadido ? 0.8 : 1,
+                  whiteSpace: "nowrap",
                 }}
               >
-                {estaAniadido ? "Añadido" : "Añadir"}
+                {estaAniadido ? "Anadido" : "Anadir"}
               </button>
             </div>
           </div>

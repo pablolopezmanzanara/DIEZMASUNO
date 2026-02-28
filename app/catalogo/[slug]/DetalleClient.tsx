@@ -217,6 +217,7 @@ export default function DetalleClient({ producto }: Props) {
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
+          marginLeft: "40px",
         }}
       >
         <div
@@ -282,7 +283,8 @@ export default function DetalleClient({ producto }: Props) {
               fontSize: "13px",
             }}
           >
-            <strong>Formato:</strong> 50×70 cm · Impresion de alta calidad
+            <strong>Formato:</strong> 21x29 cm · Impresion de alta calidad ·
+            Dimensión A4
           </div>
         </div>
 
