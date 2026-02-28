@@ -23,6 +23,7 @@ export default async function HomePage() {
       <Marquee />
       {/* ── HERO ── */}
       <section
+        className="hero-izquierda"
         style={{
           background: "var(--color-verde)",
           display: "grid",

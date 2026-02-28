@@ -228,8 +228,7 @@ body::before {
 @media (max-width: 768px) {
   .tarjetas-grid {
     grid-template-columns: 1fr !important;
-    max-width: 85%;
-    margin: 0 auto;
+    max-width: 90%;
     padding: 0 24px;
     gap: 32px !important;
   }
@@ -311,5 +310,12 @@ body::before {
   .iconos-detalle > div > div:first-child {
     font-size: 16px !important;
     margin-bottom: 2px !important;
+  }
+}
+
+/*Espacio a la izquierda para hero en móvil*/
+@media (max-width: 768px) {
+  .hero-izquierda {
+    margin-left: -24px;
   }
 }
