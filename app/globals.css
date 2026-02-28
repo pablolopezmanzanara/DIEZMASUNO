@@ -228,12 +228,14 @@ body::before {
 @media (max-width: 768px) {
   .tarjetas-grid {
     grid-template-columns: 1fr !important;
-    max-width: 90%;
+    max-width: 75%;
+    margin: 0 auto;
     padding: 0 24px;
     gap: 32px !important;
   }
 
   .tarjeta-producto {
+    margin-right: 3%;
     width: 100%;
   }
 
@@ -316,6 +318,6 @@ body::before {
 /*Espacio a la izquierda para hero en móvil*/
 @media (max-width: 768px) {
   .hero-izquierda {
-    margin-left: -24px;
+    margin-left: -20px;
   }
 }
