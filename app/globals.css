@@ -262,7 +262,7 @@ body::before {
   .tarjeta-interior .columna-derecha {
     display: flex !important;
     flex-direction: column !important;
-    gap: 12px !important;
+    gap: 6px !important;
     align-items: flex-end !important;
   }
 }
@@ -271,17 +271,15 @@ body::before {
 @media (max-width: 768px) {
   .detalle-grid {
     grid-template-columns: 1fr !important;
-    gap: 24px !important;
-    padding: 40px 16px !important;
+    gap: 20px !important;
+    padding: 40px 16px 20px !important;
   }
 
   .detalle-imagen-container {
     max-width: calc(100% - 120px) !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
+    margin: 0 auto 12px !important;
   }
 
-  /* Flechas móvil - más cerca */
   .flecha-detalle-izq {
     left: -5px !important;
     width: 38px !important;
@@ -294,5 +292,24 @@ body::before {
     width: 38px !important;
     height: 38px !important;
     font-size: 18px !important;
+  }
+
+  /* Botón más estrecho */
+  .boton-anadir-detalle {
+    width: auto !important;
+    padding: 14px 24px !important;
+    margin-right: 5% !important;
+  }
+
+  /* Iconos más juntos */
+  .iconos-detalle {
+    margin-right: 10% !important;
+    gap: 8px !important;
+    font-size: 10px !important;
+  }
+
+  .iconos-detalle > div > div:first-child {
+    font-size: 16px !important;
+    margin-bottom: 2px !important;
   }
 }

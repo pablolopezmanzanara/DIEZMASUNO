@@ -68,9 +68,8 @@ export default function TarjetasProductos({ productos }: Props) {
           marginBottom: "64px",
           display: "flex",
           alignItems: "center",
-          justifyContent: "space-between",
-          flexWrap: "wrap",
           gap: "16px",
+          marginInline: "40px",
         }}
       >
         <div>
@@ -104,37 +103,6 @@ export default function TarjetasProductos({ productos }: Props) {
               limitada
             </em>
           </h2>
-        </div>
-
-        <div
-          style={{
-            background: "rgba(201,168,76,0.12)",
-            border: "1px solid var(--color-dorado)",
-            borderRadius: "4px",
-            padding: "12px 20px",
-          }}
-        >
-          <div
-            style={{
-              color: "var(--color-dorado-osc)",
-              fontFamily: "var(--font-bebas)",
-              fontSize: "11px",
-              letterSpacing: "2px",
-              marginBottom: "4px",
-            }}
-          >
-            Disponibles ahora
-          </div>
-          <div
-            style={{
-              color: "var(--color-verde)",
-              fontFamily: "var(--font-playfair)",
-              fontWeight: 700,
-              fontSize: "20px",
-            }}
-          >
-            {productos.length} cuadros
-          </div>
         </div>
       </div>
 
@@ -552,7 +520,7 @@ function TarjetaProducto({
                   whiteSpace: "nowrap",
                 }}
               >
-                {estaAniadido ? "Anadido" : "Anadir"}
+                {estaAniadido ? "Añadido" : "Añadir"}
               </button>
             </div>
           </div>

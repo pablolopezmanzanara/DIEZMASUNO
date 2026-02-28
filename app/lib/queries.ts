@@ -18,7 +18,49 @@ export type Producto = {
   disponible: boolean;
   destacado?: boolean;
   tipo?: "jugador" | "otro";
+  orden?: number; // AÑADIR ESTE CAMPO
 };
+
+export async function getProductos(): Promise<Producto[]> {
+  return client.fetch(
+    `*[_type == "producto" && disponible == true] | order(orden asc, _createdAt desc) {
+      _id,
+      nombre,
+      slug,
+      equipo,
+      anio,
+      dorsal,
+      descripcion,
+      imagen,
+      galeria,
+      precio,
+      badge,
+      destacado,
+      tipo,
+      orden
+    }`,
+  );
+}
+
+export async function getProductosDestacados(): Promise<Producto[]> {
+  return client.fetch(
+    `*[_type == "producto" && disponible == true && destacado == true] | order(orden asc, _createdAt desc) {
+      _id,
+      nombre,
+      slug,
+      equipo,
+      anio,
+      dorsal,
+      descripcion,
+      imagen,
+      galeria,
+      precio,
+      badge,
+      tipo,
+      orden
+    }`,
+  );
+}
 
 export async function getProducto(slug: string): Promise<Producto | null> {
   return client.fetch(
@@ -32,54 +74,16 @@ export async function getProducto(slug: string): Promise<Producto | null> {
       descripcion,
       historia,
       imagen,
-      galeria,  // AÑADIR
+      galeria,
       precio,
       badge,
       categoria,
       logros,
       disponible,
       destacado,
-      tipo
+      tipo,
+      orden
     }`,
     { slug },
-  );
-}
-
-export async function getProductos(): Promise<Producto[]> {
-  return client.fetch(
-    `*[_type == "producto" && disponible == true] | order(_createdAt desc) {
-      _id,
-      nombre,
-      slug,
-      equipo,
-      anio,
-      dorsal,
-      descripcion,
-      imagen,
-      galeria,  // AÑADIR
-      precio,
-      badge,
-      destacado,
-      tipo
-    }`,
-  );
-}
-
-export async function getProductosDestacados(): Promise<Producto[]> {
-  return client.fetch(
-    `*[_type == "producto" && disponible == true && destacado == true] | order(_createdAt desc) {
-      _id,
-      nombre,
-      slug,
-      equipo,
-      anio,
-      dorsal,
-      descripcion,
-      imagen,
-      galeria,  // AÑADIR
-      precio,
-      badge,
-      tipo
-    }`,
   );
 }

@@ -134,6 +134,16 @@ export default defineType({
       type: "boolean",
       description: "Marcar para mostrar en la página principal",
     }),
+    defineField({
+      name: "orden",
+      title: "Orden de visualización",
+      type: "number",
+      description:
+        "Número para ordenar los productos (menor número = aparece primero)",
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      validation: (Rule: any) => Rule.integer().min(0),
+      initialValue: 0,
+    }),
   ],
   preview: {
     select: {

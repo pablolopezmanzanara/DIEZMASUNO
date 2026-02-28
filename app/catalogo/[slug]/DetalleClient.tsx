@@ -361,6 +361,7 @@ export default function DetalleClient({ producto }: Props) {
 
         <button
           onClick={handleAniadir}
+          className="boton-anadir-detalle"
           style={{
             background: aniadido ? "var(--color-dorado)" : "var(--color-verde)",
             color: "var(--color-crema)",
@@ -379,6 +380,7 @@ export default function DetalleClient({ producto }: Props) {
         </button>
 
         <div
+          className="iconos-detalle"
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(3, 1fr)",
