@@ -117,7 +117,7 @@ export default function DetalleClient({ producto }: Props) {
               className="flecha-detalle-izq"
               style={{
                 position: "absolute",
-                left: "-75px",
+                left: "-85px",
                 top: "45%",
                 transform: "translateY(-50%)",
                 background: "white",
@@ -150,7 +150,7 @@ export default function DetalleClient({ producto }: Props) {
               className="flecha-detalle-der"
               style={{
                 position: "absolute",
-                right: "-75px",
+                right: "-85px",
                 top: "45%",
                 transform: "translateY(-50%)",
                 background: "white",
@@ -283,8 +283,7 @@ export default function DetalleClient({ producto }: Props) {
               fontSize: "13px",
             }}
           >
-            <strong>Formato:</strong> 21x29 cm · Impresion de alta calidad ·
-            Dimensión A4
+            <strong>Formato:</strong> 21x29 cm · Dimensión A4
           </div>
         </div>
 
