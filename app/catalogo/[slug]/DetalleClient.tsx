@@ -117,7 +117,7 @@ export default function DetalleClient({ producto }: Props) {
               className="flecha-detalle-izq"
               style={{
                 position: "absolute",
-                left: "-60px",
+                left: "-75px",
                 top: "45%",
                 transform: "translateY(-50%)",
                 background: "white",
@@ -150,7 +150,7 @@ export default function DetalleClient({ producto }: Props) {
               className="flecha-detalle-der"
               style={{
                 position: "absolute",
-                right: "-60px",
+                right: "-75px",
                 top: "45%",
                 transform: "translateY(-50%)",
                 background: "white",

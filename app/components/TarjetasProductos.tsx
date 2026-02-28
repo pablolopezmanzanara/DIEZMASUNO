@@ -252,8 +252,8 @@ function TarjetaProducto({
               // Esperar 1s más → mostrar flechas
               setTimeout(() => {
                 setMostrarFlechas(true);
-              }, 1000);
-            }, 1500);
+              }, 500);
+            }, 1000);
           } else if (!animacionDisponible) {
             // Ya se usó la animación, mostrar flechas inmediatamente
             setMostrarFlechas(true);
