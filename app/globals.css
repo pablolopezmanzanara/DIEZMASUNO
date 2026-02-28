@@ -228,7 +228,7 @@ body::before {
 @media (max-width: 768px) {
   .tarjetas-grid {
     grid-template-columns: 1fr !important;
-    max-width: 85%;
+    max-width: 100%;
     margin: 0 auto;
     padding: 0 24px;
     gap: 32px !important;
