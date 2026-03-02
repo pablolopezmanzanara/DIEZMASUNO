@@ -343,12 +343,14 @@ function TarjetaProducto({
             {imagenes.length > 0 ? (
               <Image
                 src={urlFor(imagenes[imagenActual])
-                  .width(300)
-                  .height(400)
+                  .width(600)
+                  .height(800)
+                  .quality(90)
                   .url()}
                 alt={producto.nombre}
                 fill
                 style={{ objectFit: "cover" }}
+                quality={95}
               />
             ) : (
               <div

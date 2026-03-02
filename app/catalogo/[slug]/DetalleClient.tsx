@@ -90,10 +90,15 @@ export default function DetalleClient({ producto }: Props) {
         >
           {imagenes.length > 0 ? (
             <Image
-              src={urlFor(imagenes[imagenActual]).width(600).height(800).url()}
+              src={urlFor(imagenes[imagenActual])
+                .width(1000)
+                .height(1333)
+                .quality(95)
+                .url()}
               alt={producto.nombre}
               fill
               style={{ objectFit: "cover" }}
+              quality={100}
             />
           ) : (
             <div

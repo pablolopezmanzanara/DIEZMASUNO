@@ -11,6 +11,7 @@ export const client = createClient({
 
 const builder = imageUrlBuilder(client);
 
-export function urlFor(source: SanityImageSource) {
-  return builder.image(source);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function urlFor(source: any) {
+  return imageUrlBuilder(client).image(source).auto("format").quality(90);
 }
