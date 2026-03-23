@@ -75,7 +75,7 @@ export default function PeticionesPage() {
               lineHeight: 1.7,
             }}
           >
-            Cuentanos que jugador o momento te gustaria ver en nuestra coleccion
+            Cuéntanos que jugador o momento te gustaría ver en nuestra colección
           </p>
         </div>
       </section>
@@ -167,7 +167,7 @@ export default function PeticionesPage() {
                 marginBottom: "8px",
               }}
             >
-              Epoca
+              Época
             </label>
             <input
               type="text"

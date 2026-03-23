@@ -35,14 +35,11 @@ export default function ContactoPage() {
         </div>
       </section>
 
-      <section
-        style={{ padding: "80px 24px", maxWidth: "800px", margin: "0 auto" }}
-      >
+      <section style={{ padding: "80px 24px", marginLeft: "20%" }}>
         <div
           style={{
             display: "grid",
             gridTemplateColumns: "1fr 1fr",
-            gap: "64px",
           }}
         >
           {/* Info */}
@@ -76,7 +73,7 @@ export default function ContactoPage() {
             >
               Para consultas sobre pedidos, devoluciones, sugerencias de
               jugadores o simplemente para hablar de fútbol, escríbenos.
-              Respondemos en menos de 24 horas.
+              Respondemos en menos de 72 horas.
             </p>
 
             <div
@@ -104,101 +101,6 @@ export default function ContactoPage() {
                   </div>
                 </div>
               ))}
-            </div>
-          </div>
-
-          {/* Formulario */}
-          <div>
-            <div
-              style={{ display: "flex", flexDirection: "column", gap: "16px" }}
-            >
-              {[
-                { label: "Nombre", type: "text", placeholder: "Tu nombre" },
-                { label: "Email", type: "email", placeholder: "tu@email.com" },
-                {
-                  label: "Asunto",
-                  type: "text",
-                  placeholder: "Motivo de contacto",
-                },
-              ].map((campo) => (
-                <div key={campo.label}>
-                  <label
-                    style={{
-                      color: "var(--color-tinta)",
-                      fontFamily: "var(--font-bebas)",
-                      fontSize: "12px",
-                      letterSpacing: "2px",
-                      display: "block",
-                      marginBottom: "6px",
-                    }}
-                  >
-                    {campo.label}
-                  </label>
-                  <input
-                    type={campo.type}
-                    placeholder={campo.placeholder}
-                    style={{
-                      width: "100%",
-                      padding: "10px 14px",
-                      border: "1px solid var(--color-crema-osc)",
-                      borderRadius: "2px",
-                      fontFamily: "var(--font-libre)",
-                      fontSize: "14px",
-                      color: "var(--color-tinta)",
-                      background: "white",
-                      outline: "none",
-                      boxSizing: "border-box",
-                    }}
-                  />
-                </div>
-              ))}
-              <div>
-                <label
-                  style={{
-                    color: "var(--color-tinta)",
-                    fontFamily: "var(--font-bebas)",
-                    fontSize: "12px",
-                    letterSpacing: "2px",
-                    display: "block",
-                    marginBottom: "6px",
-                  }}
-                >
-                  Mensaje
-                </label>
-                <textarea
-                  placeholder="Cuéntanos en qué podemos ayudarte..."
-                  rows={5}
-                  style={{
-                    width: "100%",
-                    padding: "10px 14px",
-                    border: "1px solid var(--color-crema-osc)",
-                    borderRadius: "2px",
-                    fontFamily: "var(--font-libre)",
-                    fontSize: "14px",
-                    color: "var(--color-tinta)",
-                    background: "white",
-                    outline: "none",
-                    resize: "vertical",
-                    boxSizing: "border-box",
-                  }}
-                />
-              </div>
-              <button
-                style={{
-                  background: "var(--color-verde)",
-                  color: "var(--color-crema)",
-                  fontFamily: "var(--font-bebas)",
-                  fontSize: "14px",
-                  letterSpacing: "2px",
-                  padding: "14px 32px",
-                  border: "none",
-                  borderRadius: "2px",
-                  cursor: "pointer",
-                  transition: "all 0.2s",
-                }}
-              >
-                Enviar mensaje
-              </button>
             </div>
           </div>
         </div>

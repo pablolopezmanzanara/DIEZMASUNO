@@ -30,7 +30,7 @@ export default function SobreNosotrosPage() {
               lineHeight: 1.7,
             }}
           >
-            Reviviendo la magia del futbol español
+            Reviviendo la magia del fútbol español
           </p>
         </div>
       </section>
@@ -59,7 +59,7 @@ export default function SobreNosotrosPage() {
                   marginBottom: "16px",
                 }}
               >
-                Que es El Futbol de Antes
+                Qué es El Fútbol de Antes
               </h2>
               <p
                 style={{
@@ -68,10 +68,10 @@ export default function SobreNosotrosPage() {
                   lineHeight: 1.8,
                 }}
               >
-                Somos un proyecto que nace de la pasion por el futbol español y
-                su historia. Creamos cuadros de edicion limitada que capturan
-                momentos iconicos y jugadores legendarios que marcaron epocas
-                doradas del futbol en España.
+                Somos un proyecto que nace de la pasión por el fútbol español y
+                su historia. Creamos cuadros de edición limitada que capturan
+                momentos icónicos y jugadores legendarios que marcaron épocas
+                doradas del fútbol en España.
               </p>
             </div>
 
@@ -85,7 +85,7 @@ export default function SobreNosotrosPage() {
                   marginBottom: "16px",
                 }}
               >
-                Edicion limitada semanal
+                Edición limitada semanal
               </h2>
               <p
                 style={{
@@ -94,7 +94,7 @@ export default function SobreNosotrosPage() {
                   lineHeight: 1.8,
                 }}
               >
-                Cada diseño estrá disponible por un tiempo limitado, lanzanado
+                Cada diseño estará disponible por un tiempo limitado, lanzando
                 nuevos diseños de forma periódica.
               </p>
             </div>
@@ -118,7 +118,7 @@ export default function SobreNosotrosPage() {
                   lineHeight: 1.8,
                 }}
               >
-                Todos nuestros diseños son creados con la maxima calidad.
+                Todos nuestros diseños son creados con la máxima calidad.
                 Imprimimos en papel tamaño A4 y utilizamos tintas de alta
                 durabilidad que mantienen los colores vibrantes durante años.
                 Por supuesto, con el marco incluido.
@@ -142,9 +142,9 @@ export default function SobreNosotrosPage() {
                   lineHeight: 1.7,
                 }}
               >
-                &ldquo;El futbol no es solo un deporte, es memoria, emocion y
+                &ldquo;El fútbol no es solo un deporte, es memoria, emoción y
                 arte. Queremos que cada cuadro te lleve de vuelta a esos
-                momentos magicos.&ldquo;
+                momentos mágicos.&ldquo;
               </p>
             </div>
           </div>

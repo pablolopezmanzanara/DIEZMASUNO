@@ -7,6 +7,7 @@ import Image from "next/image";
 import { type Producto } from "../lib/queries";
 import { urlFor } from "../lib/sanity";
 import { useCarrito } from "../context/CarritoContext";
+import { trackAddToCart } from "../lib/analytics";
 
 type Props = {
   productos: Producto[];
@@ -42,6 +43,7 @@ export default function TarjetasProductos({ productos }: Props) {
       },
       1,
     );
+    trackAddToCart(p, 1);
 
     setAniadidos((prev) => new Set(prev).add(p._id));
   };
@@ -72,7 +74,13 @@ export default function TarjetasProductos({ productos }: Props) {
           marginInline: "40px",
         }}
       >
-        <div>
+        <div
+          style={{
+            width: "100%",
+            height: "100%",
+            marginLeft: "15%",
+          }}
+        >
           <div
             style={{
               color: "var(--color-dorado-osc)",
@@ -93,7 +101,7 @@ export default function TarjetasProductos({ productos }: Props) {
               lineHeight: 1.1,
             }}
           >
-            Edicion{" "}
+            Edición{" "}
             <em
               style={{
                 fontStyle: "italic",
@@ -181,15 +189,15 @@ function TarjetaProducto({
     if (hover) {
       intervalRef.current = setInterval(() => {
         onCambiarImagen();
-      }, 1500);
+      }, 1000);
 
       flechasTimeoutRef.current = setTimeout(() => {
         setMostrarFlechas(true);
-      }, 1000);
+      }, 1500);
 
       setTimeout(() => {
         onMarcarAnimacionUsada();
-      }, 1500);
+      }, 1000);
     } else {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
