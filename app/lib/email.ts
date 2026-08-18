@@ -13,10 +13,10 @@ type EnviarConfirmacionParams = {
   total: number;
   items?: ItemPedido[];
   direccion?: {
-    line1?: string;
-    city?: string;
-    country?: string;
-    postal_code?: string;
+    line1?: string | null;
+    city?: string | null;
+    country?: string | null;
+    postal_code?: string | null;
   } | null;
 };
 

@@ -1,8 +1,13 @@
+import { Suspense } from "react";
 import Link from "next/link";
+import ConfirmacionTracking from "./ConfirmacionTracking";
 
 export default function PedidoConfirmadoPage() {
   return (
     <section className="py-32 px-6 max-w-[600px] mx-auto text-center">
+      <Suspense fallback={null}>
+        <ConfirmacionTracking />
+      </Suspense>
       <div
         style={{ color: "var(--color-verde)" }}
         className="font-bebas text-[80px] leading-none mb-2 opacity-20"

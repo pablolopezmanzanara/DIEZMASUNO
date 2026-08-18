@@ -1,31 +1,54 @@
 import Stripe from "stripe";
 import { NextRequest, NextResponse } from "next/server";
+import { getProducto } from "../../lib/queries";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2026-01-28.clover",
 });
 
+type ItemCarritoInput = {
+  slug: string;
+  formato: { label: string };
+  cantidad: number;
+};
+
 export async function POST(req: NextRequest) {
   try {
-    const { items } = await req.json();
+    const { items } = (await req.json()) as { items: ItemCarritoInput[] };
 
-    const lineItems = items.map(
-      (item: {
-        nombre: string;
-        formato: { label: string; precio: number };
-        cantidad: number;
-      }) => ({
+    if (!Array.isArray(items) || items.length === 0) {
+      return NextResponse.json({ error: "Carrito vacío" }, { status: 400 });
+    }
+
+    const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
+    const resumen: string[] = [];
+
+    for (const item of items) {
+      const producto = await getProducto(item.slug);
+
+      if (!producto || !producto.disponible) {
+        return NextResponse.json(
+          { error: `Producto no disponible: ${item.slug}` },
+          { status: 400 },
+        );
+      }
+
+      const cantidad = Math.min(20, Math.max(1, Math.floor(item.cantidad) || 1));
+
+      lineItems.push({
         price_data: {
           currency: "eur",
           product_data: {
-            name: item.nombre,
-            description: item.formato.label,
+            name: producto.nombre,
+            description: `${producto.equipo} · ${item.formato.label}`,
           },
-          unit_amount: Math.round(item.formato.precio * 100),
+          unit_amount: Math.round(producto.precio * 100),
         },
-        quantity: item.cantidad,
-      }),
-    );
+        quantity: cantidad,
+      });
+
+      resumen.push(`${producto.nombre} x${cantidad}`);
+    }
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
@@ -49,6 +72,9 @@ export async function POST(req: NextRequest) {
           },
         },
       ],
+      metadata: {
+        items: resumen.join(" | ").slice(0, 490),
+      },
     });
 
     return NextResponse.json({ url: session.url });

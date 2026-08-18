@@ -1,20 +1,12 @@
 import Link from "next/link";
-import Image from "next/image";
 import Marquee from "./components/Marquee";
 import TarjetasProductos from "./components/TarjetasProductos";
 
-import {
-  getProductosDestacados,
-  getProductos,
-  type Producto,
-} from "./lib/queries";
-import { urlFor } from "./lib/sanity";
+import { getProductos } from "./lib/queries";
 
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  const destacados = await getProductosDestacados();
-  const productosHome = destacados.slice(0, 3);
   const todosProductos = await getProductos();
 
   return (

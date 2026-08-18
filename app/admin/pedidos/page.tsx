@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { getSupabaseClient } from "../../lib/supabase";
+import { useState } from "react";
 
 type Pedido = {
   id: string;
@@ -21,33 +20,38 @@ export default function AdminPedidosPage() {
   const [cargando, setCargando] = useState(false);
   const [error, setError] = useState("");
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (password === "aubameyang2015") {
-      setAutenticado(true);
-      cargarPedidos();
-    } else {
-      setError("Contraseña incorrecta");
-    }
+    setError("");
+    const ok = await cargarPedidos();
+    if (ok) setAutenticado(true);
+    else setError("Contraseña incorrecta");
   };
 
   const cargarPedidos = async () => {
     setCargando(true);
     try {
-      const supabase = getSupabaseClient();
-      const { data, error } = await supabase
-        .from("pedidos")
-        .select("*")
-        .order("created_at", { ascending: false })
-        .limit(50);
+      const res = await fetch("/api/admin/pedidos", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password }),
+      });
 
-      if (error) throw error;
-      setPedidos(data || []);
+      if (!res.ok) {
+        setCargando(false);
+        return false;
+      }
+
+      const data = await res.json();
+      setPedidos(data.pedidos || []);
+      setCargando(false);
+      return true;
     } catch (err) {
       console.error("Error cargando pedidos:", err);
       setError("Error cargando pedidos");
+      setCargando(false);
+      return false;
     }
-    setCargando(false);
   };
 
   if (!autenticado) {

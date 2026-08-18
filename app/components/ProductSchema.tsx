@@ -25,11 +25,6 @@ export default function ProductSchema({ producto }: { producto: Producto }) {
         : "https://schema.org/OutOfStock",
       url: `https://elfutboldeantes.com/catalogo/${producto.slug.current}`,
     },
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "4.8",
-      reviewCount: "23",
-    },
   };
 
   return (

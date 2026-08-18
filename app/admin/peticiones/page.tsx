@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { getSupabaseClient } from "../../lib/supabase";
+import { useState } from "react";
 
 type Peticion = {
   id: number;
@@ -19,24 +18,34 @@ export default function AdminPeticionesPage() {
   const [peticiones, setPeticiones] = useState<Peticion[]>([]);
   const [cargando, setCargando] = useState(false);
 
-  const handleLogin = () => {
-    if (password === "aubameyang2015") {
-      setAutenticado(true);
-      cargarPeticiones();
-    }
+  const handleLogin = async () => {
+    const ok = await cargarPeticiones();
+    if (ok) setAutenticado(true);
   };
 
   const cargarPeticiones = async () => {
     setCargando(true);
-    const supabase = getSupabaseClient();
-    const { data } = await supabase
-      .from("peticiones")
-      .select("*")
-      .order("created_at", { ascending: false })
-      .limit(50);
+    try {
+      const res = await fetch("/api/admin/peticiones", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password }),
+      });
 
-    if (data) setPeticiones(data);
-    setCargando(false);
+      if (!res.ok) {
+        setCargando(false);
+        return false;
+      }
+
+      const data = await res.json();
+      setPeticiones(data.peticiones || []);
+      setCargando(false);
+      return true;
+    } catch (err) {
+      console.error("Error cargando peticiones:", err);
+      setCargando(false);
+      return false;
+    }
   };
 
   if (!autenticado) {
