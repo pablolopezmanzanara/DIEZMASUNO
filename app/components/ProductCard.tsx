@@ -9,12 +9,46 @@ type Props = {
   producto: Producto;
   estaAniadido: boolean;
   onAniadir: (p: Producto, e: React.MouseEvent) => void;
+  variante?: "cromo";
+  numero?: number;
 };
 
-export default function ProductCard({ producto: p, estaAniadido, onAniadir }: Props) {
+function IconoMas() {
   return (
-    <Link href={`/catalogo/${p.slug.current}`} className="producto-card">
+    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
+      <path d="M12 5v14M5 12h14" />
+    </svg>
+  );
+}
+
+function IconoCheck() {
+  return (
+    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4 12l5 5L20 6" />
+    </svg>
+  );
+}
+
+export default function ProductCard({
+  producto: p,
+  estaAniadido,
+  onAniadir,
+  variante,
+  numero,
+}: Props) {
+  const esCromo = variante === "cromo";
+
+  return (
+    <Link
+      href={`/catalogo/${p.slug.current}`}
+      className={`producto-card${esCromo ? " cromo" : ""}`}
+    >
       <div className="producto-card-imagen">
+        {esCromo && numero !== undefined && (
+          <span className="producto-card-numero">
+            Nº {String(numero).padStart(3, "0")}
+          </span>
+        )}
         {p.imagen ? (
           <Image
             src={urlFor(p.imagen).width(500).height(667).quality(90).url()}
@@ -29,26 +63,45 @@ export default function ProductCard({ producto: p, estaAniadido, onAniadir }: Pr
         ) : (
           <span className="producto-card-placeholder">⚽</span>
         )}
-      </div>
 
-      <div className="producto-card-info">
-        <div>
-          <div className="producto-card-equipo">{p.equipo}</div>
-          <div className="producto-card-nombre">{p.nombre}</div>
-          <div className="producto-card-anio">{p.anio}</div>
-        </div>
-
-        <div className="producto-card-derecha">
-          <span className="producto-card-precio">{p.precio} €</span>
+        {esCromo && (
           <button
             onClick={(e) => onAniadir(p, e)}
             disabled={estaAniadido}
-            className={`producto-card-boton${estaAniadido ? " anadido" : ""}`}
+            className={`producto-card-add-rapido${estaAniadido ? " anadido" : ""}`}
+            aria-label={estaAniadido ? "Añadido al carrito" : "Añadir al carrito"}
           >
-            {estaAniadido ? "Añadido" : "Añadir"}
+            {estaAniadido ? <IconoCheck /> : <IconoMas />}
           </button>
-        </div>
+        )}
       </div>
+
+      {esCromo ? (
+        <div className="producto-card-info cromo">
+          <div className="producto-card-equipo">{p.equipo}</div>
+          <div className="producto-card-nombre">{p.nombre}</div>
+          <span className="producto-card-ticket">{p.precio} €</span>
+        </div>
+      ) : (
+        <div className="producto-card-info">
+          <div>
+            <div className="producto-card-equipo">{p.equipo}</div>
+            <div className="producto-card-nombre">{p.nombre}</div>
+            <div className="producto-card-anio">{p.anio}</div>
+          </div>
+
+          <div className="producto-card-derecha">
+            <span className="producto-card-precio">{p.precio} €</span>
+            <button
+              onClick={(e) => onAniadir(p, e)}
+              disabled={estaAniadido}
+              className={`producto-card-boton${estaAniadido ? " anadido" : ""}`}
+            >
+              {estaAniadido ? "Añadido" : "Añadir"}
+            </button>
+          </div>
+        </div>
+      )}
     </Link>
   );
 }

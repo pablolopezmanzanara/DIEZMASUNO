@@ -1,31 +1,67 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useCarrito } from "../../context/CarritoContext";
 import { type Producto } from "../../lib/queries";
 import { urlFor } from "../../lib/sanity";
 import ProductSchema from "../../components/ProductSchema";
 import { trackViewItem, trackAddToCart } from "../../lib/analytics";
-import { useEffect } from "react";
 
 type Props = {
   producto: Producto;
+  relacionados: Producto[];
 };
 
-export default function DetalleClient({ producto }: Props) {
+function IconoCamion() {
+  return (
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="1" y="6" width="13" height="10" rx="1" />
+      <path d="M14 9h4l3 3v4h-7z" />
+      <circle cx="5.5" cy="18" r="1.8" />
+      <circle cx="17.5" cy="18" r="1.8" />
+    </svg>
+  );
+}
+
+function IconoMedalla() {
+  return (
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="9" r="5.5" />
+      <path d="M8.5 13.5L7 21l5-2.5L17 21l-1.5-7.5" />
+    </svg>
+  );
+}
+
+function IconoDevolucion() {
+  return (
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M3 12a9 9 0 1 0 3-6.7" />
+      <polyline points="3 4 3 9 8 9" />
+    </svg>
+  );
+}
+
+function IconoChevron() {
+  return (
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M9 6l6 6-6 6" />
+    </svg>
+  );
+}
+
+export default function DetalleClient({ producto, relacionados }: Props) {
   const [cantidad, setCantidad] = useState(1);
   const [imagenActual, setImagenActual] = useState(0);
   const { aniadir } = useCarrito();
   const [aniadido, setAniadido] = useState(false);
 
-  // Array de imágenes - combina imagen principal + galería
   const imagenes = [
     ...(producto.imagen ? [producto.imagen] : []),
     ...(producto.galeria || []),
   ];
 
-  // Track vista de producto
   useEffect(() => {
     trackViewItem(producto);
   }, [producto]);
@@ -48,7 +84,6 @@ export default function DetalleClient({ producto }: Props) {
       cantidad,
     );
 
-    // Track añadir al carrito
     trackAddToCart(producto, cantidad);
 
     setAniadido(true);
@@ -64,45 +99,13 @@ export default function DetalleClient({ producto }: Props) {
   };
 
   return (
-    <>
+    <div className="detalle-ficha">
       <ProductSchema producto={producto} />
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 2fr",
-          gap: "80px",
-          maxWidth: "1200px",
-          margin: "0 auto",
-          padding: "60px 24px",
-        }}
-        className="detalle-grid"
-      >
-        {/* Galería de imágenes con flechas */}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            position: "relative",
-          }}
-        >
-          {/* Imagen */}
-          <div
-            style={{
-              position: "relative",
-              width: "100%",
-              maxWidth: "500px",
-              aspectRatio: "3/4",
-              background: "var(--color-verde)",
-              borderRadius: "4px",
-              overflow: "hidden",
-              boxShadow: "0 20px 60px rgba(0,0,0,0.15)",
-              marginBottom: "20px",
-            }}
-            className="detalle-imagen-container"
-          >
+      <div className="detalle-ficha-contenido">
+        {/* Imagen */}
+        <div className="detalle-ficha-imagen-wrap">
+          <div className="detalle-ficha-imagen">
             {imagenes.length > 0 ? (
               <Image
                 src={urlFor(imagenes[imagenActual])
@@ -119,328 +122,139 @@ export default function DetalleClient({ producto }: Props) {
                 blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwMCIgaGVpZ2h0PSIxMzMzIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxMDAwIiBoZWlnaHQ9IjEzMzMiIGZpbGw9IiMxYTNhMmEiLz48L3N2Zz4="
               />
             ) : (
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  height: "100%",
-                }}
-              >
-                <span style={{ fontSize: "120px", opacity: 0.3 }}>⚽</span>
+              <div className="detalle-ficha-imagen-placeholder">
+                <span>⚽</span>
               </div>
+            )}
+
+            {imagenes.length > 1 && (
+              <>
+                <button
+                  onClick={anterior}
+                  className="detalle-ficha-flecha izq"
+                  aria-label="Imagen anterior"
+                >
+                  ‹
+                </button>
+                <button
+                  onClick={siguiente}
+                  className="detalle-ficha-flecha der"
+                  aria-label="Imagen siguiente"
+                >
+                  ›
+                </button>
+              </>
             )}
           </div>
 
-          {/* Flechas navegación - solo si hay más de 1 imagen */}
           {imagenes.length > 1 && (
-            <>
-              <button
-                onClick={anterior}
-                className="flecha-detalle-izq"
-                style={{
-                  position: "absolute",
-                  left: "-60px",
-                  top: "45%",
-                  transform: "translateY(-50%)",
-                  background: "white",
-                  border: "none",
-                  width: "48px",
-                  height: "48px",
-                  borderRadius: "50%",
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: "24px",
-                  color: "var(--color-verde)",
-                  boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
-                  transition: "all 0.3s",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "var(--color-dorado)";
-                  e.currentTarget.style.color = "var(--color-verde)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "white";
-                  e.currentTarget.style.color = "var(--color-verde)";
-                }}
-              >
-                ←
-              </button>
-              <button
-                onClick={siguiente}
-                className="flecha-detalle-der"
-                style={{
-                  position: "absolute",
-                  right: "-60px",
-                  top: "45%",
-                  transform: "translateY(-50%)",
-                  background: "white",
-                  border: "none",
-                  width: "48px",
-                  height: "48px",
-                  borderRadius: "50%",
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: "24px",
-                  color: "var(--color-verde)",
-                  boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
-                  transition: "all 0.3s",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "var(--color-dorado)";
-                  e.currentTarget.style.color = "var(--color-verde)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "white";
-                  e.currentTarget.style.color = "var(--color-verde)";
-                }}
-              >
-                →
-              </button>
-            </>
-          )}
-
-          {/* Indicador de imagen actual - debajo */}
-          {imagenes.length > 1 && (
-            <div
-              style={{
-                display: "flex",
-                gap: "8px",
-                justifyContent: "center",
-              }}
-            >
+            <div className="detalle-ficha-dots">
               {imagenes.map((_, i) => (
-                <div
+                <button
                   key={i}
-                  style={{
-                    width: i === imagenActual ? "24px" : "8px",
-                    height: "8px",
-                    borderRadius: "4px",
-                    background:
-                      i === imagenActual
-                        ? "var(--color-dorado)"
-                        : "rgba(26,58,42,0.3)",
-                    transition: "all 0.3s",
-                    cursor: "pointer",
-                  }}
+                  className={`detalle-ficha-dot${i === imagenActual ? " activo" : ""}`}
                   onClick={() => setImagenActual(i)}
+                  aria-label={`Ver imagen ${i + 1}`}
                 />
               ))}
             </div>
           )}
         </div>
 
-        {/* Info y compra */}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-          }}
-        >
-          {/* Grid: Info izquierda + Precio derecha (móvil) */}
-          <div
-            className="detalle-header-mobile"
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "flex-start",
-              marginBottom: "24px",
-            }}
-          >
-            <div style={{ flex: 1 }}>
-              <div
-                style={{
-                  color: "var(--color-gris)",
-                  fontFamily: "var(--font-bebas)",
-                  fontSize: "11px",
-                  letterSpacing: "4px",
-                  marginBottom: "8px",
-                }}
-              >
-                {producto.equipo}
-              </div>
-
-              <h1
-                style={{
-                  color: "var(--color-tinta)",
-                  fontFamily: "var(--font-playfair)",
-                  fontWeight: 900,
-                  fontSize: "clamp(28px, 4vw, 42px)",
-                  lineHeight: 1.1,
-                  marginBottom: "12px",
-                }}
-              >
-                {producto.nombre}
-              </h1>
-
-              <div
-                style={{
-                  color: "var(--color-gris)",
-                  fontSize: "15px",
-                  fontStyle: "italic",
-                }}
-              >
-                {producto.anio}
-              </div>
-            </div>
-
-            <div
-              style={{
-                color: "var(--color-verde)",
-                fontFamily: "var(--font-playfair)",
-                fontWeight: 700,
-                fontSize: "32px",
-                marginLeft: "16px",
-                flexShrink: 0,
-              }}
-            >
-              {producto.precio} €
-            </div>
+        {/* Título y precio */}
+        <div className="detalle-ficha-header">
+          <div>
+            <div className="detalle-ficha-equipo">{producto.equipo}</div>
+            <h1 className="detalle-ficha-nombre">{producto.nombre}</h1>
           </div>
+          <div className="detalle-ficha-precio">{producto.precio} €</div>
+        </div>
 
-          <div
-            style={{
-              background: "var(--color-crema)",
-              padding: "12px 16px",
-              borderRadius: "2px",
-              borderLeft: "3px solid var(--color-dorado)",
-              marginBottom: "24px",
-            }}
-          >
-            <div
-              style={{
-                color: "var(--color-gris)",
-                fontSize: "13px",
-              }}
-            >
-              <strong>Formato:</strong> 50×70 cm · Impresion de alta calidad
-            </div>
+        {/* Iconos */}
+        <div className="detalle-ficha-iconos">
+          <div>
+            <IconoCamion />
+            <span>Envío 2-4 días</span>
           </div>
-
-          <p
-            style={{
-              color: "var(--color-gris)",
-              fontSize: "14px",
-              lineHeight: 1.7,
-              marginBottom: "24px",
-            }}
-          >
-            {producto.descripcion}
-          </p>
-
-          <div style={{ marginBottom: "24px" }}>
-            <label
-              style={{
-                color: "var(--color-tinta)",
-                fontFamily: "var(--font-bebas)",
-                fontSize: "12px",
-                letterSpacing: "3px",
-                display: "block",
-                marginBottom: "10px",
-              }}
-            >
-              Cantidad
-            </label>
-            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-              <button
-                onClick={() => setCantidad(Math.max(1, cantidad - 1))}
-                style={{
-                  background: "var(--color-crema-osc)",
-                  border: "none",
-                  width: "36px",
-                  height: "36px",
-                  borderRadius: "2px",
-                  cursor: "pointer",
-                  fontFamily: "var(--font-bebas)",
-                  fontSize: "18px",
-                  color: "var(--color-verde)",
-                }}
-              >
-                −
-              </button>
-              <span
-                style={{
-                  fontFamily: "var(--font-playfair)",
-                  fontSize: "16px",
-                  fontWeight: 700,
-                  minWidth: "30px",
-                  textAlign: "center",
-                }}
-              >
-                {cantidad}
-              </span>
-              <button
-                onClick={() => setCantidad(cantidad + 1)}
-                style={{
-                  background: "var(--color-crema-osc)",
-                  border: "none",
-                  width: "36px",
-                  height: "36px",
-                  borderRadius: "2px",
-                  cursor: "pointer",
-                  fontFamily: "var(--font-bebas)",
-                  fontSize: "18px",
-                  color: "var(--color-verde)",
-                }}
-              >
-                +
-              </button>
-            </div>
+          <div>
+            <IconoMedalla />
+            <span>Alta calidad</span>
           </div>
-
-          <button
-            onClick={handleAniadir}
-            className="boton-anadir-detalle"
-            style={{
-              background: aniadido
-                ? "var(--color-dorado)"
-                : "var(--color-verde)",
-              color: "var(--color-crema)",
-              border: "none",
-              fontFamily: "var(--font-bebas)",
-              fontSize: "15px",
-              letterSpacing: "3px",
-              padding: "16px 36px",
-              borderRadius: "2px",
-              cursor: "pointer",
-              transition: "all 0.3s",
-              marginBottom: "20px",
-              width: "100%",
-            }}
-          >
-            {aniadido ? "✓ ANADIDO AL CARRITO" : "ANADIR AL CARRITO"}
-          </button>
-
-          <div
-            className="iconos-detalle"
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(3, 1fr)",
-              gap: "16px",
-              fontSize: "12px",
-              color: "var(--color-gris)",
-            }}
-          >
-            <div style={{ textAlign: "center" }}>
-              <div style={{ fontSize: "20px", marginBottom: "4px" }}>📦</div>
-              <div>Envio 2-4 dias</div>
-            </div>
-            <div style={{ textAlign: "center" }}>
-              <div style={{ fontSize: "20px", marginBottom: "4px" }}>✓</div>
-              <div>Alta calidad</div>
-            </div>
-            <div style={{ textAlign: "center" }}>
-              <div style={{ fontSize: "20px", marginBottom: "4px" }}>🔒</div>
-              <div>Devolucion 30d</div>
-            </div>
+          <div>
+            <IconoDevolucion />
+            <span>Devolución 30d</span>
           </div>
         </div>
+
+        {/* Formato */}
+        <p className="detalle-ficha-formato">
+          <strong>Formato:</strong> 50×70 cm · Impresión de alta calidad
+        </p>
+
+        {/* Cantidad + Añadir */}
+        <div className="detalle-ficha-compra">
+          <div className="detalle-ficha-cantidad">
+            <button
+              onClick={() => setCantidad(Math.max(1, cantidad - 1))}
+              aria-label="Restar cantidad"
+            >
+              −
+            </button>
+            <span>{cantidad}</span>
+            <button
+              onClick={() => setCantidad(cantidad + 1)}
+              aria-label="Sumar cantidad"
+            >
+              +
+            </button>
+          </div>
+          <button
+            onClick={handleAniadir}
+            className={`detalle-ficha-anadir${aniadido ? " anadido" : ""}`}
+          >
+            {aniadido ? "✓ Añadido" : `Añadir · ${producto.precio * cantidad} €`}
+          </button>
+        </div>
+
+        {producto.descripcion && (
+          <p className="detalle-ficha-descripcion">{producto.descripcion}</p>
+        )}
+
+        {/* También te puede interesar */}
+        {relacionados.length > 0 && (
+          <div className="detalle-ficha-relacionados">
+            <h2 className="detalle-ficha-relacionados-titulo">
+              También te puede interesar
+            </h2>
+            <div className="detalle-ficha-relacionados-lista">
+              {relacionados.map((r) => (
+                <Link
+                  key={r._id}
+                  href={`/catalogo/${r.slug.current}`}
+                  className="detalle-ficha-relacionado"
+                >
+                  <div className="detalle-ficha-relacionado-imagen">
+                    {r.imagen && (
+                      <Image
+                        src={urlFor(r.imagen).width(112).height(112).quality(75).url()}
+                        alt={r.nombre}
+                        fill
+                        style={{ objectFit: "cover" }}
+                      />
+                    )}
+                  </div>
+                  <div className="detalle-ficha-relacionado-info">
+                    <div className="detalle-ficha-relacionado-nombre">{r.nombre}</div>
+                    <div className="detalle-ficha-relacionado-equipo">{r.equipo}</div>
+                  </div>
+                  <div className="detalle-ficha-relacionado-precio">{r.precio} €</div>
+                  <IconoChevron />
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
-    </>
+    </div>
   );
 }

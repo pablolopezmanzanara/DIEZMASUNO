@@ -1,6 +1,5 @@
 import CatalogoClient from "./CatalogoClient";
 import { getProductos } from "../lib/queries";
-import Marquee from "../components/Marquee";
 
 export const dynamic = "force-dynamic";
 
@@ -9,9 +8,6 @@ export default async function CatalogoPage() {
 
   return (
     <>
-      {/* ── MARQUEE NOMBRES ── */}
-      <Marquee />
-
       {/* Hero */}
       <section
         style={{

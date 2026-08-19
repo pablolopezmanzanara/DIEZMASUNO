@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { getProducto } from "../../lib/queries";
+import { getProducto, getProductos } from "../../lib/queries";
 import DetalleClient from "./DetalleClient";
 import { urlFor } from "../../lib/sanity";
 import type { Metadata } from "next";
@@ -58,5 +58,15 @@ export default async function ProductoPage({ params }: Props) {
     notFound();
   }
 
-  return <DetalleClient producto={producto} />;
+  const todos = await getProductos();
+  const relacionados = todos
+    .filter((p) => p._id !== producto._id)
+    .sort((a, b) => {
+      const aMismoEquipo = a.equipo === producto.equipo ? 0 : 1;
+      const bMismoEquipo = b.equipo === producto.equipo ? 0 : 1;
+      return aMismoEquipo - bMismoEquipo;
+    })
+    .slice(0, 6);
+
+  return <DetalleClient producto={producto} relacionados={relacionados} />;
 }

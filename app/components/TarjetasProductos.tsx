@@ -40,7 +40,10 @@ export default function TarjetasProductos({ productos }: Props) {
   };
 
   return (
-    <div style={{ maxWidth: "1400px", margin: "0 auto" }}>
+    <div
+      className="tarjetas-seccion"
+      style={{ maxWidth: "1400px", margin: "0 auto" }}
+    >
       {/* Título */}
       <div
         style={{
@@ -48,7 +51,6 @@ export default function TarjetasProductos({ productos }: Props) {
           display: "flex",
           alignItems: "center",
           gap: "16px",
-          marginInline: "40px",
         }}
       >
         <div
@@ -92,13 +94,15 @@ export default function TarjetasProductos({ productos }: Props) {
       </div>
 
       {/* Grid de tarjetas */}
-      <div className="productos-grid" style={{ marginInline: "40px" }}>
-        {productos.map((p) => (
+      <div className="productos-grid cromo">
+        {productos.map((p, i) => (
           <ProductCard
             key={p._id}
             producto={p}
             estaAniadido={aniadidos.has(p._id)}
             onAniadir={handleAniadir}
+            variante="cromo"
+            numero={i + 1}
           />
         ))}
       </div>

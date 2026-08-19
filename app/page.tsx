@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Marquee from "./components/Marquee";
 import TarjetasProductos from "./components/TarjetasProductos";
 
 import { getProductos } from "./lib/queries";
@@ -11,8 +10,6 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* ── MARQUEE NOMBRES ── */}
-      <Marquee />
       {/* ── HERO ── */}
       <section
         className="hero-izquierda"
