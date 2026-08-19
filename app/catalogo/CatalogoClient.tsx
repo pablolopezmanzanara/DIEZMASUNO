@@ -1,12 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import Image from "next/image";
 import { type Producto } from "../lib/queries";
-import { urlFor } from "../lib/sanity";
 import { useCarrito } from "../context/CarritoContext";
-import ProductoCard from "./ProductoCard";
+import { trackAddToCart } from "../lib/analytics";
+import ProductCard from "../components/ProductCard";
 
 type Props = {
   productos: Producto[];
@@ -31,7 +29,7 @@ export default function CatalogoClient({ productos }: Props) {
         equipo: p.equipo,
         dorsal: p.dorsal,
         color: "#FFFFFF",
-        imagen: p.imagen, // AÑADIR ESTA LÍNEA
+        imagen: p.imagen,
         formato: {
           id: "50x70",
           label: "50×70 cm",
@@ -40,6 +38,7 @@ export default function CatalogoClient({ productos }: Props) {
       },
       1,
     );
+    trackAddToCart(p, 1);
 
     setAniadidos((prev) => new Set(prev).add(p._id));
   };
@@ -152,25 +151,15 @@ export default function CatalogoClient({ productos }: Props) {
           </p>
         </div>
       ) : (
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, 320px)",
-            justifyContent: "center",
-            gap: "32px",
-          }}
-        >
-          {productosFiltrados.map((p: Producto) => {
-            const estaAniadido = aniadidos.has(p._id);
-            return (
-              <ProductoCard
-                key={p._id}
-                producto={p}
-                estaAniadido={estaAniadido}
-                onAniadir={handleAniadir}
-              />
-            );
-          })}
+        <div className="productos-grid">
+          {productosFiltrados.map((p: Producto) => (
+            <ProductCard
+              key={p._id}
+              producto={p}
+              estaAniadido={aniadidos.has(p._id)}
+              onAniadir={handleAniadir}
+            />
+          ))}
         </div>
       )}
     </>
