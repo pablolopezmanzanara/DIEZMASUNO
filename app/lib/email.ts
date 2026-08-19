@@ -126,7 +126,7 @@ export async function enviarEmailConfirmacion({
 
           <!-- CTA -->
           <div style="text-align:center;">
-            <a href="https://diezmasuno.vercel.app/catalogo"
+            <a href="https://elfutboldeantes.com/#coleccion"
               style="display:inline-block;background:#c9a84c;color:#1a3a2a;text-decoration:none;font-family:Arial,sans-serif;font-size:13px;letter-spacing:3px;text-transform:uppercase;padding:14px 32px;border-radius:2px;">
               Ver más cuadros
             </a>

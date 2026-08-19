@@ -231,7 +231,7 @@ export default async function HomePage() {
 
             <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
               <Link
-                href="/catalogo"
+                href="/#coleccion"
                 style={{
                   background: "var(--color-dorado)",
                   color: "var(--color-verde)",

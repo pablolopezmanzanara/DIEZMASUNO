@@ -5,6 +5,15 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: path.join(__dirname),
   },
+  async redirects() {
+    return [
+      {
+        source: "/catalogo",
+        destination: "/#coleccion",
+        permanent: true,
+      },
+    ];
+  },
   images: {
     remotePatterns: [{ protocol: "https", hostname: "cdn.sanity.io" }],
     formats: ["image/avif", "image/webp"],

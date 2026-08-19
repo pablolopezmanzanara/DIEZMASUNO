@@ -41,6 +41,7 @@ export default function TarjetasProductos({ productos }: Props) {
 
   return (
     <div
+      id="coleccion"
       className="tarjetas-seccion"
       style={{ maxWidth: "1400px", margin: "0 auto" }}
     >

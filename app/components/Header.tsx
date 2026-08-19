@@ -101,18 +101,6 @@ export default function Header() {
             gap: "clamp(12px, 3vw, 28px)",
           }}
         >
-          {/* <Link href="/catalogo" 
-  className="nav-desktop"
-  style={{
-    color: 'var(--color-crema-osc)',
-    fontFamily: 'var(--font-bebas)',
-    fontSize: '14px',
-    letterSpacing: '2px',
-    textDecoration: 'none',
-    transition: 'color 0.2s',
-  }}>
-  Coleccion
-</Link> */}
           <Link
             href="/sobre-nosotros"
             className="nav-desktop"

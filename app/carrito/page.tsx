@@ -66,7 +66,7 @@ export default function CarritoPage() {
             el perfecto para tu espacio.
           </p>
           <Link
-            href="/catalogo"
+            href="/#coleccion"
             style={{
               display: "inline-block",
               background: "var(--color-verde)",
@@ -80,7 +80,7 @@ export default function CarritoPage() {
               transition: "all 0.2s",
             }}
           >
-            Ver catalogo
+            Ver colección
           </Link>
         </div>
       </div>
