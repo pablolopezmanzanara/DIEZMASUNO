@@ -103,71 +103,73 @@ export default function DetalleClient({ producto, relacionados }: Props) {
       <ProductSchema producto={producto} />
 
       <div className="detalle-ficha-contenido">
-        {/* Imagen */}
-        <div className="detalle-ficha-imagen-wrap">
-          <div className="detalle-ficha-imagen">
-            {imagenes.length > 0 ? (
-              <Image
-                src={urlFor(imagenes[imagenActual])
-                  .width(1000)
-                  .height(1333)
-                  .quality(95)
-                  .url()}
-                alt={producto.nombre}
-                fill
-                style={{ objectFit: "cover" }}
-                quality={100}
-                loading="lazy"
-                placeholder="blur"
-                blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwMCIgaGVpZ2h0PSIxMzMzIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxMDAwIiBoZWlnaHQ9IjEzMzMiIGZpbGw9IiMxYTNhMmEiLz48L3N2Zz4="
-              />
-            ) : (
-              <div className="detalle-ficha-imagen-placeholder">
-                <span>⚽</span>
-              </div>
-            )}
+        <div className="detalle-ficha-split">
+          {/* Imagen - 60% */}
+          <div className="detalle-ficha-imagen-wrap">
+            <div className="detalle-ficha-imagen">
+              {imagenes.length > 0 ? (
+                <Image
+                  src={urlFor(imagenes[imagenActual])
+                    .width(1000)
+                    .height(1400)
+                    .quality(95)
+                    .url()}
+                  alt={producto.nombre}
+                  fill
+                  style={{ objectFit: "cover" }}
+                  quality={100}
+                  loading="lazy"
+                  placeholder="blur"
+                  blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwMCIgaGVpZ2h0PSIxMzMzIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxMDAwIiBoZWlnaHQ9IjEzMzMiIGZpbGw9IiMxYTNhMmEiLz48L3N2Zz4="
+                />
+              ) : (
+                <div className="detalle-ficha-imagen-placeholder">
+                  <span>⚽</span>
+                </div>
+              )}
+
+              {imagenes.length > 1 && (
+                <>
+                  <button
+                    onClick={anterior}
+                    className="detalle-ficha-flecha izq"
+                    aria-label="Imagen anterior"
+                  >
+                    ‹
+                  </button>
+                  <button
+                    onClick={siguiente}
+                    className="detalle-ficha-flecha der"
+                    aria-label="Imagen siguiente"
+                  >
+                    ›
+                  </button>
+                </>
+              )}
+            </div>
 
             {imagenes.length > 1 && (
-              <>
-                <button
-                  onClick={anterior}
-                  className="detalle-ficha-flecha izq"
-                  aria-label="Imagen anterior"
-                >
-                  ‹
-                </button>
-                <button
-                  onClick={siguiente}
-                  className="detalle-ficha-flecha der"
-                  aria-label="Imagen siguiente"
-                >
-                  ›
-                </button>
-              </>
+              <div className="detalle-ficha-dots">
+                {imagenes.map((_, i) => (
+                  <button
+                    key={i}
+                    className={`detalle-ficha-dot${i === imagenActual ? " activo" : ""}`}
+                    onClick={() => setImagenActual(i)}
+                    aria-label={`Ver imagen ${i + 1}`}
+                  />
+                ))}
+              </div>
             )}
           </div>
 
-          {imagenes.length > 1 && (
-            <div className="detalle-ficha-dots">
-              {imagenes.map((_, i) => (
-                <button
-                  key={i}
-                  className={`detalle-ficha-dot${i === imagenActual ? " activo" : ""}`}
-                  onClick={() => setImagenActual(i)}
-                  aria-label={`Ver imagen ${i + 1}`}
-                />
-              ))}
+          {/* Datos - 40%: solo nombre, club y precio */}
+          <div className="detalle-ficha-datos">
+            <div className="detalle-ficha-header">
+              <div className="detalle-ficha-equipo">{producto.equipo}</div>
+              <h1 className="detalle-ficha-nombre">{producto.nombre}</h1>
+              <div className="detalle-ficha-precio">{producto.precio} €</div>
             </div>
-          )}
-        </div>
-
-        {/* Título y precio */}
-        <div className="detalle-ficha-header">
-          <div>
-            <div className="detalle-ficha-equipo">{producto.equipo}</div>
-            <h1 className="detalle-ficha-nombre">{producto.nombre}</h1>
           </div>
-          <div className="detalle-ficha-precio">{producto.precio} €</div>
         </div>
 
         {/* Iconos */}

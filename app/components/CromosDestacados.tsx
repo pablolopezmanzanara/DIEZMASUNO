@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { type Producto } from "../lib/queries";
@@ -10,25 +10,70 @@ type Props = {
   productos: Producto[];
 };
 
-const INTERVALO_MS = 3000;
+const INTERVALO_MS = 4000;
+const UMBRAL_CAMBIO_PX = 50;
+const UMBRAL_ARRASTRE_PX = 6;
 
 // TODO: sustituir por un campo "frase" propio de cada producto en Sanity
 const FRASE_EJEMPLO = "El instante que el tiempo no pudo borrar.";
 
 export default function CromosDestacados({ productos }: Props) {
   const [indice, setIndice] = useState(0);
+  const [arrastrando, setArrastrando] = useState(false);
+  const [desplazamiento, setDesplazamiento] = useState(0);
+  const inicioXRef = useRef(0);
+  const huboArrastreRef = useRef(false);
 
+  // Se reprograma cada vez que "indice" cambia (automatico o manual) y se
+  // pausa mientras el usuario arrastra, para no interrumpirle el gesto.
   useEffect(() => {
-    if (productos.length <= 1) return;
+    if (productos.length <= 1 || arrastrando) return;
 
-    const timer = setInterval(() => {
+    const timer = setTimeout(() => {
       setIndice((prev) => (prev + 1) % productos.length);
     }, INTERVALO_MS);
 
-    return () => clearInterval(timer);
-  }, [productos.length]);
+    return () => clearTimeout(timer);
+  }, [indice, productos.length, arrastrando]);
 
   if (productos.length === 0) return null;
+
+  const manejarPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    // Solo tactil: en ordenador el carrusel avanza unicamente en automatico
+    if (productos.length <= 1 || e.pointerType !== "touch") return;
+    inicioXRef.current = e.clientX;
+    huboArrastreRef.current = false;
+    setArrastrando(true);
+    e.currentTarget.setPointerCapture(e.pointerId);
+  };
+
+  const manejarPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!arrastrando) return;
+    const delta = e.clientX - inicioXRef.current;
+    if (Math.abs(delta) > UMBRAL_ARRASTRE_PX) {
+      huboArrastreRef.current = true;
+    }
+    setDesplazamiento(delta);
+  };
+
+  const finalizarArrastre = () => {
+    if (!arrastrando) return;
+
+    if (desplazamiento > UMBRAL_CAMBIO_PX) {
+      setIndice((prev) => (prev - 1 + productos.length) % productos.length);
+    } else if (desplazamiento < -UMBRAL_CAMBIO_PX) {
+      setIndice((prev) => (prev + 1) % productos.length);
+    }
+
+    setArrastrando(false);
+    setDesplazamiento(0);
+  };
+
+  const manejarClickSlide = (e: React.MouseEvent) => {
+    if (huboArrastreRef.current) {
+      e.preventDefault();
+    }
+  };
 
   return (
     <div className="destacado-wrap">
@@ -40,13 +85,25 @@ export default function CromosDestacados({ productos }: Props) {
         <div className="destacado-viewport">
           <div
             className="destacado-track"
-            style={{ transform: `translateX(-${indice * 100}%)` }}
+            onPointerDown={manejarPointerDown}
+            onPointerMove={manejarPointerMove}
+            onPointerUp={finalizarArrastre}
+            onPointerCancel={finalizarArrastre}
+            onPointerLeave={finalizarArrastre}
+            style={{
+              transform: `translateX(calc(-${indice * 100}% + ${desplazamiento}px))`,
+              transition: arrastrando
+                ? "none"
+                : "transform 0.6s cubic-bezier(0.65, 0, 0.35, 1)",
+            }}
           >
             {productos.map((p) => (
               <Link
                 key={p._id}
                 href={`/catalogo/${p.slug.current}`}
                 className="destacado-slide"
+                onClick={manejarClickSlide}
+                draggable={false}
               >
                 <div className="destacado-imagen">
                   {p.imagen ? (
@@ -56,6 +113,7 @@ export default function CromosDestacados({ productos }: Props) {
                       fill
                       style={{ objectFit: "cover" }}
                       quality={90}
+                      draggable={false}
                     />
                   ) : (
                     <span className="destacado-placeholder">⚽</span>
@@ -79,9 +137,11 @@ export default function CromosDestacados({ productos }: Props) {
         {productos.length > 1 && (
           <div className="destacado-dots">
             {productos.map((_, i) => (
-              <span
+              <button
                 key={i}
+                onClick={() => setIndice(i)}
                 className={`destacado-dot${i === indice ? " activo" : ""}`}
+                aria-label={`Ir al cromo ${i + 1}`}
               />
             ))}
           </div>

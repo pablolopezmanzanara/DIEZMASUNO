@@ -323,20 +323,26 @@ body::before {
 }
 
 .destacado-viewport {
+  position: relative;
   overflow: hidden;
 }
 
 .destacado-track {
   display: flex;
-  transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+  touch-action: pan-y;
+  user-select: none;
 }
 
+/* padding-top igualado al espacio verde inferior (padding del slide +
+   fila de puntos + padding-bottom de la tarjeta), para que el marco
+   verde se vea uniforme arriba y abajo pese a que los puntos estén
+   solo debajo */
 .destacado-slide {
   flex: 0 0 100%;
   min-width: 0;
   display: flex;
   align-items: stretch;
-  padding: 16px;
+  padding: 40px 16px 16px;
   text-decoration: none;
   color: inherit;
 }
@@ -426,20 +432,23 @@ body::before {
 .destacado-dots {
   display: flex;
   justify-content: center;
-  gap: 6px;
-  padding-top: 4px;
+  gap: 5px;
+  padding-top: 3px;
 }
 
 .destacado-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 4px;
+  width: 5px;
+  height: 5px;
+  border-radius: 3px;
+  border: none;
+  padding: 0;
   background: rgba(245, 239, 224, 0.3);
+  cursor: pointer;
   transition: all 0.3s;
 }
 
 .destacado-dot.activo {
-  width: 20px;
+  width: 16px;
   background: var(--color-dorado);
 }
 
@@ -452,7 +461,7 @@ body::before {
   }
 
   .destacado-slide {
-    padding: 10px;
+    padding: 34px 10px 10px;
   }
 
   .destacado-info {
@@ -514,17 +523,27 @@ body::before {
   padding: 0 20px 60px;
 }
 
+/* Imagen 60% / datos 40%, respetando la proporcion rectangular real
+   del cuadro (el ancho de la columna marca el alto de la imagen) */
+.detalle-ficha-split {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 28px;
+}
+
 .detalle-ficha-imagen-wrap {
-  margin-bottom: 24px;
+  flex: 0 0 60%;
+  min-width: 0;
 }
 
 .detalle-ficha-imagen {
   position: relative;
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 5 / 7;
   background: var(--color-verde);
   border-radius: 4px;
   overflow: hidden;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   box-shadow: 0 8px 24px rgba(26, 18, 9, 0.12);
 }
 
@@ -586,14 +605,17 @@ body::before {
   background: var(--color-dorado);
 }
 
+/* Columna de datos (40%): solo nombre, club y precio */
+.detalle-ficha-datos {
+  flex: 0 0 40%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
 .detalle-ficha-header {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 16px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid var(--color-crema-osc);
-  margin-bottom: 20px;
+  flex-direction: column;
 }
 
 .detalle-ficha-equipo {
@@ -608,18 +630,19 @@ body::before {
 .detalle-ficha-nombre {
   font-family: var(--font-playfair);
   font-weight: 900;
-  font-size: 26px;
+  font-size: clamp(18px, 4vw, 26px);
   line-height: 1.15;
+  margin-bottom: 8px;
 }
 
 .detalle-ficha-precio {
   font-family: var(--font-playfair);
   font-weight: 700;
-  font-size: 24px;
+  font-size: clamp(17px, 3.5vw, 24px);
   color: var(--color-verde);
-  flex-shrink: 0;
 }
 
+/* El resto de elementos vuelve a ocupar el ancho completo, debajo del split */
 .detalle-ficha-iconos {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -802,9 +825,8 @@ body::before {
   color: var(--color-gris);
 }
 
-/* Ficha de producto en movil: imagen mas pequeña (lo principal) y
-   espaciados algo mas ajustados, para que el boton de anadir quede
-   visible sin necesidad de hacer scroll */
+/* Ficha de producto en movil: la imagen ya ocupa solo el 60% (no el
+   ancho completo), asi que basta con ajustar margenes generales */
 @media (max-width: 480px) {
   .detalle-ficha {
     padding-top: 16px;
@@ -814,42 +836,9 @@ body::before {
     padding: 0 16px 32px;
   }
 
-  .detalle-ficha-imagen-wrap {
-    margin-bottom: 14px;
-  }
-
-  .detalle-ficha-imagen {
-    aspect-ratio: 1 / 1;
-    max-height: 42vh;
-    margin-inline: auto;
-    margin-bottom: 8px;
-  }
-
-  .detalle-ficha-header {
-    padding-bottom: 12px;
-    margin-bottom: 12px;
-  }
-
-  .detalle-ficha-nombre {
-    font-size: 22px;
-  }
-
-  .detalle-ficha-precio {
-    font-size: 20px;
-  }
-
-  .detalle-ficha-iconos {
-    gap: 8px;
-    padding-bottom: 12px;
-    margin-bottom: 12px;
-  }
-
-  .detalle-ficha-formato {
-    margin-bottom: 12px;
-  }
-
-  .detalle-ficha-compra {
-    margin-bottom: 16px;
+  .detalle-ficha-split {
+    gap: 14px;
+    margin-bottom: 20px;
   }
 }
 
