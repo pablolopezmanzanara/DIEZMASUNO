@@ -536,8 +536,12 @@ body::before {
   margin-bottom: 10px;
 }
 
+/* Altura fija (con tope) de la que se deriva el ancho vía aspect-ratio:
+   al ser flex item dentro del marco, sin esto no tiene tamaño del que
+   partir y colapsa a 0. De paso deja huecos laterales para las flechas */
 .detalle-ficha-imagen {
   position: relative;
+  height: min(42vh, 420px);
   aspect-ratio: 3 / 4;
   background: var(--color-verde);
   border-radius: 4px;
@@ -833,11 +837,6 @@ body::before {
 
   .detalle-ficha-imagen-wrap {
     margin-bottom: 14px;
-  }
-
-  .detalle-ficha-imagen {
-    aspect-ratio: 1 / 1;
-    max-height: 42vh;
   }
 
   .detalle-ficha-header {
