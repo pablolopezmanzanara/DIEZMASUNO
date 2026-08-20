@@ -103,15 +103,25 @@ export default function DetalleClient({ producto, relacionados }: Props) {
       <ProductSchema producto={producto} />
 
       <div className="detalle-ficha-contenido">
-        <div className="detalle-ficha-split">
-          {/* Imagen - 60% */}
-          <div className="detalle-ficha-imagen-wrap">
+        {/* Imagen centrada, flechas fuera del recuadro */}
+        <div className="detalle-ficha-imagen-wrap">
+          <div className="detalle-ficha-imagen-marco">
+            {imagenes.length > 1 && (
+              <button
+                onClick={anterior}
+                className="detalle-ficha-flecha izq"
+                aria-label="Imagen anterior"
+              >
+                ‹
+              </button>
+            )}
+
             <div className="detalle-ficha-imagen">
               {imagenes.length > 0 ? (
                 <Image
                   src={urlFor(imagenes[imagenActual])
-                    .width(1000)
-                    .height(1400)
+                    .width(900)
+                    .height(900)
                     .quality(95)
                     .url()}
                   alt={producto.nombre}
@@ -127,49 +137,40 @@ export default function DetalleClient({ producto, relacionados }: Props) {
                   <span>⚽</span>
                 </div>
               )}
-
-              {imagenes.length > 1 && (
-                <>
-                  <button
-                    onClick={anterior}
-                    className="detalle-ficha-flecha izq"
-                    aria-label="Imagen anterior"
-                  >
-                    ‹
-                  </button>
-                  <button
-                    onClick={siguiente}
-                    className="detalle-ficha-flecha der"
-                    aria-label="Imagen siguiente"
-                  >
-                    ›
-                  </button>
-                </>
-              )}
             </div>
 
             {imagenes.length > 1 && (
-              <div className="detalle-ficha-dots">
-                {imagenes.map((_, i) => (
-                  <button
-                    key={i}
-                    className={`detalle-ficha-dot${i === imagenActual ? " activo" : ""}`}
-                    onClick={() => setImagenActual(i)}
-                    aria-label={`Ver imagen ${i + 1}`}
-                  />
-                ))}
-              </div>
+              <button
+                onClick={siguiente}
+                className="detalle-ficha-flecha der"
+                aria-label="Imagen siguiente"
+              >
+                ›
+              </button>
             )}
           </div>
 
-          {/* Datos - 40%: solo nombre, club y precio */}
-          <div className="detalle-ficha-datos">
-            <div className="detalle-ficha-header">
-              <div className="detalle-ficha-equipo">{producto.equipo}</div>
-              <h1 className="detalle-ficha-nombre">{producto.nombre}</h1>
-              <div className="detalle-ficha-precio">{producto.precio} €</div>
+          {imagenes.length > 1 && (
+            <div className="detalle-ficha-dots">
+              {imagenes.map((_, i) => (
+                <button
+                  key={i}
+                  className={`detalle-ficha-dot${i === imagenActual ? " activo" : ""}`}
+                  onClick={() => setImagenActual(i)}
+                  aria-label={`Ver imagen ${i + 1}`}
+                />
+              ))}
             </div>
+          )}
+        </div>
+
+        {/* Título y precio */}
+        <div className="detalle-ficha-header">
+          <div>
+            <div className="detalle-ficha-equipo">{producto.equipo}</div>
+            <h1 className="detalle-ficha-nombre">{producto.nombre}</h1>
           </div>
+          <div className="detalle-ficha-precio">{producto.precio} €</div>
         </div>
 
         {/* Iconos */}
