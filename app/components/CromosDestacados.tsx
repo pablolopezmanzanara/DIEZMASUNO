@@ -42,16 +42,13 @@ export default function CromosDestacados({ productos }: Props) {
             className="destacado-track"
             style={{ transform: `translateX(-${indice * 100}%)` }}
           >
-            {productos.map((p, i) => (
+            {productos.map((p) => (
               <Link
                 key={p._id}
                 href={`/catalogo/${p.slug.current}`}
                 className="destacado-slide"
               >
                 <div className="destacado-imagen">
-                  <span className="destacado-numero">
-                    Nº {String(i + 1).padStart(3, "0")}
-                  </span>
                   {p.imagen ? (
                     <Image
                       src={urlFor(p.imagen).width(500).height(700).quality(90).url()}

@@ -361,20 +361,6 @@ body::before {
   opacity: 0.35;
 }
 
-.destacado-numero {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  z-index: 2;
-  background: var(--color-dorado);
-  color: var(--color-verde);
-  font-family: var(--font-bebas);
-  font-size: 11px;
-  letter-spacing: 1px;
-  padding: 4px 9px;
-  border-radius: 5px;
-}
-
 .destacado-info {
   flex: 0 0 40%;
   min-width: 0;
@@ -390,7 +376,7 @@ body::before {
   font-family: var(--font-caveat);
   font-weight: 600;
   color: rgba(245, 239, 224, 0.85);
-  font-size: clamp(20px, 2.8vw, 27px);
+  font-size: clamp(21px, 3vw, 29px);
   line-height: 1.4;
 }
 
@@ -410,7 +396,7 @@ body::before {
 
 .destacado-equipo {
   font-family: var(--font-bebas);
-  font-size: 12px;
+  font-size: 13px;
   letter-spacing: 2px;
   text-transform: uppercase;
   color: var(--color-dorado-osc);
@@ -419,7 +405,7 @@ body::before {
 .destacado-nombre {
   font-family: var(--font-playfair);
   font-weight: 700;
-  font-size: clamp(21px, 3vw, 29px);
+  font-size: clamp(23px, 3.2vw, 31px);
   line-height: 1.2;
   color: var(--color-crema);
 }
@@ -429,9 +415,9 @@ body::before {
   background: var(--color-dorado);
   color: var(--color-verde);
   font-family: var(--font-bebas);
-  font-size: 13px;
+  font-size: 14px;
   letter-spacing: 0.75px;
-  padding: 11px 18px;
+  padding: 12px 20px;
   border-radius: 7px;
   line-height: 1.3;
   margin-top: 2px;
@@ -458,6 +444,13 @@ body::before {
 }
 
 @media (max-width: 600px) {
+  /* Un poco más de ancho para la tarjeta principal; al ser el ancho
+     quien marca el tamaño de la imagen (aspect-ratio), tambien crece
+     el alto sin deformarla */
+  .destacado-wrap {
+    margin-inline: -10px;
+  }
+
   .destacado-slide {
     padding: 10px;
   }
@@ -807,6 +800,57 @@ body::before {
 .detalle-ficha-relacionado svg {
   flex-shrink: 0;
   color: var(--color-gris);
+}
+
+/* Ficha de producto en movil: imagen mas pequeña (lo principal) y
+   espaciados algo mas ajustados, para que el boton de anadir quede
+   visible sin necesidad de hacer scroll */
+@media (max-width: 480px) {
+  .detalle-ficha {
+    padding-top: 16px;
+  }
+
+  .detalle-ficha-contenido {
+    padding: 0 16px 32px;
+  }
+
+  .detalle-ficha-imagen-wrap {
+    margin-bottom: 14px;
+  }
+
+  .detalle-ficha-imagen {
+    aspect-ratio: 1 / 1;
+    max-height: 42vh;
+    margin-inline: auto;
+    margin-bottom: 8px;
+  }
+
+  .detalle-ficha-header {
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+  }
+
+  .detalle-ficha-nombre {
+    font-size: 22px;
+  }
+
+  .detalle-ficha-precio {
+    font-size: 20px;
+  }
+
+  .detalle-ficha-iconos {
+    gap: 8px;
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+  }
+
+  .detalle-ficha-formato {
+    margin-bottom: 12px;
+  }
+
+  .detalle-ficha-compra {
+    margin-bottom: 16px;
+  }
 }
 
 /*Espacio a la izquierda para hero en móvil*/
