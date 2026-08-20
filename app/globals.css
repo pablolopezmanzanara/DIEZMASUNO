@@ -134,12 +134,13 @@ body::before {
   }
 }
 
-/* Tarjeta de producto (home + catálogo) */
+/* Tarjeta de producto (portada) */
 .producto-card {
   display: flex;
   flex-direction: column;
   background: white;
-  border-radius: 4px;
+  border: 1px solid var(--color-crema-osc);
+  border-radius: 10px;
   overflow: hidden;
   text-decoration: none;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
@@ -153,7 +154,7 @@ body::before {
 
 .producto-card-imagen {
   position: relative;
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 5 / 7;
   background: var(--color-verde);
   overflow: hidden;
 }
@@ -168,81 +169,6 @@ body::before {
   opacity: 0.3;
 }
 
-.producto-card-info {
-  padding: 18px;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 16px;
-  border-top: 3px solid var(--color-crema-osc);
-}
-
-.producto-card-equipo {
-  color: var(--color-gris);
-  font-family: var(--font-bebas);
-  font-size: 10px;
-  letter-spacing: 2px;
-  margin-bottom: 6px;
-}
-
-.producto-card-nombre {
-  color: var(--color-tinta);
-  font-family: var(--font-playfair);
-  font-weight: 700;
-  font-size: 17px;
-  line-height: 1.25;
-  margin-bottom: 4px;
-}
-
-.producto-card-anio {
-  color: var(--color-gris);
-  font-size: 13px;
-  font-style: italic;
-}
-
-.producto-card-derecha {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 10px;
-  flex-shrink: 0;
-}
-
-.producto-card-precio {
-  color: var(--color-verde);
-  font-family: var(--font-playfair);
-  font-weight: 700;
-  font-size: 22px;
-  white-space: nowrap;
-}
-
-.producto-card-boton {
-  background: rgba(26, 58, 42, 0.08);
-  border: 1px solid rgba(26, 58, 42, 0.2);
-  color: var(--color-verde);
-  font-family: Georgia, serif;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 8px 16px;
-  border-radius: 20px;
-  transition: all 0.2s;
-  white-space: nowrap;
-}
-
-.producto-card-boton.anadido {
-  background: rgba(201, 168, 76, 0.15);
-  border-color: rgba(201, 168, 76, 0.3);
-  color: var(--color-dorado-osc);
-  cursor: default;
-  opacity: 0.8;
-}
-
-/* Variante "cromo" - portada */
-.producto-card.cromo {
-  border: 1px solid var(--color-crema-osc);
-}
-
 .producto-card-numero {
   position: absolute;
   top: 10px;
@@ -254,7 +180,7 @@ body::before {
   font-size: 10.5px;
   letter-spacing: 1px;
   padding: 4px 8px;
-  border-radius: 3px;
+  border-radius: 5px;
 }
 
 .producto-card-add-rapido {
@@ -286,34 +212,55 @@ body::before {
   cursor: default;
 }
 
-.producto-card-info.cromo {
+/* Panel de info: nombre arriba, equipo + precio en la misma fila abajo */
+.producto-card-info {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 8px;
-  padding: 14px;
+  gap: 6px;
+  padding: 12px 14px;
 }
 
-.producto-card-info.cromo .producto-card-nombre {
+.producto-card-nombre {
+  color: var(--color-tinta);
+  font-family: var(--font-playfair);
+  font-weight: 700;
   font-size: 15px;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.producto-card-info.cromo .producto-card-equipo {
-  font-size: 10.5px;
+.producto-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.producto-card-equipo {
+  color: var(--color-gris);
+  font-family: var(--font-bebas);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
 }
 
 .producto-card-ticket {
   position: relative;
   display: inline-flex;
   align-items: center;
+  flex-shrink: 0;
   background: var(--color-dorado);
   color: var(--color-verde);
   font-family: var(--font-playfair);
   font-weight: 700;
-  font-size: 15.5px;
-  padding: 5px 14px;
-  border-radius: 4px;
-  margin-top: 2px;
+  font-size: 14.5px;
+  padding: 4px 12px;
+  border-radius: 6px;
 }
 
 .producto-card-ticket::before,
@@ -322,18 +269,18 @@ body::before {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: white;
 }
 
 .producto-card-ticket::before {
-  left: -4px;
+  left: -3.5px;
 }
 
 .producto-card-ticket::after {
-  right: -4px;
+  right: -3.5px;
 }
 
 .productos-grid {

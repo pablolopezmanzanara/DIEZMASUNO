@@ -102,7 +102,6 @@ export default function TarjetasProductos({ productos }: Props) {
             producto={p}
             estaAniadido={aniadidos.has(p._id)}
             onAniadir={handleAniadir}
-            variante="cromo"
             numero={i + 1}
           />
         ))}

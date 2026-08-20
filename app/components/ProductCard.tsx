@@ -9,7 +9,6 @@ type Props = {
   producto: Producto;
   estaAniadido: boolean;
   onAniadir: (p: Producto, e: React.MouseEvent) => void;
-  variante?: "cromo";
   numero?: number;
 };
 
@@ -29,22 +28,11 @@ function IconoCheck() {
   );
 }
 
-export default function ProductCard({
-  producto: p,
-  estaAniadido,
-  onAniadir,
-  variante,
-  numero,
-}: Props) {
-  const esCromo = variante === "cromo";
-
+export default function ProductCard({ producto: p, estaAniadido, onAniadir, numero }: Props) {
   return (
-    <Link
-      href={`/catalogo/${p.slug.current}`}
-      className={`producto-card${esCromo ? " cromo" : ""}`}
-    >
+    <Link href={`/catalogo/${p.slug.current}`} className="producto-card">
       <div className="producto-card-imagen">
-        {esCromo && numero !== undefined && (
+        {numero !== undefined && (
           <span className="producto-card-numero">
             Nº {String(numero).padStart(3, "0")}
           </span>
@@ -64,44 +52,23 @@ export default function ProductCard({
           <span className="producto-card-placeholder">⚽</span>
         )}
 
-        {esCromo && (
-          <button
-            onClick={(e) => onAniadir(p, e)}
-            disabled={estaAniadido}
-            className={`producto-card-add-rapido${estaAniadido ? " anadido" : ""}`}
-            aria-label={estaAniadido ? "Añadido al carrito" : "Añadir al carrito"}
-          >
-            {estaAniadido ? <IconoCheck /> : <IconoMas />}
-          </button>
-        )}
+        <button
+          onClick={(e) => onAniadir(p, e)}
+          disabled={estaAniadido}
+          className={`producto-card-add-rapido${estaAniadido ? " anadido" : ""}`}
+          aria-label={estaAniadido ? "Añadido al carrito" : "Añadir al carrito"}
+        >
+          {estaAniadido ? <IconoCheck /> : <IconoMas />}
+        </button>
       </div>
 
-      {esCromo ? (
-        <div className="producto-card-info cromo">
-          <div className="producto-card-equipo">{p.equipo}</div>
-          <div className="producto-card-nombre">{p.nombre}</div>
+      <div className="producto-card-info">
+        <div className="producto-card-nombre">{p.nombre}</div>
+        <div className="producto-card-meta">
+          <span className="producto-card-equipo">{p.equipo}</span>
           <span className="producto-card-ticket">{p.precio} €</span>
         </div>
-      ) : (
-        <div className="producto-card-info">
-          <div>
-            <div className="producto-card-equipo">{p.equipo}</div>
-            <div className="producto-card-nombre">{p.nombre}</div>
-            <div className="producto-card-anio">{p.anio}</div>
-          </div>
-
-          <div className="producto-card-derecha">
-            <span className="producto-card-precio">{p.precio} €</span>
-            <button
-              onClick={(e) => onAniadir(p, e)}
-              disabled={estaAniadido}
-              className={`producto-card-boton${estaAniadido ? " anadido" : ""}`}
-            >
-              {estaAniadido ? "Añadido" : "Añadir"}
-            </button>
-          </div>
-        </div>
-      )}
+      </div>
     </Link>
   );
 }
