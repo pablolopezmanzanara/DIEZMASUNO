@@ -245,25 +245,25 @@ body::before {
 
 .producto-card-numero {
   position: absolute;
-  top: 8px;
-  left: 8px;
+  top: 10px;
+  left: 10px;
   z-index: 2;
   background: var(--color-dorado);
   color: var(--color-verde);
   font-family: var(--font-bebas);
-  font-size: 9.5px;
+  font-size: 10.5px;
   letter-spacing: 1px;
-  padding: 3px 7px;
+  padding: 4px 8px;
   border-radius: 3px;
 }
 
 .producto-card-add-rapido {
   position: absolute;
-  top: 8px;
-  right: 8px;
+  top: 10px;
+  right: 10px;
   z-index: 2;
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   border: none;
   background: var(--color-dorado);
@@ -290,12 +290,16 @@ body::before {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 6px;
-  padding: 12px;
+  gap: 8px;
+  padding: 14px;
 }
 
 .producto-card-info.cromo .producto-card-nombre {
-  font-size: 13.5px;
+  font-size: 15px;
+}
+
+.producto-card-info.cromo .producto-card-equipo {
+  font-size: 10.5px;
 }
 
 .producto-card-ticket {
@@ -306,8 +310,8 @@ body::before {
   color: var(--color-verde);
   font-family: var(--font-playfair);
   font-weight: 700;
-  font-size: 14px;
-  padding: 4px 12px;
+  font-size: 15.5px;
+  padding: 5px 14px;
   border-radius: 4px;
   margin-top: 2px;
 }
@@ -318,18 +322,18 @@ body::before {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 7px;
-  height: 7px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   background: white;
 }
 
 .producto-card-ticket::before {
-  left: -3.5px;
+  left: -4px;
 }
 
 .producto-card-ticket::after {
-  right: -3.5px;
+  right: -4px;
 }
 
 .productos-grid {
@@ -351,13 +355,13 @@ body::before {
 }
 
 .productos-grid.cromo {
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 22px;
 }
 
 @media (max-width: 600px) {
   .tarjetas-seccion {
-    padding-inline: 14px;
+    padding-inline: 10px;
   }
 
   .productos-grid.cromo {
