@@ -3,6 +3,7 @@ import {
   Playfair_Display,
   Libre_Baskerville,
   Bebas_Neue,
+  Caveat,
 } from "next/font/google";
 import "./globals.css";
 import Header from "./components/Header";
@@ -26,6 +27,12 @@ const bebas = Bebas_Neue({
   weight: "400",
   subsets: ["latin"],
   variable: "--font-bebas",
+});
+
+const caveat = Caveat({
+  weight: ["600", "700"],
+  subsets: ["latin"],
+  variable: "--font-caveat",
 });
 
 export const metadata: Metadata = {
@@ -89,7 +96,7 @@ export default function RootLayout({
         {/* <meta name="google-site-verification" content="tu-codigo-aqui" /> */}
       </head>
       <body
-        className={`${playfair.variable} ${baskerville.variable} ${bebas.variable}`}
+        className={`${playfair.variable} ${baskerville.variable} ${bebas.variable} ${caveat.variable}`}
       >
         <Analytics />
         <ScrollToTop />

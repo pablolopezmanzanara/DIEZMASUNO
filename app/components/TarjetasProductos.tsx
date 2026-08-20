@@ -5,12 +5,14 @@ import { type Producto } from "../lib/queries";
 import { useCarrito } from "../context/CarritoContext";
 import { trackAddToCart } from "../lib/analytics";
 import ProductCard from "./ProductCard";
+import CromosDestacados from "./CromosDestacados";
 
 type Props = {
   productos: Producto[];
+  destacados: Producto[];
 };
 
-export default function TarjetasProductos({ productos }: Props) {
+export default function TarjetasProductos({ productos, destacados }: Props) {
   const [aniadidos, setAniadidos] = useState<Set<string>>(new Set());
   const { aniadir } = useCarrito();
 
@@ -45,54 +47,10 @@ export default function TarjetasProductos({ productos }: Props) {
       className="tarjetas-seccion"
       style={{ maxWidth: "1400px", margin: "0 auto" }}
     >
+      <CromosDestacados productos={destacados} />
+
       {/* Título */}
-      <div
-        style={{
-          marginBottom: "64px",
-          display: "flex",
-          alignItems: "center",
-          gap: "16px",
-        }}
-      >
-        <div
-          style={{
-            width: "100%",
-            height: "100%",
-            marginLeft: "15%",
-          }}
-        >
-          <div
-            style={{
-              color: "var(--color-dorado-osc)",
-              fontFamily: "var(--font-bebas)",
-              fontSize: "11px",
-              letterSpacing: "5px",
-              marginBottom: "10px",
-            }}
-          >
-            Coleccion 2025 · Temporada I
-          </div>
-          <h2
-            style={{
-              color: "var(--color-verde)",
-              fontFamily: "var(--font-playfair)",
-              fontWeight: 900,
-              fontSize: "clamp(28px,4vw,44px)",
-              lineHeight: 1.1,
-            }}
-          >
-            Edición{" "}
-            <em
-              style={{
-                fontStyle: "italic",
-                color: "var(--color-dorado-osc)",
-              }}
-            >
-              limitada
-            </em>
-          </h2>
-        </div>
-      </div>
+      <h2 className="texto-eyebrow">Toda la colección</h2>
 
       {/* Grid de tarjetas */}
       <div className="productos-grid cromo">

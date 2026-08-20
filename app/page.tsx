@@ -1,12 +1,16 @@
 import Link from "next/link";
 import TarjetasProductos from "./components/TarjetasProductos";
 
-import { getProductos } from "./lib/queries";
+import { getProductos, getProductosDestacados } from "./lib/queries";
 
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
   const todosProductos = await getProductos();
+  const destacadosMarcados = await getProductosDestacados();
+  const destacados = (
+    destacadosMarcados.length > 0 ? destacadosMarcados : todosProductos
+  ).slice(0, 4);
 
   return (
     <>
@@ -315,7 +319,7 @@ export default async function HomePage() {
       <section
         style={{ padding: "80px 24px", background: "var(--color-crema)" }}
       >
-        <TarjetasProductos productos={todosProductos} />
+        <TarjetasProductos productos={todosProductos} destacados={destacados} />
       </section>
 
       {/* ── PROCESO ── */}
