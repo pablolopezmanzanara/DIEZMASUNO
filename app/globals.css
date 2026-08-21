@@ -103,12 +103,6 @@ body::before {
   font-size: clamp(24px, 5vw, 32px);
 }
 
-.carrito-titulo-cuenta {
-  color: var(--color-dorado-osc);
-  font-size: 0.55em;
-  font-weight: 600;
-}
-
 .carrito-lista {
   display: flex;
   flex-direction: column;
@@ -787,10 +781,6 @@ body::before {
   flex-shrink: 0;
   width: min(65vw, 280px);
   height: min(42vh, 420px);
-  background: white;
-  border-radius: 4px;
-  overflow: hidden;
-  box-shadow: 0 8px 24px rgba(26, 18, 9, 0.12);
 }
 
 .detalle-ficha-imagen-placeholder {

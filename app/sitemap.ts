@@ -1,11 +1,13 @@
 import { MetadataRoute } from "next";
 import { getProductos } from "./lib/queries";
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL;
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const productos = await getProductos();
 
   const productosUrls = productos.map((producto) => ({
-    url: `https://elfutboldeantes.com/catalogo/${producto.slug.current}`,
+    url: `${SITE_URL}/catalogo/${producto.slug.current}`,
     lastModified: new Date(),
     changeFrequency: "weekly" as const,
     priority: 0.8,
@@ -13,31 +15,31 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [
     {
-      url: "https://elfutboldeantes.com",
+      url: `${SITE_URL}`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 1,
     },
     {
-      url: "https://elfutboldeantes.com/sobre-nosotros",
+      url: `${SITE_URL}/sobre-nosotros`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.5,
     },
     {
-      url: "https://elfutboldeantes.com/peticiones",
+      url: `${SITE_URL}/peticiones`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.7,
     },
     {
-      url: "https://elfutboldeantes.com/envios",
+      url: `${SITE_URL}/envios`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.4,
     },
     {
-      url: "https://elfutboldeantes.com/faq",
+      url: `${SITE_URL}/faq`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.4,

@@ -44,14 +44,14 @@ export const metadata: Metadata = {
   authors: [{ name: "El Fútbol de Antes" }],
   creator: "El Fútbol de Antes",
   publisher: "El Fútbol de Antes",
-  metadataBase: new URL("https://elfutboldeantes.com"), // Cambiar por tu dominio real
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL!),
   alternates: {
     canonical: "/",
   },
   openGraph: {
     type: "website",
     locale: "es_ES",
-    url: "https://elfutboldeantes.com",
+    url: process.env.NEXT_PUBLIC_SITE_URL,
     title: "El Fútbol de Antes | Cuadros Vintage Fútbol Español",
     description:
       "Cuadros de edición limitada de leyendas del fútbol español. Raúl, Torres, Xavi, Casillas y más.",

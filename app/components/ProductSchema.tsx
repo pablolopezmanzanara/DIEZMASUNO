@@ -23,7 +23,7 @@ export default function ProductSchema({ producto }: { producto: Producto }) {
       availability: producto.disponible
         ? "https://schema.org/InStock"
         : "https://schema.org/OutOfStock",
-      url: `https://elfutboldeantes.com/catalogo/${producto.slug.current}`,
+      url: `${process.env.NEXT_PUBLIC_SITE_URL}/catalogo/${producto.slug.current}`,
     },
   };
 
