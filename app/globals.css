@@ -537,14 +537,16 @@ body::before {
   margin-bottom: 10px;
 }
 
-/* Altura fija (con tope) de la que se deriva el ancho vía aspect-ratio:
-   al ser flex item dentro del marco, sin esto no tiene tamaño del que
-   partir y colapsa a 0. De paso deja huecos laterales para las flechas */
+/* Caja de tamaño FIJO (no derivado de aspect-ratio, que forzaba recortar
+   fotos cuya proporcion real no encajaba). object-fit:contain en la
+   imagen hija muestra la foto entera sin recortar dentro de este hueco
+   siempre igual, aunque cambie de tamaño visible de una foto a otra */
 .detalle-ficha-imagen {
   position: relative;
+  flex-shrink: 0;
+  width: min(65vw, 280px);
   height: min(42vh, 420px);
-  aspect-ratio: 3 / 4;
-  background: var(--color-verde);
+  background: white;
   border-radius: 4px;
   overflow: hidden;
   box-shadow: 0 8px 24px rgba(26, 18, 9, 0.12);

@@ -119,18 +119,14 @@ export default function DetalleClient({ producto, relacionados }: Props) {
             <div className="detalle-ficha-imagen">
               {imagenes.length > 0 ? (
                 <Image
-                  src={urlFor(imagenes[imagenActual])
-                    .width(900)
-                    .height(900)
-                    .quality(95)
-                    .url()}
+                  src={urlFor(imagenes[imagenActual]).width(900).quality(95).url()}
                   alt={producto.nombre}
                   fill
-                  style={{ objectFit: "cover" }}
+                  style={{ objectFit: "contain" }}
                   quality={100}
                   loading="lazy"
                   placeholder="blur"
-                  blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwMCIgaGVpZ2h0PSIxMzMzIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxMDAwIiBoZWlnaHQ9IjEzMzMiIGZpbGw9IiMxYTNhMmEiLz48L3N2Zz4="
+                  blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwMCIgaGVpZ2h0PSIxMzMzIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxMDAwIiBoZWlnaHQ9IjEzMzMiIGZpbGw9IiNmZmZmZmYiLz48L3N2Zz4="
                 />
               ) : (
                 <div className="detalle-ficha-imagen-placeholder">
