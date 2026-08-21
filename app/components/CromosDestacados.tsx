@@ -78,7 +78,7 @@ export default function CromosDestacados({ productos }: Props) {
   return (
     <div className="destacado-wrap">
       <p className="texto-titulo-seccion">
-        Cromos <em>destacados</em>
+        Cromos <em>incluidos</em>
       </p>
 
       <div className="destacado-card">
@@ -97,40 +97,47 @@ export default function CromosDestacados({ productos }: Props) {
                 : "transform 0.6s cubic-bezier(0.65, 0, 0.35, 1)",
             }}
           >
-            {productos.map((p) => (
-              <Link
-                key={p._id}
-                href={`/catalogo/${p.slug.current}`}
-                className="destacado-slide"
-                onClick={manejarClickSlide}
-                draggable={false}
-              >
-                <div className="destacado-imagen">
-                  {p.imagen ? (
-                    <Image
-                      src={urlFor(p.imagen).width(500).height(700).quality(90).url()}
-                      alt={p.nombre}
-                      fill
-                      style={{ objectFit: "cover" }}
-                      quality={90}
-                      draggable={false}
-                    />
-                  ) : (
-                    <span className="destacado-placeholder">⚽</span>
-                  )}
-                </div>
+            {productos.map((p) => {
+              // El cromo destacado usa la 2ª imagen del producto (1ª de la
+              // galeria, tras la principal); si aun no existe, cae en la
+              // principal para no dejar el hueco vacio.
+              const imagenCromo = p.galeria?.[0] ?? p.imagen;
 
-                <div className="destacado-info">
-                  <p className="destacado-frase">&ldquo;{FRASE_EJEMPLO}&rdquo;</p>
-                  <div className="destacado-divisor" />
-                  <div className="destacado-identidad">
-                    <div className="destacado-equipo">{p.equipo}</div>
-                    <div className="destacado-nombre">{p.nombre}</div>
+              return (
+                <Link
+                  key={p._id}
+                  href={`/catalogo/${p.slug.current}`}
+                  className="destacado-slide"
+                  onClick={manejarClickSlide}
+                  draggable={false}
+                >
+                  <div className="destacado-imagen">
+                    {imagenCromo ? (
+                      <Image
+                        src={urlFor(imagenCromo).width(500).height(700).quality(90).url()}
+                        alt={p.nombre}
+                        fill
+                        style={{ objectFit: "cover" }}
+                        quality={90}
+                        draggable={false}
+                      />
+                    ) : (
+                      <span className="destacado-placeholder">⚽</span>
+                    )}
                   </div>
-                  <span className="destacado-boton">Ver ficha · {p.precio} €</span>
-                </div>
-              </Link>
-            ))}
+
+                  <div className="destacado-info">
+                    <p className="destacado-frase">&ldquo;{FRASE_EJEMPLO}&rdquo;</p>
+                    <div className="destacado-divisor" />
+                    <div className="destacado-identidad">
+                      <div className="destacado-equipo">{p.equipo}</div>
+                      <div className="destacado-nombre">{p.nombre}</div>
+                    </div>
+                    <span className="destacado-boton">Ver ficha · {p.precio} €</span>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         </div>
 
