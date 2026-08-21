@@ -50,7 +50,9 @@ export default function TarjetasProductos({ productos, destacados }: Props) {
       <CromosDestacados productos={destacados} />
 
       {/* Título */}
-      <h2 className="texto-eyebrow">Todos los cuadros</h2>
+      <h2 className="texto-titulo-seccion">
+        Todos los <em>cuadros</em>
+      </h2>
 
       {/* Grid de tarjetas */}
       <div className="productos-grid cromo">

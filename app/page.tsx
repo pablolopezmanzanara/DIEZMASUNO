@@ -8,9 +8,8 @@ export const dynamic = "force-dynamic";
 export default async function HomePage() {
   const todosProductos = await getProductos();
   const destacadosMarcados = await getProductosDestacados();
-  const destacados = (
-    destacadosMarcados.length > 0 ? destacadosMarcados : todosProductos
-  ).slice(0, 4);
+  const destacados =
+    destacadosMarcados.length > 0 ? destacadosMarcados : todosProductos;
 
   return (
     <>

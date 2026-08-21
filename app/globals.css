@@ -524,16 +524,6 @@ body::before {
   margin-bottom: 56px;
 }
 
-/* Estilo "eyebrow": etiqueta pequeña y discreta */
-.texto-eyebrow {
-  font-family: var(--font-bebas);
-  font-size: 11px;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  color: var(--color-gris);
-  margin-bottom: 14px;
-}
-
 /* Estilo "titulo": grande, serif, con acento en dorado */
 .texto-titulo-seccion {
   font-family: var(--font-playfair);
@@ -669,6 +659,7 @@ body::before {
   justify-content: center;
   gap: 5px;
   padding-top: 3px;
+  min-height: 5px;
 }
 
 .destacado-dot {
