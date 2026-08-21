@@ -530,9 +530,10 @@ body::before {
 }
 
 .detalle-ficha-imagen-marco {
-  position: relative;
   display: flex;
+  align-items: center;
   justify-content: center;
+  gap: 10px;
   margin-bottom: 10px;
 }
 
@@ -560,9 +561,7 @@ body::before {
 }
 
 .detalle-ficha-flecha {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+  flex-shrink: 0;
   width: 34px;
   height: 34px;
   border-radius: 50%;
@@ -575,14 +574,6 @@ body::before {
   align-items: center;
   justify-content: center;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-}
-
-.detalle-ficha-flecha.izq {
-  left: 4px;
-}
-
-.detalle-ficha-flecha.der {
-  right: 4px;
 }
 
 .detalle-ficha-dots {
