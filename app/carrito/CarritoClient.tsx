@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useCarrito } from "../context/CarritoContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { urlFor } from "../lib/sanity";
 
 function IconoPapelera() {
@@ -35,6 +35,20 @@ function IconoFlechaDer() {
 export default function CarritoClient() {
   const { items, totalPrecio, eliminar, actualizar } = useCarrito();
   const [procesando, setProcesando] = useState(false);
+
+  // Al volver de Stripe (cancelar), algunos navegadores restauran la
+  // pagina desde la bfcache tal cual estaba al salir, con "Procesando..."
+  // congelado. pageshow con persisted:true detecta ese caso y lo resetea.
+  useEffect(() => {
+    const manejarPageShow = (e: PageTransitionEvent) => {
+      if (e.persisted) {
+        setProcesando(false);
+      }
+    };
+
+    window.addEventListener("pageshow", manejarPageShow);
+    return () => window.removeEventListener("pageshow", manejarPageShow);
+  }, []);
 
   const handleCheckout = async () => {
     setProcesando(true);
