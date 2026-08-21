@@ -1,7 +1,6 @@
 import { MetadataRoute } from "next";
 import { getProductos } from "./lib/queries";
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL;
+import { SITE_URL } from "./lib/site";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const productos = await getProductos();

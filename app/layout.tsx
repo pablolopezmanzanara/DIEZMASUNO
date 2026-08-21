@@ -10,6 +10,7 @@ import SiteChrome from "./components/SiteChrome";
 import { CarritoProvider } from "./context/CarritoContext";
 import ScrollToTop from "./components/ScrollToTop";
 import Analytics from "./components/Analytics";
+import { SITE_URL } from "./lib/site";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -43,14 +44,14 @@ export const metadata: Metadata = {
   authors: [{ name: "El Fútbol de Antes" }],
   creator: "El Fútbol de Antes",
   publisher: "El Fútbol de Antes",
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL!),
+  metadataBase: new URL(SITE_URL),
   alternates: {
     canonical: "/",
   },
   openGraph: {
     type: "website",
     locale: "es_ES",
-    url: process.env.NEXT_PUBLIC_SITE_URL,
+    url: SITE_URL,
     title: "El Fútbol de Antes | Cuadros Vintage Fútbol Español",
     description:
       "Cuadros de edición limitada de leyendas del fútbol español. Raúl, Torres, Xavi, Casillas y más.",

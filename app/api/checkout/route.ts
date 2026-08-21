@@ -1,6 +1,7 @@
 import Stripe from "stripe";
 import { NextRequest, NextResponse } from "next/server";
 import { getProducto } from "../../lib/queries";
+import { SITE_URL } from "../../lib/site";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2026-01-28.clover",
@@ -54,8 +55,8 @@ export async function POST(req: NextRequest) {
       payment_method_types: ["card"],
       line_items: lineItems,
       mode: "payment",
-      success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/pedido-confirmado?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/carrito`,
+      success_url: `${SITE_URL}/pedido-confirmado?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${SITE_URL}/carrito`,
       shipping_address_collection: {
         allowed_countries: ["ES", "PT", "FR", "DE", "IT"],
       },

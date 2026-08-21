@@ -1,5 +1,6 @@
 import { type Producto } from "../lib/queries";
 import { urlFor } from "../lib/sanity";
+import { SITE_URL } from "../lib/site";
 
 export default function ProductSchema({ producto }: { producto: Producto }) {
   const imageUrl = producto.imagen
@@ -23,7 +24,7 @@ export default function ProductSchema({ producto }: { producto: Producto }) {
       availability: producto.disponible
         ? "https://schema.org/InStock"
         : "https://schema.org/OutOfStock",
-      url: `${process.env.NEXT_PUBLIC_SITE_URL}/catalogo/${producto.slug.current}`,
+      url: `${SITE_URL}/catalogo/${producto.slug.current}`,
     },
   };
 

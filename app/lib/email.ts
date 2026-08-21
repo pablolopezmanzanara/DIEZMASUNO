@@ -1,4 +1,5 @@
 import { Resend } from "resend";
+import { SITE_URL } from "./site";
 
 type ItemPedido = {
   nombre: string;
@@ -126,7 +127,7 @@ export async function enviarEmailConfirmacion({
 
           <!-- CTA -->
           <div style="text-align:center;">
-            <a href="${process.env.NEXT_PUBLIC_SITE_URL}/#coleccion"
+            <a href="${SITE_URL}/#coleccion"
               style="display:inline-block;background:#c9a84c;color:#1a3a2a;text-decoration:none;font-family:Arial,sans-serif;font-size:13px;letter-spacing:3px;text-transform:uppercase;padding:14px 32px;border-radius:2px;">
               Ver más cuadros
             </a>
