@@ -6,8 +6,7 @@ import {
   Caveat,
 } from "next/font/google";
 import "./globals.css";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
+import SiteChrome from "./components/SiteChrome";
 import { CarritoProvider } from "./context/CarritoContext";
 import ScrollToTop from "./components/ScrollToTop";
 import Analytics from "./components/Analytics";
@@ -101,9 +100,7 @@ export default function RootLayout({
         <Analytics />
         <ScrollToTop />
         <CarritoProvider>
-          <Header />
-          {children}
-          <Footer />
+          <SiteChrome>{children}</SiteChrome>
         </CarritoProvider>
       </body>
     </html>
