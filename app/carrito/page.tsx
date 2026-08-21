@@ -6,8 +6,34 @@ import { useCarrito } from "../context/CarritoContext";
 import { useState } from "react";
 import { urlFor } from "../lib/sanity";
 
+function IconoPapelera() {
+  return (
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4 7h16" />
+      <path d="M9 7V4h6v3" />
+      <path d="M6 7l1 13h10l1-13" />
+    </svg>
+  );
+}
+
+function IconoFlechaIzq() {
+  return (
+    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M15 6l-6 6 6 6" />
+    </svg>
+  );
+}
+
+function IconoFlechaDer() {
+  return (
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M9 6l6 6-6 6" />
+    </svg>
+  );
+}
+
 export default function CarritoPage() {
-  const { items, totalPrecio, eliminar, actualizar, vaciar } = useCarrito();
+  const { items, totalPrecio, eliminar, actualizar } = useCarrito();
   const [procesando, setProcesando] = useState(false);
 
   const handleCheckout = async () => {
@@ -88,393 +114,122 @@ export default function CarritoPage() {
   }
 
   return (
-    <div
-      style={{
-        paddingTop: "20px",
-        paddingBottom: "40px",
-        paddingInline: "24px",
-        maxWidth: "1200px",
-        margin: "0 auto",
-      }}
-    >
-      {/* Header */}
-      <div
-        style={{
-          marginBottom: "48px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          flexWrap: "wrap",
-          gap: "16px",
-        }}
-      >
-        <div>
-          <h1
-            style={{
-              color: "var(--color-tinta)",
-              fontFamily: "var(--font-playfair)",
-              fontSize: "clamp(32px, 4vw, 48px)",
-              fontWeight: 900,
-              marginBottom: "8px",
-            }}
-          >
-            Tu carrito
-          </h1>
-          <p style={{ color: "var(--color-gris)", fontSize: "14px" }}>
-            {items.length} {items.length === 1 ? "articulo" : "articulos"}
-          </p>
-        </div>
-        <button
-          onClick={vaciar}
-          style={{
-            background: "transparent",
-            color: "var(--color-gris)",
-            border: "1px solid var(--color-crema-osc)",
-            fontFamily: "var(--font-bebas)",
-            fontSize: "12px",
-            letterSpacing: "2px",
-            padding: "8px 16px",
-            borderRadius: "2px",
-            cursor: "pointer",
-            transition: "all 0.2s",
-          }}
-        >
-          Vaciar carrito
-        </button>
+    <div className="carrito-pagina">
+      <div className="carrito-cabecera">
+        <h1 className="carrito-titulo">
+          Tu carrito{" "}
+          <span className="carrito-titulo-cuenta">
+            · {items.length} {items.length === 1 ? "lámina" : "láminas"}
+          </span>
+        </h1>
       </div>
 
-      <div className="carrito-layout">
-        {/* Lista de productos */}
-        <div>
-          {items.map((item) => (
-            <Link
-              key={item.id}
-              href={`/catalogo/${item.slug}`}
-              style={{
-                textDecoration: "none",
-                background: "white",
-                borderRadius: "4px",
-                padding: "20px",
-                marginBottom: "16px",
-                boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
-                display: "grid",
-                gridTemplateColumns: "100px 1fr auto",
-                gap: "20px",
-                alignItems: "center",
-                cursor: "pointer",
-                transition: "all 0.2s",
-              }}
-              className="carrito-item"
-              onMouseEnter={(e) => {
-                e.currentTarget.style.boxShadow = "0 4px 16px rgba(0,0,0,0.1)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.boxShadow = "0 2px 8px rgba(0,0,0,0.05)";
-              }}
-            >
-              {/* Imagen */}
-              <div
-                style={{
-                  background: "var(--color-verde)",
-                  aspectRatio: "3/4",
-                  borderRadius: "2px",
-                  position: "relative",
-                  overflow: "hidden",
-                }}
-              >
-                {item.imagen ? (
-                  <Image
-                    src={urlFor(item.imagen).width(100).height(133).url()}
-                    alt={item.nombre}
-                    fill
-                    style={{ objectFit: "cover" }}
-                  />
-                ) : (
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      height: "100%",
-                    }}
-                  >
-                    <span
-                      style={{
-                        color: "rgba(255,255,255,0.3)",
-                        fontFamily: "var(--font-bebas)",
-                        fontSize: "48px",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      {item.dorsal}
-                    </span>
-                  </div>
-                )}
+      <div className="carrito-lista">
+        {items.map((item) => (
+          <div key={item.id} className="carrito-item-card">
+            <Link href={`/catalogo/${item.slug}`} className="carrito-item-imagen">
+              {item.imagen ? (
+                <Image
+                  src={urlFor(item.imagen).width(140).height(140).quality(85).url()}
+                  alt={item.nombre}
+                  fill
+                  style={{ objectFit: "cover" }}
+                />
+              ) : (
+                <span className="carrito-item-imagen-placeholder">{item.dorsal}</span>
+              )}
+            </Link>
+
+            <div className="carrito-item-info">
+              <div className="carrito-item-encabezado">
+                <Link href={`/catalogo/${item.slug}`} className="carrito-item-nombre">
+                  {item.nombre}
+                </Link>
+                <button
+                  onClick={() => eliminar(item.id)}
+                  className="carrito-item-eliminar"
+                  aria-label="Eliminar del carrito"
+                >
+                  <IconoPapelera />
+                </button>
               </div>
 
-              {/* Info */}
-              <div onClick={(e) => e.preventDefault()}>
-                <h3
-                  style={{
-                    color: "var(--color-tinta)",
-                    fontFamily: "var(--font-playfair)",
-                    fontSize: "18px",
-                    fontWeight: 700,
-                    marginBottom: "6px",
-                  }}
-                >
-                  {item.nombre}
-                </h3>
-                <div
-                  style={{
-                    color: "var(--color-gris)",
-                    fontSize: "13px",
-                    marginBottom: "12px",
-                  }}
-                >
-                  {item.equipo} · {item.formato.label}
-                </div>
+              <div className="carrito-item-subtitulo">
+                {item.equipo} · {item.formato.label}
+              </div>
 
-                {/* Controles cantidad */}
-                <div
-                  style={{ display: "flex", alignItems: "center", gap: "12px" }}
-                >
+              <div className="carrito-item-pie">
+                <div className="carrito-cantidad">
                   <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      actualizar(item.id, item.cantidad - 1);
-                    }}
+                    onClick={() => actualizar(item.id, item.cantidad - 1)}
                     disabled={item.cantidad <= 1}
-                    style={{
-                      background: "var(--color-crema-osc)",
-                      border: "none",
-                      width: "32px",
-                      height: "32px",
-                      borderRadius: "2px",
-                      cursor: "pointer",
-                      fontSize: "16px",
-                      color: "var(--color-verde)",
-                      opacity: item.cantidad <= 1 ? 0.3 : 1,
-                    }}
+                    aria-label="Restar cantidad"
                   >
                     −
                   </button>
-                  <span
-                    style={{
-                      fontFamily: "var(--font-playfair)",
-                      fontSize: "16px",
-                      fontWeight: 600,
-                      minWidth: "30px",
-                      textAlign: "center",
-                    }}
-                  >
-                    {item.cantidad}
-                  </span>
+                  <span>{item.cantidad}</span>
                   <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      actualizar(item.id, item.cantidad + 1);
-                    }}
-                    style={{
-                      background: "var(--color-crema-osc)",
-                      border: "none",
-                      width: "32px",
-                      height: "32px",
-                      borderRadius: "2px",
-                      cursor: "pointer",
-                      fontSize: "16px",
-                      color: "var(--color-verde)",
-                    }}
+                    onClick={() => actualizar(item.id, item.cantidad + 1)}
+                    aria-label="Sumar cantidad"
                   >
                     +
                   </button>
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      eliminar(item.id);
-                    }}
-                    style={{
-                      background: "transparent",
-                      border: "none",
-                      color: "var(--color-gris)",
-                      fontSize: "13px",
-                      cursor: "pointer",
-                      marginLeft: "12px",
-                      textDecoration: "underline",
-                    }}
-                  >
-                    Eliminar
-                  </button>
                 </div>
-              </div>
-
-              {/* Precio */}
-              <div
-                style={{ textAlign: "right" }}
-                onClick={(e) => e.preventDefault()}
-              >
-                <div
-                  style={{
-                    color: "var(--color-verde)",
-                    fontFamily: "var(--font-playfair)",
-                    fontSize: "24px",
-                    fontWeight: 700,
-                  }}
-                >
+                <div className="carrito-item-precio">
                   {item.formato.precio * item.cantidad} €
                 </div>
-                {item.cantidad > 1 && (
-                  <div
-                    style={{
-                      color: "var(--color-gris)",
-                      fontSize: "12px",
-                      marginTop: "4px",
-                    }}
-                  >
-                    {item.formato.precio} € c/u
-                  </div>
-                )}
               </div>
-            </Link>
-          ))}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <Link href="/#coleccion" className="carrito-seguir">
+        <IconoFlechaIzq />
+        Seguir comprando
+      </Link>
+
+      <div className="carrito-resumen">
+        <h2 className="carrito-resumen-titulo">Resumen del pedido</h2>
+
+        <div className="carrito-resumen-fila">
+          <span>Subtotal</span>
+          <span>{totalPrecio} €</span>
+        </div>
+        <div className="carrito-resumen-fila">
+          <span>Envío</span>
+          <span className="carrito-resumen-gratis">Gratis</span>
         </div>
 
-        {/* Resumen */}
-        <div
-          style={{
-            background: "var(--color-verde)",
-            borderRadius: "4px",
-            padding: "32px",
-            position: "sticky",
-            top: "100px",
-          }}
+        <p className="carrito-resumen-entrega">
+          Entrega estimada en 2-4 días laborables.
+        </p>
+
+        <p className="carrito-resumen-nota">
+          📦 Envío gratuito en 2-4 días
+          <br />
+          🔒 Pago seguro con Stripe
+        </p>
+      </div>
+
+      <div className="carrito-sticky">
+        <div className="carrito-sticky-total">
+          <span>Total</span>
+          <span>{totalPrecio} €</span>
+        </div>
+        <button
+          onClick={handleCheckout}
+          disabled={procesando}
+          className="carrito-finalizar"
         >
-          <h2
-            style={{
-              color: "var(--color-crema)",
-              fontFamily: "var(--font-playfair)",
-              fontSize: "24px",
-              fontWeight: 700,
-              marginBottom: "24px",
-            }}
-          >
-            Resumen del pedido
-          </h2>
-
-          <div
-            style={{
-              marginBottom: "24px",
-              paddingBottom: "24px",
-              borderBottom: "1px solid rgba(245,239,224,0.2)",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                marginBottom: "12px",
-              }}
-            >
-              <span
-                style={{ color: "rgba(245,239,224,0.7)", fontSize: "14px" }}
-              >
-                Subtotal
-              </span>
-              <span
-                style={{
-                  color: "var(--color-crema)",
-                  fontSize: "16px",
-                  fontWeight: 600,
-                }}
-              >
-                {totalPrecio} €
-              </span>
-            </div>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <span
-                style={{ color: "rgba(245,239,224,0.7)", fontSize: "14px" }}
-              >
-                Envio
-              </span>
-              <span
-                style={{
-                  color: "var(--color-dorado)",
-                  fontSize: "14px",
-                  fontWeight: 600,
-                }}
-              >
-                GRATIS
-              </span>
-            </div>
-          </div>
-
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              marginBottom: "32px",
-            }}
-          >
-            <span
-              style={{
-                color: "var(--color-crema)",
-                fontFamily: "var(--font-bebas)",
-                fontSize: "16px",
-                letterSpacing: "2px",
-              }}
-            >
-              TOTAL
-            </span>
-            <span
-              style={{
-                color: "var(--color-dorado)",
-                fontFamily: "var(--font-playfair)",
-                fontSize: "32px",
-                fontWeight: 700,
-              }}
-            >
-              {totalPrecio} €
-            </span>
-          </div>
-
-          <button
-            onClick={handleCheckout}
-            disabled={procesando}
-            style={{
-              width: "100%",
-              background: "var(--color-dorado)",
-              color: "var(--color-verde)",
-              border: "none",
-              fontFamily: "var(--font-bebas)",
-              fontSize: "16px",
-              letterSpacing: "3px",
-              padding: "18px",
-              borderRadius: "2px",
-              cursor: procesando ? "not-allowed" : "pointer",
-              opacity: procesando ? 0.7 : 1,
-              transition: "all 0.2s",
-              marginBottom: "16px",
-            }}
-          >
-            {procesando ? "PROCESANDO..." : "FINALIZAR PEDIDO"}
-          </button>
-
-          <div
-            style={{
-              color: "rgba(245,239,224,0.6)",
-              fontSize: "12px",
-              textAlign: "center",
-              lineHeight: 1.6,
-            }}
-          >
-            📦 Envio gratuito en 2-4 dias
-            <br />
-            🔒 Pago seguro con Stripe
-          </div>
-        </div>
+          {procesando ? (
+            "Procesando..."
+          ) : (
+            <>
+              Finalizar pedido <IconoFlechaDer />
+            </>
+          )}
+        </button>
       </div>
     </div>
   );
