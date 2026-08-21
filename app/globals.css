@@ -539,6 +539,29 @@ body::before {
   color: var(--color-dorado-osc);
 }
 
+/* Titulo de la rejilla: distinto al de arriba a proposito (bebas
+   condensada en vez de serif, centrado en vez de alineado a la
+   izquierda, con un pequeño acento dorado debajo) */
+.texto-titulo-grid {
+  font-family: var(--font-bebas);
+  font-size: clamp(20px, 3vw, 26px);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--color-verde);
+  text-align: center;
+  margin-bottom: 32px;
+  scroll-margin-top: 90px;
+}
+
+.texto-titulo-grid::after {
+  content: "";
+  display: block;
+  width: 40px;
+  height: 2px;
+  background: var(--color-dorado);
+  margin: 12px auto 0;
+}
+
 .destacado-card {
   background: var(--color-verde);
   border-radius: 16px;

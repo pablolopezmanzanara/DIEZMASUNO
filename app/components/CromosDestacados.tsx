@@ -13,9 +13,6 @@ type Props = {
 const INTERVALO_MS = 4000;
 const UMBRAL_CAMBIO_PX = 50;
 const UMBRAL_ARRASTRE_PX = 6;
-// Con muchos cromos, un punto por cada uno se vuelve una pared inmanejable;
-// a partir de este numero se prescinde del indicador de puntos
-const MAX_PUNTOS = 8;
 
 // TODO: sustituir por un campo "frase" propio de cada producto en Sanity
 const FRASE_EJEMPLO = "El instante que el tiempo no pudo borrar.";
@@ -146,15 +143,14 @@ export default function CromosDestacados({ productos }: Props) {
 
         {productos.length > 1 && (
           <div className="destacado-dots">
-            {productos.length <= MAX_PUNTOS &&
-              productos.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setIndice(i)}
-                  className={`destacado-dot${i === indice ? " activo" : ""}`}
-                  aria-label={`Ir al cromo ${i + 1}`}
-                />
-              ))}
+            {productos.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setIndice(i)}
+                className={`destacado-dot${i === indice ? " activo" : ""}`}
+                aria-label={`Ir al cromo ${i + 1}`}
+              />
+            ))}
           </div>
         )}
       </div>

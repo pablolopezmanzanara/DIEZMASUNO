@@ -106,7 +106,7 @@ export default function CarritoClient() {
             el perfecto para tu espacio.
           </p>
           <Link
-            href="/#coleccion"
+            href="/#todos-los-cuadros"
             style={{
               display: "inline-block",
               background: "var(--color-verde)",
@@ -193,7 +193,7 @@ export default function CarritoClient() {
         ))}
       </div>
 
-      <Link href="/#coleccion" className="carrito-seguir">
+      <Link href="/#todos-los-cuadros" className="carrito-seguir">
         <IconoFlechaIzq />
         Seguir comprando
       </Link>

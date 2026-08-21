@@ -41,7 +41,7 @@ export default function PedidoConfirmadoPage() {
         </p>
       </div>
       <Link
-        href="/#coleccion"
+        href="/#todos-los-cuadros"
         style={{
           background: "var(--color-verde)",
           color: "var(--color-crema)",

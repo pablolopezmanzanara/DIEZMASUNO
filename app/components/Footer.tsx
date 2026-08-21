@@ -115,7 +115,7 @@ export default function Footer() {
               style={{ display: "flex", flexDirection: "column", gap: "8px" }}
             >
               {[
-                //["Catálogo", "/#coleccion"],
+                //["Catálogo", "/#todos-los-cuadros"],
                 ["Sobre nosotros", "/sobre-nosotros"],
                 ["Peticiones", "/peticiones"],
               ].map(([label, href]) => (
