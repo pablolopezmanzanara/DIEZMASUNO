@@ -10,7 +10,7 @@ type Props = {
   productos: Producto[];
 };
 
-const INTERVALO_MS = 4000;
+const INTERVALO_MS = 3500;
 const UMBRAL_CAMBIO_PX = 50;
 const UMBRAL_ARRASTRE_PX = 6;
 
