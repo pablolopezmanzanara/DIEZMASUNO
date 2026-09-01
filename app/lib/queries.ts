@@ -9,6 +9,7 @@ export type Producto = {
   dorsal: string;
   descripcion: string;
   historia?: string;
+  notaDestacada?: string;
   imagen?: any;
   galeria?: any[]; // AÑADIR
   precio: number;
@@ -73,6 +74,7 @@ export async function getProducto(slug: string): Promise<Producto | null> {
       dorsal,
       descripcion,
       historia,
+      notaDestacada,
       imagen,
       galeria,
       precio,

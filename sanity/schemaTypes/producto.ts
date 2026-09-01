@@ -47,6 +47,14 @@ export default defineType({
       rows: 6,
     }),
     defineField({
+      name: "notaDestacada",
+      title: "Nota destacada en la ficha",
+      type: "text",
+      rows: 2,
+      description:
+        "Texto corto y propio de este cuadro que sustituye a los iconos de envío/calidad en su ficha de producto (p. ej. una anécdota, un dato curioso, una dedicatoria).",
+    }),
+    defineField({
       name: "imagen",
       title: "Imagen del cuadro",
       type: "image",

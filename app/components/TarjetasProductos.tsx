@@ -29,8 +29,8 @@ export default function TarjetasProductos({ productos, destacados }: Props) {
         color: "#FFFFFF",
         imagen: p.imagen,
         formato: {
-          id: "50x70",
-          label: "50×70 cm",
+          id: "a4",
+          label: "A4 · 21×29 cm",
           precio: p.precio,
         },
       },

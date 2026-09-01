@@ -14,35 +14,6 @@ type Props = {
   relacionados: Producto[];
 };
 
-function IconoCamion() {
-  return (
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="1" y="6" width="13" height="10" rx="1" />
-      <path d="M14 9h4l3 3v4h-7z" />
-      <circle cx="5.5" cy="18" r="1.8" />
-      <circle cx="17.5" cy="18" r="1.8" />
-    </svg>
-  );
-}
-
-function IconoMedalla() {
-  return (
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="9" r="5.5" />
-      <path d="M8.5 13.5L7 21l5-2.5L17 21l-1.5-7.5" />
-    </svg>
-  );
-}
-
-function IconoDevolucion() {
-  return (
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M3 12a9 9 0 1 0 3-6.7" />
-      <polyline points="3 4 3 9 8 9" />
-    </svg>
-  );
-}
-
 function IconoChevron() {
   return (
     <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -76,8 +47,8 @@ export default function DetalleClient({ producto, relacionados }: Props) {
         color: "#FFFFFF",
         imagen: producto.imagen,
         formato: {
-          id: "50x70",
-          label: "50×70 cm",
+          id: "a4",
+          label: "A4 · 21×29 cm",
           precio: producto.precio,
         },
       },
@@ -169,25 +140,14 @@ export default function DetalleClient({ producto, relacionados }: Props) {
           <div className="detalle-ficha-precio">{producto.precio} €</div>
         </div>
 
-        {/* Iconos */}
-        <div className="detalle-ficha-iconos">
-          <div>
-            <IconoCamion />
-            <span>Envío 2-4 días</span>
-          </div>
-          <div>
-            <IconoMedalla />
-            <span>Alta calidad</span>
-          </div>
-          <div>
-            <IconoDevolucion />
-            <span>Devolución 30d</span>
-          </div>
-        </div>
+        {/* Nota destacada, propia de cada cuadro */}
+        {producto.notaDestacada && (
+          <p className="detalle-ficha-nota">{producto.notaDestacada}</p>
+        )}
 
         {/* Formato */}
         <p className="detalle-ficha-formato">
-          <strong>Formato:</strong> 50×70 cm · Impresión de alta calidad
+          <strong>Formato:</strong> A4 · 21×29 cm · Impresión de alta calidad
         </p>
 
         {/* Cantidad + Añadir */}

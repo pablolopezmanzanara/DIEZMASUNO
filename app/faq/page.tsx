@@ -12,9 +12,9 @@ const preguntas = [
       "Sí. Todas las ilustraciones son obras originales creadas específicamente para El Fútbol de Antes. No son fotografías ni reproducciones de imágenes existentes.",
   },
   {
-    pregunta: "¿Qué formatos están disponibles?",
+    pregunta: "¿Qué formato tienen los cuadros?",
     respuesta:
-      "Ofrecemos cuatro formatos: A4 (21×29 cm), A3 (30×42 cm), 50×70 cm y 70×100 cm. Todos disponibles con o sin marco.",
+      "Todos nuestros cuadros se imprimen en formato A4 (21×29 cm), con impresión de alta calidad.",
   },
   {
     pregunta: "¿El marco está incluido en el precio?",

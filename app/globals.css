@@ -880,29 +880,19 @@ body::before {
 }
 
 /* El resto de elementos vuelve a ocupar el ancho completo, debajo del split */
-.detalle-ficha-iconos {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid var(--color-crema-osc);
+
+/* Nota destacada: texto propio de cada cuadro, en vez de los iconos
+   genericos de envio/calidad de antes */
+.detalle-ficha-nota {
+  border-left: 3px solid var(--color-dorado);
+  background: var(--color-crema-osc);
+  padding: 12px 16px;
+  border-radius: 2px;
+  color: var(--color-tinta);
+  font-size: 13px;
+  font-style: italic;
+  line-height: 1.6;
   margin-bottom: 20px;
-}
-
-.detalle-ficha-iconos > div {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  text-align: center;
-  color: var(--color-gris);
-  font-family: var(--font-bebas);
-  font-size: 10px;
-  letter-spacing: 0.5px;
-}
-
-.detalle-ficha-iconos svg {
-  color: var(--color-verde);
 }
 
 .detalle-ficha-formato {
@@ -1090,9 +1080,7 @@ body::before {
     font-size: 20px;
   }
 
-  .detalle-ficha-iconos {
-    gap: 8px;
-    padding-bottom: 12px;
+  .detalle-ficha-nota {
     margin-bottom: 12px;
   }
 
