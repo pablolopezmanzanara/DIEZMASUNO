@@ -70,11 +70,6 @@ export default function ConfirmacionResumen() {
         </div>
       )}
 
-      <div className="confirmado-aviso">
-        Tu cuadro se imprimirá en las próximas 24h y llegará en un tubo
-        protector en 2–4 días laborables.
-      </div>
-
       <Link href="/#todos-los-cuadros" className="confirmado-seguir">
         Seguir comprando
       </Link>
