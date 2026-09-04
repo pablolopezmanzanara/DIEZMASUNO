@@ -13,6 +13,15 @@ type ItemCarritoInput = {
   cantidad: number;
 };
 
+// Usa el origen real de la petición cuando es uno conocido (p. ej. localhost
+// en desarrollo), y si no cae en el dominio de producción. Evita construir
+// success_url/cancel_url con un Host arbitrario que un cliente pueda falsear.
+function resolverOrigen(req: NextRequest): string {
+  const origen = req.headers.get("origin") ?? req.nextUrl.origin;
+  const permitidos = new Set([SITE_URL, "http://localhost:3000"]);
+  return permitidos.has(origen) ? origen : SITE_URL;
+}
+
 export async function POST(req: NextRequest) {
   try {
     const { items } = (await req.json()) as { items: ItemCarritoInput[] };
@@ -51,12 +60,14 @@ export async function POST(req: NextRequest) {
       resumen.push(`${producto.nombre} x${cantidad}`);
     }
 
+    const origen = resolverOrigen(req);
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: lineItems,
       mode: "payment",
-      success_url: `${SITE_URL}/pedido-confirmado?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${SITE_URL}/carrito`,
+      success_url: `${origen}/pedido-confirmado?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${origen}/carrito`,
       shipping_address_collection: {
         allowed_countries: ["ES", "PT", "FR", "DE", "IT"],
       },
