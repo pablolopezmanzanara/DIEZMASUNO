@@ -1,15 +1,15 @@
 import Link from "next/link";
 import TarjetasProductos from "./components/TarjetasProductos";
 
-import { getProductos, getProductosDestacados } from "./lib/queries";
+import { getProductos, getProductosConCromo } from "./lib/queries";
 
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
   const todosProductos = await getProductos();
-  const destacadosMarcados = await getProductosDestacados();
+  const productosConCromo = await getProductosConCromo();
   const destacados =
-    destacadosMarcados.length > 0 ? destacadosMarcados : todosProductos;
+    productosConCromo.length > 0 ? productosConCromo : todosProductos;
 
   return (
     <>

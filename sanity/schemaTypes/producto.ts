@@ -133,14 +133,16 @@ export default defineType({
     defineField({
       name: "disponible",
       title: "¿Disponible esta semana?",
+      description: "Si lo desmarcas, el cuadro desaparece de toda la web.",
       type: "boolean",
       initialValue: true,
     }),
     defineField({
-      name: "destacado",
-      title: "Destacado en home",
+      name: "tieneCromo",
+      title: "¿Tiene cromo?",
+      description:
+        "Marca esto si has subido la imagen de cromo (2ª imagen, en Galería) y quieres que aparezca en el carrusel de destacados de la home.",
       type: "boolean",
-      description: "Marcar para mostrar en la página principal",
     }),
     defineField({
       name: "orden",

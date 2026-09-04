@@ -17,7 +17,7 @@ export type Producto = {
   categoria?: string;
   logros?: string[];
   disponible: boolean;
-  destacado?: boolean;
+  tieneCromo?: boolean;
   tipo?: "jugador" | "otro";
   orden?: number; // AÑADIR ESTE CAMPO
 };
@@ -36,16 +36,15 @@ export async function getProductos(): Promise<Producto[]> {
       galeria,
       precio,
       badge,
-      destacado,
       tipo,
       orden
     }`,
   );
 }
 
-export async function getProductosDestacados(): Promise<Producto[]> {
+export async function getProductosConCromo(): Promise<Producto[]> {
   return client.fetch(
-    `*[_type == "producto" && disponible == true && destacado == true] | order(orden asc, _createdAt desc) {
+    `*[_type == "producto" && disponible == true && tieneCromo == true] | order(orden asc, _createdAt desc) {
       _id,
       nombre,
       slug,
@@ -82,7 +81,7 @@ export async function getProducto(slug: string): Promise<Producto | null> {
       categoria,
       logros,
       disponible,
-      destacado,
+      tieneCromo,
       tipo,
       orden
     }`,
