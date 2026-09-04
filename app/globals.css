@@ -350,6 +350,121 @@ body::before {
   cursor: not-allowed;
 }
 
+/* Pagina de confirmacion de pedido */
+.confirmado-pagina {
+  text-align: center;
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+
+.confirmado-check {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  background: var(--color-verde);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.confirmado-titulo {
+  color: var(--color-tinta);
+  font-family: var(--font-playfair);
+  font-weight: 900;
+  font-size: clamp(26px, 5vw, 34px);
+  margin-bottom: 12px;
+}
+
+.confirmado-texto {
+  color: var(--color-gris);
+  font-size: 14.5px;
+  line-height: 1.7;
+  max-width: 400px;
+  margin: 0 auto 28px;
+}
+
+.confirmado-resumen {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(26, 18, 9, 0.06);
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.confirmado-resumen-titulo {
+  color: var(--color-tinta);
+  font-family: var(--font-bebas);
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.confirmado-resumen-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-bottom: 14px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid var(--color-crema-osc);
+}
+
+.confirmado-resumen-fila {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--color-tinta);
+  font-size: 14px;
+}
+
+.confirmado-resumen-cantidad {
+  color: var(--color-gris);
+  font-size: 12.5px;
+}
+
+.confirmado-resumen-total {
+  display: flex;
+  justify-content: space-between;
+  color: var(--color-verde);
+  font-family: var(--font-playfair);
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.confirmado-aviso {
+  border-left: 3px solid var(--color-dorado);
+  background: var(--color-crema-osc);
+  color: var(--color-tinta);
+  font-size: 13px;
+  line-height: 1.6;
+  text-align: left;
+  padding: 14px 16px;
+  border-radius: 4px;
+  margin-bottom: 28px;
+}
+
+.confirmado-seguir {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-verde);
+  color: var(--color-crema);
+  font-family: var(--font-bebas);
+  font-size: 13px;
+  letter-spacing: 1.5px;
+  padding: 12px 28px;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.confirmado-seguir:hover {
+  background: var(--color-dorado);
+  color: var(--color-verde);
+}
+
 /* Footer responsive */
 @media (max-width: 768px) {
   .footer-grid {
