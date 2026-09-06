@@ -123,14 +123,16 @@ export async function enviarEmailConfirmacion({
 
           <!-- Total -->
           <div style="border-top:1px solid #e8dcc8;border-bottom:1px solid #e8dcc8;padding:20px 0;margin-bottom:32px;">
-            <div style="display:flex;justify-content:space-between;align-items:center;">
-              <span style="color:#6b6355;font-family:Arial,sans-serif;font-size:13px;text-transform:uppercase;letter-spacing:2px;">
-                Total pagado
-              </span>
-              <span style="color:#1a3a2a;font-size:24px;font-weight:bold;">
-                ${totalFormateado} €
-              </span>
-            </div>
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
+              <tr>
+                <td style="color:#6b6355;font-family:Arial,sans-serif;font-size:13px;text-transform:uppercase;letter-spacing:2px;vertical-align:middle;">
+                  Total pagado
+                </td>
+                <td style="text-align:right;color:#1a3a2a;font-size:26px;font-weight:bold;vertical-align:middle;">
+                  ${totalFormateado} €
+                </td>
+              </tr>
+            </table>
           </div>
 
           ${
@@ -158,7 +160,7 @@ export async function enviarEmailConfirmacion({
             </p>
             <p style="margin:0;color:rgba(245,239,224,0.8);font-size:14px;line-height:1.7;">
               Tu pedido saldrá hacia tu dirección en un máximo de
-              <strong style="color:#f5efe0;">24 horas</strong>.
+              <strong style="color:#f5efe0;">72 horas</strong>.
             </p>
           </div>
 
