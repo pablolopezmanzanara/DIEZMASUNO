@@ -150,7 +150,7 @@ export async function enviarEmailConfirmacion({
   `;
 
   await resend.emails.send({
-    from: "El Fútbol de Antes <onboarding@resend.dev>",
+    from: "El Fútbol de Antes <pedidos@elfutboldeantes.com>",
     to: email,
     subject: `✓ Pedido confirmado #${referencia} — El Fútbol de Antes`,
     html,
