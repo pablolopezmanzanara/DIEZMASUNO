@@ -32,6 +32,9 @@ export async function POST(req: NextRequest) {
 
     const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
     const resumen: string[] = [];
+    // slug:cantidad por producto, para que el webhook pueda recuperar el
+    // nombre y la imagen de cada uno (via Sanity) al preparar el email.
+    const itemsCompactos: string[] = [];
 
     for (const item of items) {
       const producto = await getProducto(item.slug);
@@ -58,6 +61,7 @@ export async function POST(req: NextRequest) {
       });
 
       resumen.push(`${producto.nombre} x${cantidad}`);
+      itemsCompactos.push(`${producto.slug.current}:${cantidad}`);
     }
 
     const origen = resolverOrigen(req);
@@ -86,6 +90,7 @@ export async function POST(req: NextRequest) {
       ],
       metadata: {
         items: resumen.join(" | ").slice(0, 490),
+        pedido_items: itemsCompactos.join(",").slice(0, 490),
       },
     });
 

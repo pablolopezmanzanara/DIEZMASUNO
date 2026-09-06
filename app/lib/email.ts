@@ -3,9 +3,9 @@ import { SITE_URL } from "./site";
 
 type ItemPedido = {
   nombre: string;
-  formato: string;
   cantidad: number;
   precio: number;
+  imagenUrl?: string;
 };
 
 type EnviarConfirmacionParams = {
@@ -25,6 +25,7 @@ export async function enviarEmailConfirmacion({
   email,
   sessionId,
   total,
+  items,
   direccion,
 }: EnviarConfirmacionParams) {
   const resend = new Resend(process.env.RESEND_API_KEY);
@@ -83,6 +84,43 @@ export async function enviarEmailConfirmacion({
             </p>
           </div>
 
+          ${
+            items && items.length > 0
+              ? `
+          <!-- Artículos -->
+          <div style="margin-bottom:32px;">
+            <p style="margin:0 0 12px;color:#6b6355;font-family:Arial,sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;">
+              Tu pedido
+            </p>
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
+              ${items
+                .map(
+                  (item) => `
+              <tr>
+                <td style="padding:8px 0;width:56px;">
+                  ${
+                    item.imagenUrl
+                      ? `<img src="${item.imagenUrl}" width="56" height="56" alt="${item.nombre}" style="display:block;border-radius:4px;object-fit:cover;">`
+                      : ""
+                  }
+                </td>
+                <td style="padding:8px 0 8px 16px;color:#1a3a2a;font-size:14px;">
+                  ${item.nombre}
+                  <span style="color:#6b6355;">x${item.cantidad}</span>
+                </td>
+                <td style="padding:8px 0;text-align:right;color:#1a3a2a;font-size:14px;font-weight:bold;white-space:nowrap;">
+                  ${(item.precio * item.cantidad).toFixed(2)} €
+                </td>
+              </tr>
+              `,
+                )
+                .join("")}
+            </table>
+          </div>
+          `
+              : ""
+          }
+
           <!-- Total -->
           <div style="border-top:1px solid #e8dcc8;border-bottom:1px solid #e8dcc8;padding:20px 0;margin-bottom:32px;">
             <div style="display:flex;justify-content:space-between;align-items:center;">
@@ -119,9 +157,8 @@ export async function enviarEmailConfirmacion({
               Información de entrega
             </p>
             <p style="margin:0;color:rgba(245,239,224,0.8);font-size:14px;line-height:1.7;">
-              Tu pedido llegará en <strong style="color:#f5efe0;">2-4 días hábiles</strong>. 
-              Enviamos en tubo protector o caja reforzada según el formato elegido. 
-              Incluye certificado de edición limitada.
+              Tu pedido saldrá hacia tu dirección en un máximo de
+              <strong style="color:#f5efe0;">24 horas</strong>.
             </p>
           </div>
 

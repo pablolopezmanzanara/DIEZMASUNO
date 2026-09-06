@@ -2,6 +2,37 @@ import Stripe from "stripe";
 import { NextRequest, NextResponse } from "next/server";
 import { getSupabaseClient } from "../../lib/supabase";
 import { enviarEmailConfirmacion } from "../../lib/email";
+import { getProducto } from "../../lib/queries";
+import { urlFor } from "../../lib/sanity";
+
+// El checkout guarda "slug:cantidad,slug:cantidad" en metadata.pedido_items
+// (ver app/api/checkout/route.ts). Aqui se recupera cada producto en Sanity
+// para poder incluir su nombre e imagen en el email de confirmacion.
+async function obtenerItemsPedido(pedidoItems: string | undefined) {
+  if (!pedidoItems) return [];
+
+  const pares = pedidoItems.split(",").filter(Boolean);
+
+  const items = await Promise.all(
+    pares.map(async (par) => {
+      const [slug, cantidadStr] = par.split(":");
+      const cantidad = Number(cantidadStr) || 1;
+      const producto = await getProducto(slug);
+      if (!producto) return null;
+
+      return {
+        nombre: producto.nombre,
+        cantidad,
+        precio: producto.precio,
+        imagenUrl: producto.imagen
+          ? urlFor(producto.imagen).width(120).height(120).url()
+          : undefined,
+      };
+    }),
+  );
+
+  return items.filter((item): item is NonNullable<typeof item> => item !== null);
+}
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2026-01-28.clover",
@@ -47,10 +78,15 @@ export async function POST(req: NextRequest) {
     // Enviar email de confirmación
     if (session.customer_details?.email) {
       try {
+        const itemsPedido = await obtenerItemsPedido(
+          session.metadata?.pedido_items,
+        );
+
         await enviarEmailConfirmacion({
           email: session.customer_details.email,
           sessionId: session.id,
           total: session.amount_total ?? 0,
+          items: itemsPedido,
           direccion: shipping?.address ?? null,
         });
         console.log("Email de confirmación enviado para sesión:", session.id);

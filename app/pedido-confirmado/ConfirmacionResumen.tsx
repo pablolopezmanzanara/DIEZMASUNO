@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { trackPurchase } from "../lib/analytics";
+import { useCarrito } from "../context/CarritoContext";
 
 type ItemPedido = {
   id: string;
@@ -22,6 +23,16 @@ export default function ConfirmacionResumen() {
   const searchParams = useSearchParams();
   const sessionId = searchParams.get("session_id");
   const [pedido, setPedido] = useState<Pedido | null>(null);
+  const { vaciar } = useCarrito();
+
+  // Llegar aqui con session_id solo pasa tras un pago completado (asi lo
+  // configura el success_url de Stripe), asi que el carrito se vacia sin
+  // depender de si luego se consigue cargar el resumen del pedido.
+  useEffect(() => {
+    if (!sessionId) return;
+    vaciar();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sessionId]);
 
   useEffect(() => {
     if (!sessionId) return;
