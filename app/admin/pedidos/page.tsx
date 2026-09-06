@@ -8,10 +8,25 @@ type Pedido = {
   email: string;
   total: number;
   estado: string;
-  direccion: any; // eslint-disable-line @typescript-eslint/no-explicit-any
-  items: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  direccion: {
+    line1?: string | null;
+    city?: string | null;
+    postal_code?: string | null;
+    country?: string | null;
+  } | null;
+  items: { items?: string } | null;
   created_at: string;
 };
+
+function formatearDireccion(direccion: Pedido["direccion"]): string {
+  if (!direccion) return "—";
+  const partes = [
+    direccion.line1,
+    [direccion.postal_code, direccion.city].filter(Boolean).join(" "),
+    direccion.country,
+  ].filter(Boolean);
+  return partes.length > 0 ? partes.join(", ") : "—";
+}
 
 export default function AdminPedidosPage() {
   const [autenticado, setAutenticado] = useState(false);
@@ -231,7 +246,7 @@ export default function AdminPedidosPage() {
             style={{
               width: "100%",
               borderCollapse: "collapse",
-              minWidth: "600px",
+              minWidth: "900px",
             }}
           >
             <thead>
@@ -275,6 +290,18 @@ export default function AdminPedidosPage() {
                     whiteSpace: "nowrap",
                   }}
                 >
+                  Productos
+                </th>
+                <th
+                  style={{
+                    padding: "12px 16px",
+                    textAlign: "left",
+                    fontFamily: "var(--font-bebas)",
+                    fontSize: "11px",
+                    letterSpacing: "2px",
+                    whiteSpace: "nowrap",
+                  }}
+                >
                   Total
                 </th>
                 <th
@@ -288,6 +315,18 @@ export default function AdminPedidosPage() {
                   }}
                 >
                   Estado
+                </th>
+                <th
+                  style={{
+                    padding: "12px 16px",
+                    textAlign: "left",
+                    fontFamily: "var(--font-bebas)",
+                    fontSize: "11px",
+                    letterSpacing: "2px",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  Envío a
                 </th>
                 <th
                   style={{
@@ -336,6 +375,16 @@ export default function AdminPedidosPage() {
                   <td
                     style={{
                       padding: "12px 16px",
+                      fontSize: "12px",
+                      color: "var(--color-tinta)",
+                      maxWidth: "260px",
+                    }}
+                  >
+                    {pedido.items?.items || "—"}
+                  </td>
+                  <td
+                    style={{
+                      padding: "12px 16px",
                       fontSize: "13px",
                       color: "var(--color-tinta)",
                       fontWeight: 600,
@@ -359,6 +408,16 @@ export default function AdminPedidosPage() {
                     >
                       {pedido.estado.toUpperCase()}
                     </span>
+                  </td>
+                  <td
+                    style={{
+                      padding: "12px 16px",
+                      fontSize: "12px",
+                      color: "var(--color-gris)",
+                      maxWidth: "220px",
+                    }}
+                  >
+                    {formatearDireccion(pedido.direccion)}
                   </td>
                   <td
                     style={{
