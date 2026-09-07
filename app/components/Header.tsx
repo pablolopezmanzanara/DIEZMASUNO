@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useCarrito } from "../context/CarritoContext";
 import { useState, useEffect } from "react";
@@ -45,29 +46,13 @@ export default function Header() {
             textDecoration: "none",
           }}
         >
-          <div
-            style={{
-              background: "var(--color-dorado)",
-              color: "var(--color-verde)",
-              boxShadow:
-                "0 0 0 2px var(--color-verde), 0 0 0 4px var(--color-dorado)",
-              width: "44px",
-              height: "44px",
-              borderRadius: "50%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontFamily: "var(--font-bebas)",
-              fontSize: "12px",
-              textAlign: "center",
-              lineHeight: "1.2",
-              flexShrink: 0,
-            }}
-          >
-            10
-            <br />
-            +1
-          </div>
+          <Image
+            src="/logo.png"
+            alt="El Fútbol de Antes"
+            width={44}
+            height={44}
+            style={{ borderRadius: "50%", flexShrink: 0 }}
+          />
           <div style={{ display: "flex", flexDirection: "column" }}>
             <span
               style={{

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 export default function Footer() {
@@ -31,27 +32,13 @@ export default function Footer() {
                 marginBottom: "16px",
               }}
             >
-              <div
-                style={{
-                  background: "var(--color-dorado)",
-                  color: "var(--color-verde)",
-                  width: "44px",
-                  height: "44px",
-                  borderRadius: "50%",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontFamily: "var(--font-bebas)",
-                  fontSize: "12px",
-                  textAlign: "center",
-                  lineHeight: "1.2",
-                  flexShrink: 0,
-                }}
-              >
-                10
-                <br />
-                +1
-              </div>
+              <Image
+                src="/logo.png"
+                alt="El Fútbol de Antes"
+                width={44}
+                height={44}
+                style={{ borderRadius: "50%", flexShrink: 0 }}
+              />
               <div>
                 <div
                   style={{
