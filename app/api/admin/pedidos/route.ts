@@ -7,8 +7,22 @@ export async function POST(req: NextRequest) {
   // .trim() evita fallos por espacios o saltos de linea invisibles que se
   // cuelan al copiar la contraseña desde un archivo .env.
   const esperada = process.env.ADMIN_PASSWORD?.trim();
-  if (!esperada || password?.trim() !== esperada) {
-    return NextResponse.json({ error: "No autorizado" }, { status: 401 });
+  const recibida = password?.trim();
+  if (!esperada || recibida !== esperada) {
+    // DIAGNOSTICO TEMPORAL: no se expone la contraseña, solo si la variable
+    // esta configurada y las longitudes, para localizar el fallo real.
+    // Quitar en cuanto se resuelva.
+    return NextResponse.json(
+      {
+        error: "No autorizado",
+        debug: {
+          envConfigurada: !!process.env.ADMIN_PASSWORD,
+          envLongitud: esperada?.length ?? 0,
+          recibidaLongitud: recibida?.length ?? 0,
+        },
+      },
+      { status: 401 },
+    );
   }
 
   try {

@@ -34,10 +34,12 @@ export default function AdminPedidosPage() {
   const [pedidos, setPedidos] = useState<Pedido[]>([]);
   const [cargando, setCargando] = useState(false);
   const [error, setError] = useState("");
+  const [debug, setDebug] = useState<string | null>(null);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setDebug(null);
     const ok = await cargarPedidos();
     if (ok) setAutenticado(true);
     else setError("Contraseña incorrecta");
@@ -53,6 +55,14 @@ export default function AdminPedidosPage() {
       });
 
       if (!res.ok) {
+        // DIAGNOSTICO TEMPORAL: muestra por que ha fallado sin revelar la
+        // contraseña. Quitar en cuanto se resuelva el problema de login.
+        const cuerpo = await res.json().catch(() => null);
+        if (cuerpo?.debug) {
+          setDebug(
+            `env configurada: ${cuerpo.debug.envConfigurada} · longitud env: ${cuerpo.debug.envLongitud} · longitud escrita: ${cuerpo.debug.recibidaLongitud}`,
+          );
+        }
         setCargando(false);
         return false;
       }
@@ -148,6 +158,19 @@ export default function AdminPedidosPage() {
                 }}
               >
                 {error}
+              </p>
+            )}
+            {debug && (
+              <p
+                style={{
+                  color: "var(--color-gris)",
+                  fontSize: "11px",
+                  fontFamily: "monospace",
+                  marginTop: "-8px",
+                  marginBottom: "16px",
+                }}
+              >
+                {debug}
               </p>
             )}
             <button
