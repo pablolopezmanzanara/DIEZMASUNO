@@ -1,12 +1,6 @@
 import { Resend } from "resend";
 import { SITE_URL } from "./site";
-
-type ItemPedido = {
-  nombre: string;
-  cantidad: number;
-  precio: number;
-  imagenUrl?: string;
-};
+import type { ItemPedido } from "./pedidoItems";
 
 type EnviarConfirmacionParams = {
   email: string;

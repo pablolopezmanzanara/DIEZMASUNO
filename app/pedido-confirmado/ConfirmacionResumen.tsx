@@ -1,17 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { trackPurchase } from "../lib/analytics";
 import { useCarrito } from "../context/CarritoContext";
-
-type ItemPedido = {
-  id: string;
-  nombre: string;
-  cantidad: number;
-  formato: { precio: number };
-};
+import type { ItemPedido } from "../lib/pedidoItems";
 
 type Pedido = {
   orderId: string;
@@ -62,15 +57,27 @@ export default function ConfirmacionResumen() {
         <div className="confirmado-resumen">
           <h2 className="confirmado-resumen-titulo">Tu pedido</h2>
           <div className="confirmado-resumen-lista">
-            {pedido.items.map((item) => (
-              <div key={item.id} className="confirmado-resumen-fila">
-                <span>
-                  {item.nombre}{" "}
-                  <span className="confirmado-resumen-cantidad">
-                    x{item.cantidad}
+            {pedido.items.map((item, i) => (
+              <div key={item.slug + i} className="confirmado-resumen-fila">
+                <div className="confirmado-resumen-articulo">
+                  <div className="confirmado-resumen-imagen">
+                    {item.imagenUrl && (
+                      <Image
+                        src={item.imagenUrl}
+                        alt={item.nombre}
+                        fill
+                        style={{ objectFit: "cover" }}
+                      />
+                    )}
+                  </div>
+                  <span>
+                    {item.nombre}{" "}
+                    <span className="confirmado-resumen-cantidad">
+                      x{item.cantidad}
+                    </span>
                   </span>
-                </span>
-                <span>{item.formato.precio * item.cantidad} €</span>
+                </div>
+                <span>{item.precio * item.cantidad} €</span>
               </div>
             ))}
           </div>

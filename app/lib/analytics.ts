@@ -43,9 +43,9 @@ export const trackPurchase = (orderId: string, total: number, items: any[]) => {
     value: total,
     currency: "EUR",
     items: items.map((item) => ({
-      item_id: item.id,
+      item_id: item.slug,
       item_name: item.nombre,
-      price: item.formato.precio,
+      price: item.precio,
       quantity: item.cantidad,
     })),
   });

@@ -1,5 +1,6 @@
 import Stripe from "stripe";
 import { NextRequest, NextResponse } from "next/server";
+import { obtenerItemsPedido } from "../../../lib/pedidoItems";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2026-01-28.clover",
@@ -13,9 +14,7 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const session = await stripe.checkout.sessions.retrieve(sessionId, {
-      expand: ["line_items"],
-    });
+    const session = await stripe.checkout.sessions.retrieve(sessionId);
 
     if (session.payment_status !== "paid") {
       return NextResponse.json(
@@ -24,12 +23,7 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    const items = (session.line_items?.data ?? []).map((li) => ({
-      id: li.id,
-      nombre: li.description ?? "",
-      cantidad: li.quantity ?? 1,
-      formato: { precio: (li.amount_total ?? 0) / 100 / (li.quantity || 1) },
-    }));
+    const items = await obtenerItemsPedido(session.metadata?.pedido_items);
 
     return NextResponse.json({
       orderId: session.id,
