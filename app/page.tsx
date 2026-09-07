@@ -227,9 +227,11 @@ export default async function HomePage() {
                 marginBottom: "40px",
               }}
             >
-              Aquí cuelga la historia: retratos de las leyendas que hicieron del
-              fútbol una religión, desde los grandes colosos hasta los héroes
-              del barrio.
+              La primera vez en el campo con tu abuelo. El olor del césped.
+              Los ultras cantando. Las cervezas con amigos. La radio en el
+              coche volviendo a casa. La intro del Canal+. El estadio de
+              Heineken de la Champions. El teletexto cada lunes. El fútbol
+              que nos quitaron. Nuestro fútbol.
             </p>
 
             <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
