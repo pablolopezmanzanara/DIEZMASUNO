@@ -4,7 +4,10 @@ import { getSupabaseAdminClient } from "../../../lib/supabaseAdmin";
 export async function POST(req: NextRequest) {
   const { password } = await req.json();
 
-  if (!process.env.ADMIN_PASSWORD || password !== process.env.ADMIN_PASSWORD) {
+  // .trim() evita fallos por espacios o saltos de linea invisibles que se
+  // cuelan al copiar la contraseña desde un archivo .env.
+  const esperada = process.env.ADMIN_PASSWORD?.trim();
+  if (!esperada || password?.trim() !== esperada) {
     return NextResponse.json({ error: "No autorizado" }, { status: 401 });
   }
 
