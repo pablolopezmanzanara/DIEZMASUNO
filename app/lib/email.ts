@@ -195,3 +195,148 @@ export async function enviarEmailConfirmacion({
     html,
   });
 }
+
+const EMAIL_NOTIFICACIONES = "diezmasuno.fa@gmail.com";
+
+type NotificacionPedidoParams = {
+  emailCliente: string;
+  sessionId: string;
+  total: number;
+  items?: ItemPedido[];
+  direccion?: EnviarConfirmacionParams["direccion"];
+};
+
+// Aviso interno a la empresa cada vez que entra un pedido, con la misma
+// informacion que se ve en el panel de /admin/pedidos (productos, importe,
+// email y direccion del cliente), independiente del email al cliente.
+export async function enviarNotificacionPedido({
+  emailCliente,
+  sessionId,
+  total,
+  items,
+  direccion,
+}: NotificacionPedidoParams) {
+  const resend = new Resend(process.env.RESEND_API_KEY);
+  const totalFormateado = (total / 100).toFixed(2);
+  const referencia = sessionId.slice(-8).toUpperCase();
+
+  const html = `
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Nuevo pedido</title>
+    </head>
+    <body style="margin:0;padding:0;background:#f5efe0;font-family:Georgia,serif;">
+      <div style="max-width:600px;margin:0 auto;background:#ffffff;">
+
+        <!-- Franja dorada -->
+        <div style="background:#c9a84c;padding:16px 40px;">
+          <p style="margin:0;color:#1a3a2a;font-family:Arial,sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;text-align:center;">
+            🔔 Nuevo pedido recibido
+          </p>
+        </div>
+
+        <div style="padding:32px 40px;">
+          <!-- Referencia -->
+          <div style="background:#f5efe0;border-left:4px solid #c9a84c;padding:16px 20px;margin-bottom:24px;">
+            <p style="margin:0 0 4px;color:#6b6355;font-family:Arial,sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;">
+              Número de pedido
+            </p>
+            <p style="margin:0;color:#1a3a2a;font-size:18px;font-weight:bold;font-family:Arial,sans-serif;letter-spacing:2px;">
+              #${referencia}
+            </p>
+          </div>
+
+          <!-- Cliente -->
+          <div style="margin-bottom:24px;">
+            <p style="margin:0 0 4px;color:#6b6355;font-family:Arial,sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;">
+              Cliente
+            </p>
+            <p style="margin:0;color:#1a3a2a;font-size:14px;">
+              ${emailCliente}
+            </p>
+          </div>
+
+          ${
+            items && items.length > 0
+              ? `
+          <!-- Artículos -->
+          <div style="margin-bottom:24px;">
+            <p style="margin:0 0 12px;color:#6b6355;font-family:Arial,sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;">
+              Productos
+            </p>
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
+              ${items
+                .map(
+                  (item) => `
+              <tr>
+                <td style="padding:6px 0;width:48px;">
+                  ${
+                    item.imagenUrl
+                      ? `<img src="${item.imagenUrl}" width="48" height="48" alt="${item.nombre}" style="display:block;border-radius:4px;object-fit:cover;">`
+                      : ""
+                  }
+                </td>
+                <td style="padding:6px 0 6px 14px;color:#1a3a2a;font-size:14px;">
+                  ${item.nombre}
+                  <span style="color:#6b6355;">x${item.cantidad}</span>
+                </td>
+                <td style="padding:6px 0;text-align:right;color:#1a3a2a;font-size:14px;font-weight:bold;white-space:nowrap;">
+                  ${(item.precio * item.cantidad).toFixed(2)} €
+                </td>
+              </tr>
+              `,
+                )
+                .join("")}
+            </table>
+          </div>
+          `
+              : ""
+          }
+
+          <!-- Total -->
+          <div style="border-top:1px solid #e8dcc8;border-bottom:1px solid #e8dcc8;padding:16px 0;margin-bottom:24px;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
+              <tr>
+                <td style="color:#6b6355;font-family:Arial,sans-serif;font-size:13px;text-transform:uppercase;letter-spacing:2px;vertical-align:middle;">
+                  Total pagado
+                </td>
+                <td style="text-align:right;color:#1a3a2a;font-size:22px;font-weight:bold;vertical-align:middle;">
+                  ${totalFormateado} €
+                </td>
+              </tr>
+            </table>
+          </div>
+
+          ${
+            direccion
+              ? `
+          <!-- Dirección -->
+          <div>
+            <p style="margin:0 0 8px;color:#6b6355;font-family:Arial,sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;">
+              Dirección de envío
+            </p>
+            <p style="margin:0;color:#1a3a2a;font-size:14px;line-height:1.7;">
+              ${direccion.line1 || ""}<br>
+              ${direccion.postal_code || ""} ${direccion.city || ""}<br>
+              ${direccion.country || ""}
+            </p>
+          </div>
+          `
+              : ""
+          }
+        </div>
+      </div>
+    </body>
+    </html>
+  `;
+
+  await resend.emails.send({
+    from: "El Fútbol de Antes <pedidos@elfutboldeantes.com>",
+    to: EMAIL_NOTIFICACIONES,
+    subject: `🔔 Nuevo pedido #${referencia} — ${totalFormateado} €`,
+    html,
+  });
+}

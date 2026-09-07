@@ -1,7 +1,7 @@
 import Stripe from "stripe";
 import { NextRequest, NextResponse } from "next/server";
 import { getSupabaseClient } from "../../lib/supabase";
-import { enviarEmailConfirmacion } from "../../lib/email";
+import { enviarEmailConfirmacion, enviarNotificacionPedido } from "../../lib/email";
 import { getProducto } from "../../lib/queries";
 import { urlFor } from "../../lib/sanity";
 
@@ -75,13 +75,11 @@ export async function POST(req: NextRequest) {
       console.error("Error Supabase:", err);
     }
 
-    // Enviar email de confirmación
+    const itemsPedido = await obtenerItemsPedido(session.metadata?.pedido_items);
+
+    // Enviar email de confirmación al cliente
     if (session.customer_details?.email) {
       try {
-        const itemsPedido = await obtenerItemsPedido(
-          session.metadata?.pedido_items,
-        );
-
         await enviarEmailConfirmacion({
           email: session.customer_details.email,
           sessionId: session.id,
@@ -98,6 +96,21 @@ export async function POST(req: NextRequest) {
           console.error("Error stack:", err.stack);
         }
       }
+    }
+
+    // Notificación interna a la empresa (independiente del email al cliente,
+    // asi un fallo en uno no bloquea el otro)
+    try {
+      await enviarNotificacionPedido({
+        emailCliente: session.customer_details?.email ?? "—",
+        sessionId: session.id,
+        total: session.amount_total ?? 0,
+        items: itemsPedido,
+        direccion: shipping?.address ?? null,
+      });
+      console.log("Notificación de pedido enviada a la empresa:", session.id);
+    } catch (err) {
+      console.error("❌ Error enviando notificación interna:", err);
     }
   }
 
