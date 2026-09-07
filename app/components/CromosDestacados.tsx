@@ -133,10 +133,10 @@ export default function CromosDestacados({ productos }: Props) {
                       </>
                     )}
                     <div className="destacado-identidad">
-                      <div className="destacado-equipo">{p.equipo}</div>
                       <div className="destacado-nombre">{p.nombre}</div>
+                      <div className="destacado-equipo">{p.equipo}</div>
                     </div>
-                    <span className="destacado-boton">Ver ficha · {p.precio} €</span>
+                    <span className="destacado-boton">Ver cuadro · {p.precio} €</span>
                   </div>
                 </Link>
               );

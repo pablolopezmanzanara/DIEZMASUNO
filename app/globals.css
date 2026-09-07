@@ -783,6 +783,7 @@ body::before {
   font-size: clamp(23px, 3.2vw, 31px);
   line-height: 1.2;
   color: var(--color-crema);
+  overflow-wrap: break-word;
 }
 
 .destacado-boton {
@@ -830,39 +831,24 @@ body::before {
     margin-inline: -10px;
   }
 
-  /* En movil, la columna de info al 40% es demasiado estrecha para el
-     nombre del jugador (se salia del recuadro): se apila imagen arriba,
-     texto abajo a todo el ancho, en vez de forzar las dos columnas. */
   .destacado-slide {
-    flex-direction: column;
-    align-items: center;
-    padding: 28px 20px 14px;
+    padding: 34px 10px 10px;
   }
 
+  /* Un poco menos de imagen y un poco mas de info que en escritorio, para
+     que el nombre del jugador tenga sitio y no se salga del recuadro. */
   .destacado-imagen {
-    flex: 0 0 auto;
-    width: 62%;
+    flex: 0 0 54%;
   }
 
   .destacado-info {
-    flex: 0 0 auto;
-    width: 100%;
-    align-items: center;
-    text-align: center;
-    padding-left: 0;
+    flex: 0 0 46%;
+    padding-left: 14px;
     gap: 12px;
   }
 
-  .destacado-divisor {
-    align-self: center;
-  }
-
-  .destacado-identidad {
-    align-items: center;
-  }
-
   .destacado-nombre {
-    font-size: clamp(20px, 6vw, 26px);
+    font-size: clamp(17px, 5.2vw, 22px);
   }
 
   .destacado-boton {
