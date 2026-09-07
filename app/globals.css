@@ -830,13 +830,39 @@ body::before {
     margin-inline: -10px;
   }
 
+  /* En movil, la columna de info al 40% es demasiado estrecha para el
+     nombre del jugador (se salia del recuadro): se apila imagen arriba,
+     texto abajo a todo el ancho, en vez de forzar las dos columnas. */
   .destacado-slide {
-    padding: 34px 10px 10px;
+    flex-direction: column;
+    align-items: center;
+    padding: 28px 20px 14px;
+  }
+
+  .destacado-imagen {
+    flex: 0 0 auto;
+    width: 62%;
   }
 
   .destacado-info {
-    padding-left: 16px;
-    gap: 14px;
+    flex: 0 0 auto;
+    width: 100%;
+    align-items: center;
+    text-align: center;
+    padding-left: 0;
+    gap: 12px;
+  }
+
+  .destacado-divisor {
+    align-self: center;
+  }
+
+  .destacado-identidad {
+    align-items: center;
+  }
+
+  .destacado-nombre {
+    font-size: clamp(20px, 6vw, 26px);
   }
 
   .destacado-boton {
