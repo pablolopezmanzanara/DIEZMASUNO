@@ -10,6 +10,7 @@ export type Producto = {
   descripcion: string;
   historia?: string;
   notaDestacada?: string;
+  fraseCromo?: string;
   imagen?: any;
   galeria?: any[]; // AÑADIR
   precio: number;
@@ -36,6 +37,7 @@ export async function getProductos(): Promise<Producto[]> {
       galeria,
       precio,
       badge,
+      fraseCromo,
       tipo,
       orden
     }`,
@@ -56,6 +58,7 @@ export async function getProductosConCromo(): Promise<Producto[]> {
       galeria,
       precio,
       badge,
+      fraseCromo,
       tipo,
       orden
     }`,

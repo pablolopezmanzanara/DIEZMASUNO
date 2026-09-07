@@ -55,6 +55,13 @@ export default defineType({
         "Texto corto y propio de este cuadro que sustituye a los iconos de envío/calidad en su ficha de producto (p. ej. una anécdota, un dato curioso, una dedicatoria).",
     }),
     defineField({
+      name: "fraseCromo",
+      title: "Dato destacado del cromo",
+      type: "string",
+      description:
+        "Texto corto para la tarjeta de cromos de la home (p. ej. un título, un récord o una estadística: '5 Champions League', 'Bota de Oro 1997'). Si se deja vacío, la tarjeta no muestra esa línea.",
+    }),
+    defineField({
       name: "imagen",
       title: "Imagen del cuadro",
       type: "image",

@@ -14,9 +14,6 @@ const INTERVALO_MS = 3500;
 const UMBRAL_CAMBIO_PX = 50;
 const UMBRAL_ARRASTRE_PX = 6;
 
-// TODO: sustituir por un campo "frase" propio de cada producto en Sanity
-const FRASE_EJEMPLO = "El instante que el tiempo no pudo borrar.";
-
 export default function CromosDestacados({ productos }: Props) {
   const [indice, setIndice] = useState(0);
   const [arrastrando, setArrastrando] = useState(false);
@@ -127,8 +124,14 @@ export default function CromosDestacados({ productos }: Props) {
                   </div>
 
                   <div className="destacado-info">
-                    <p className="destacado-frase">&ldquo;{FRASE_EJEMPLO}&rdquo;</p>
-                    <div className="destacado-divisor" />
+                    {p.fraseCromo && (
+                      <>
+                        <p className="destacado-frase">
+                          &ldquo;{p.fraseCromo}&rdquo;
+                        </p>
+                        <div className="destacado-divisor" />
+                      </>
+                    )}
                     <div className="destacado-identidad">
                       <div className="destacado-equipo">{p.equipo}</div>
                       <div className="destacado-nombre">{p.nombre}</div>
