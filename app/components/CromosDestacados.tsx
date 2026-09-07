@@ -124,10 +124,15 @@ export default function CromosDestacados({ productos }: Props) {
                   </div>
 
                   <div className="destacado-info">
-                    {p.fraseCromo && (
+                    {/* VALOR DE PRUEBA TEMPORAL: solo para revisar el formato
+                        en vivo mientras ningun producto tiene el campo
+                        "fraseCromo" relleno en Sanity. Quitar el fallback y
+                        dejar solo `p.fraseCromo &&` cuando se confirme. */}
+                    {(p.fraseCromo || "Dato destacado del cromo") && (
                       <>
                         <p className="destacado-frase">
-                          &ldquo;{p.fraseCromo}&rdquo;
+                          &ldquo;{p.fraseCromo || "Dato destacado del cromo"}
+                          &rdquo;
                         </p>
                         <div className="destacado-divisor" />
                       </>
