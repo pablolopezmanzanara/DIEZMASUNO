@@ -733,10 +733,11 @@ body::before {
 
 .destacado-imagen-pack-cromo {
   position: absolute;
-  right: -18px;
-  top: -18px;
-  /* La altura (misma proporcion 4/5 que el ancho) llega asi hasta la
-     mitad del cuadro, igual que en la version con la esquina inferior. */
+  /* El centro de esta imagen queda justo donde empieza el cuadro
+     (esquina superior izquierda), no la esquina de la propia imagen. */
+  left: 0;
+  top: 0;
+  transform: translate(-50%, -50%);
   width: 55%;
   aspect-ratio: 4 / 5;
   border-radius: 8px;
