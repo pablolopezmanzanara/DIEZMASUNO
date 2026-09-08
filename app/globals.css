@@ -717,25 +717,9 @@ body::before {
 /* 60% imagen / 40% info; el alto de toda la fila lo marca la imagen.
    Foto del cuadro a toda la franja, con la foto del cromo superpuesta en
    la esquina superior derecha - mismo formato en todas las slides. */
-.destacado-imagen-pack-col {
-  flex: 0 0 60%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-}
-
-.destacado-pack-badge {
-  color: var(--color-dorado);
-  font-family: var(--font-bebas);
-  font-size: 12px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-}
-
 .destacado-imagen-pack {
   position: relative;
-  width: 100%;
+  flex: 0 0 60%;
 }
 
 .destacado-imagen-pack-cuadro {
@@ -749,8 +733,8 @@ body::before {
 
 .destacado-imagen-pack-cromo {
   position: absolute;
-  right: -8px;
-  top: -8px;
+  right: -18px;
+  top: -18px;
   width: 46%;
   aspect-ratio: 4 / 5;
   border-radius: 8px;
@@ -823,13 +807,24 @@ body::before {
   margin-top: 2px;
 }
 
-/* Slide inicial del pack cuadro+cromo: mismo patron que las demas slides
-   (frase / divisor / identidad / boton), con el precio junto al aviso de
-   envio, justo debajo del titulo. */
+/* "Pack": etiqueta centrada arriba de la franja de info, para no dejar
+   vacio el hueco que deja el cromo superpuesto al asomar por ese lado. */
+.destacado-pack-badge {
+  align-self: center;
+  color: var(--color-dorado);
+  font-family: var(--font-bebas);
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+/* Subbloque debajo de "Cuadro y Cromo": aviso de envio a la izquierda,
+   precio (bastante mas grande) a la derecha. */
 .destacado-pack-envio-precio {
   display: flex;
   align-items: baseline;
-  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
   gap: 10px;
 }
 
@@ -883,7 +878,7 @@ body::before {
 
   /* Un poco menos de imagen y un poco mas de info que en escritorio, para
      que el nombre del jugador tenga sitio y no se salga del recuadro. */
-  .destacado-imagen-pack-col {
+  .destacado-imagen-pack {
     flex: 0 0 54%;
   }
 
