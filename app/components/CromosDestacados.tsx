@@ -155,7 +155,6 @@ export default function CromosDestacados({ productos }: Props) {
                   <ImagenPack cuadro={p.imagen} cromo={imagenCromo} nombre={p.nombre} />
 
                   <div className="destacado-info">
-                    <span className="destacado-pack-badge">Pack</span>
                     <p className="destacado-frase">Cuadro y Cromo</p>
                     <div className="destacado-pack-envio-precio">
                       <span className="destacado-pack-envio">

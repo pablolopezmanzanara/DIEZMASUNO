@@ -735,7 +735,9 @@ body::before {
   position: absolute;
   right: -18px;
   top: -18px;
-  width: 46%;
+  /* La altura (misma proporcion 4/5 que el ancho) llega asi hasta la
+     mitad del cuadro, igual que en la version con la esquina inferior. */
+  width: 55%;
   aspect-ratio: 4 / 5;
   border-radius: 8px;
   background: var(--color-verde);
@@ -756,6 +758,9 @@ body::before {
 }
 
 .destacado-frase {
+  align-self: center;
+  width: 100%;
+  text-align: center;
   font-family: var(--font-caveat);
   font-weight: 600;
   color: rgba(245, 239, 224, 0.85);
@@ -807,17 +812,6 @@ body::before {
   margin-top: 2px;
 }
 
-/* "Pack": etiqueta centrada arriba de la franja de info, para no dejar
-   vacio el hueco que deja el cromo superpuesto al asomar por ese lado. */
-.destacado-pack-badge {
-  align-self: center;
-  color: var(--color-dorado);
-  font-family: var(--font-bebas);
-  font-size: 12px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-}
-
 /* Subbloque debajo de "Cuadro y Cromo": aviso de envio a la izquierda,
    precio (bastante mas grande) a la derecha. */
 .destacado-pack-envio-precio {
@@ -829,11 +823,15 @@ body::before {
 }
 
 .destacado-pack-envio {
-  font-size: 11.5px;
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 10.5px;
+  line-height: 1.3;
   color: rgba(245, 239, 224, 0.55);
 }
 
 .destacado-pack-precio {
+  flex-shrink: 0;
   font-family: var(--font-playfair);
   font-weight: 700;
   font-size: 34px;
