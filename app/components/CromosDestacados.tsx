@@ -14,6 +14,56 @@ const INTERVALO_MS = 3500;
 const UMBRAL_CAMBIO_PX = 50;
 const UMBRAL_ARRASTRE_PX = 6;
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type ImagenSanity = any;
+
+// Foto del cuadro a toda la franja, con la foto del cromo superpuesta en
+// la esquina superior derecha. La usan tanto la slide del pack como cada
+// slide de producto, para que todo el carrusel tenga el mismo formato.
+function ImagenPack({
+  cuadro,
+  cromo,
+  nombre,
+  mostrarBadge,
+}: {
+  cuadro?: ImagenSanity;
+  cromo?: ImagenSanity;
+  nombre: string;
+  mostrarBadge?: boolean;
+}) {
+  return (
+    <div className="destacado-imagen-pack-col">
+      {mostrarBadge && <span className="destacado-pack-badge">Pack</span>}
+      <div className="destacado-imagen-pack">
+        <div className="destacado-imagen-pack-cuadro">
+          {cuadro && (
+            <Image
+              src={urlFor(cuadro).width(400).height(500).quality(90).url()}
+              alt={nombre}
+              fill
+              style={{ objectFit: "cover" }}
+              quality={90}
+              draggable={false}
+            />
+          )}
+        </div>
+        <div className="destacado-imagen-pack-cromo">
+          {cromo && (
+            <Image
+              src={urlFor(cromo).width(300).height(375).quality(90).url()}
+              alt={`Cromo de ${nombre}`}
+              fill
+              style={{ objectFit: "cover" }}
+              quality={90}
+              draggable={false}
+            />
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function CromosDestacados({ productos }: Props) {
   const [indice, setIndice] = useState(0);
   const [arrastrando, setArrastrando] = useState(false);
@@ -80,7 +130,6 @@ export default function CromosDestacados({ productos }: Props) {
   // producto de la lista, para explicar visualmente que cada pedido
   // incluye ambas piezas, sin depender de una foto generica aparte.
   const primerProducto = productos[0];
-  const imagenCuadroIntro = primerProducto.imagen;
   const imagenCromoIntro = primerProducto.galeria?.[0] ?? primerProducto.imagen;
 
   return (
@@ -111,40 +160,20 @@ export default function CromosDestacados({ productos }: Props) {
               onClick={manejarClickSlide}
               draggable={false}
             >
-              <div className="destacado-imagen-pack">
-                <div className="destacado-imagen-pack-cuadro">
-                  {imagenCuadroIntro && (
-                    <Image
-                      src={urlFor(imagenCuadroIntro).width(400).height(500).quality(90).url()}
-                      alt="El cuadro"
-                      fill
-                      style={{ objectFit: "cover" }}
-                      quality={90}
-                      draggable={false}
-                    />
-                  )}
-                </div>
-                <div className="destacado-imagen-pack-cromo">
-                  {imagenCromoIntro && (
-                    <Image
-                      src={urlFor(imagenCromoIntro).width(300).height(375).quality(90).url()}
-                      alt="El cromo"
-                      fill
-                      style={{ objectFit: "cover" }}
-                      quality={90}
-                      draggable={false}
-                    />
-                  )}
-                </div>
-              </div>
+              <ImagenPack
+                cuadro={primerProducto.imagen}
+                cromo={imagenCromoIntro}
+                nombre={primerProducto.nombre}
+                mostrarBadge
+              />
 
-              <div className="destacado-info destacado-info-pack">
-                <span className="destacado-pack-precio">22 €</span>
-                <div className="destacado-pack-frase-wrap">
-                  <p className="destacado-frase">&ldquo;Cuadro + Cromo&rdquo;</p>
-                  <p className="destacado-pack-envio">
+              <div className="destacado-info">
+                <p className="destacado-frase">Cuadro y Cromo</p>
+                <div className="destacado-pack-envio-precio">
+                  <span className="destacado-pack-envio">
                     Gastos de envío incluidos
-                  </p>
+                  </span>
+                  <span className="destacado-pack-precio">22 €</span>
                 </div>
                 <div className="destacado-divisor" />
                 <div className="destacado-identidad">
@@ -169,20 +198,7 @@ export default function CromosDestacados({ productos }: Props) {
                   onClick={manejarClickSlide}
                   draggable={false}
                 >
-                  <div className="destacado-imagen">
-                    {imagenCromo ? (
-                      <Image
-                        src={urlFor(imagenCromo).width(500).height(700).quality(90).url()}
-                        alt={p.nombre}
-                        fill
-                        style={{ objectFit: "cover" }}
-                        quality={90}
-                        draggable={false}
-                      />
-                    ) : (
-                      <span className="destacado-placeholder">⚽</span>
-                    )}
-                  </div>
+                  <ImagenPack cuadro={p.imagen} cromo={imagenCromo} nombre={p.nombre} />
 
                   <div className="destacado-info">
                     {/* VALOR DE PRUEBA TEMPORAL: solo para revisar el formato
