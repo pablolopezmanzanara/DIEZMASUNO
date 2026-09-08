@@ -546,10 +546,10 @@ body::before {
 .producto-card-cromo-mini {
   position: absolute;
   top: 6px;
-  right: 10px;
+  right: 6px;
   z-index: 2;
-  width: 42px;
-  height: 56px;
+  width: 34px;
+  height: 46px;
   border-radius: 5px;
   overflow: hidden;
   border: 1.5px solid var(--color-dorado);
