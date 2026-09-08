@@ -735,8 +735,11 @@ body::before {
 
 .destacado-imagen-pack-cromo {
   position: absolute;
-  right: -8px;
-  top: -8px;
+  left: -8px;
+  /* El centro (vertical) del cromo queda a la altura donde empieza el
+     cuadro, no su propio borde superior. */
+  top: 0;
+  transform: translateY(-50%);
   width: 46%;
   aspect-ratio: 4 / 5;
   border-radius: 8px;
