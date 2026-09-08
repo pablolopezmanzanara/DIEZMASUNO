@@ -21,23 +21,27 @@ export default function CromosDestacados({ productos }: Props) {
   const inicioXRef = useRef(0);
   const huboArrastreRef = useRef(false);
 
+  // +1 por la slide inicial que explica el pack cuadro+cromo, delante de
+  // los productos.
+  const totalSlides = productos.length + 1;
+
   // Se reprograma cada vez que "indice" cambia (automatico o manual) y se
   // pausa mientras el usuario arrastra, para no interrumpirle el gesto.
   useEffect(() => {
-    if (productos.length <= 1 || arrastrando) return;
+    if (totalSlides <= 1 || arrastrando) return;
 
     const timer = setTimeout(() => {
-      setIndice((prev) => (prev + 1) % productos.length);
+      setIndice((prev) => (prev + 1) % totalSlides);
     }, INTERVALO_MS);
 
     return () => clearTimeout(timer);
-  }, [indice, productos.length, arrastrando]);
+  }, [indice, totalSlides, arrastrando]);
 
   if (productos.length === 0) return null;
 
   const manejarPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     // Solo tactil: en ordenador el carrusel avanza unicamente en automatico
-    if (productos.length <= 1 || e.pointerType !== "touch") return;
+    if (totalSlides <= 1 || e.pointerType !== "touch") return;
     inicioXRef.current = e.clientX;
     huboArrastreRef.current = false;
     setArrastrando(true);
@@ -57,9 +61,9 @@ export default function CromosDestacados({ productos }: Props) {
     if (!arrastrando) return;
 
     if (desplazamiento > UMBRAL_CAMBIO_PX) {
-      setIndice((prev) => (prev - 1 + productos.length) % productos.length);
+      setIndice((prev) => (prev - 1 + totalSlides) % totalSlides);
     } else if (desplazamiento < -UMBRAL_CAMBIO_PX) {
-      setIndice((prev) => (prev + 1) % productos.length);
+      setIndice((prev) => (prev + 1) % totalSlides);
     }
 
     setArrastrando(false);
@@ -71,6 +75,13 @@ export default function CromosDestacados({ productos }: Props) {
       e.preventDefault();
     }
   };
+
+  // La slide inicial usa las fotos reales (cuadro + cromo) del primer
+  // producto de la lista, para explicar visualmente que cada pedido
+  // incluye ambas piezas, sin depender de una foto generica aparte.
+  const primerProducto = productos[0];
+  const imagenCuadroIntro = primerProducto.imagen;
+  const imagenCromoIntro = primerProducto.galeria?.[0] ?? primerProducto.imagen;
 
   return (
     <div className="destacado-wrap">
@@ -94,6 +105,59 @@ export default function CromosDestacados({ productos }: Props) {
                 : "transform 0.6s cubic-bezier(0.65, 0, 0.35, 1)",
             }}
           >
+            <Link
+              href="/#todos-los-cuadros"
+              className="destacado-slide"
+              onClick={manejarClickSlide}
+              draggable={false}
+            >
+              <div className="destacado-imagen-pack">
+                <div className="destacado-imagen-pack-item">
+                  {imagenCuadroIntro ? (
+                    <Image
+                      src={urlFor(imagenCuadroIntro).width(400).height(500).quality(90).url()}
+                      alt="El cuadro"
+                      fill
+                      style={{ objectFit: "cover" }}
+                      quality={90}
+                      draggable={false}
+                    />
+                  ) : (
+                    <span className="destacado-placeholder">🖼️</span>
+                  )}
+                </div>
+                <span className="destacado-imagen-pack-mas">+</span>
+                <div className="destacado-imagen-pack-item">
+                  {imagenCromoIntro ? (
+                    <Image
+                      src={urlFor(imagenCromoIntro).width(400).height(500).quality(90).url()}
+                      alt="El cromo"
+                      fill
+                      style={{ objectFit: "cover" }}
+                      quality={90}
+                      draggable={false}
+                    />
+                  ) : (
+                    <span className="destacado-placeholder">⚽</span>
+                  )}
+                </div>
+              </div>
+
+              <div className="destacado-info">
+                <p className="destacado-frase">
+                  &ldquo;El cuadro, con su cromo a juego.&rdquo;
+                </p>
+                <div className="destacado-divisor" />
+                <div className="destacado-identidad">
+                  <div className="destacado-nombre">Cuadro + Cromo</div>
+                  <div className="destacado-equipo">
+                    Mismo precio · Envío incluido
+                  </div>
+                </div>
+                <span className="destacado-boton">Ver colección</span>
+              </div>
+            </Link>
+
             {productos.map((p) => {
               // El cromo destacado usa la 2ª imagen del producto (1ª de la
               // galeria, tras la principal); si aun no existe, cae en la
@@ -149,9 +213,9 @@ export default function CromosDestacados({ productos }: Props) {
           </div>
         </div>
 
-        {productos.length > 1 && (
+        {totalSlides > 1 && (
           <div className="destacado-dots">
-            {productos.map((_, i) => (
+            {Array.from({ length: totalSlides }).map((_, i) => (
               <button
                 key={i}
                 onClick={() => setIndice(i)}

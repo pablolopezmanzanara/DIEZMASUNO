@@ -724,6 +724,39 @@ body::before {
   overflow: hidden;
 }
 
+/* Slide inicial: foto del cuadro + foto del cromo, lado a lado, en vez de
+   una sola imagen (ocupa el mismo 60% que .destacado-imagen). */
+.destacado-imagen-pack {
+  flex: 0 0 60%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.destacado-imagen-pack-item {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  aspect-ratio: 4 / 5;
+  border-radius: 10px;
+  background: var(--color-verde-mid);
+  overflow: hidden;
+}
+
+.destacado-imagen-pack-mas {
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--color-dorado);
+  color: var(--color-verde);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-bebas);
+  font-size: 16px;
+}
+
 .destacado-placeholder {
   position: absolute;
   inset: 0;
@@ -837,6 +870,17 @@ body::before {
      que el nombre del jugador tenga sitio y no se salga del recuadro. */
   .destacado-imagen {
     flex: 0 0 54%;
+  }
+
+  .destacado-imagen-pack {
+    flex: 0 0 54%;
+    gap: 5px;
+  }
+
+  .destacado-imagen-pack-mas {
+    width: 20px;
+    height: 20px;
+    font-size: 13px;
   }
 
   .destacado-info {
