@@ -7,34 +7,18 @@ import { urlFor } from "../lib/sanity";
 
 type Props = {
   producto: Producto;
-  estaAniadido: boolean;
-  onAniadir: (p: Producto, e: React.MouseEvent) => void;
   numero?: number;
 };
 
-function IconoMas() {
-  return (
-    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
-      <path d="M12 5v14M5 12h14" />
-    </svg>
-  );
-}
-
-function IconoCheck() {
-  return (
-    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M4 12l5 5L20 6" />
-    </svg>
-  );
-}
-
-export default function ProductCard({ producto: p, estaAniadido, onAniadir, numero }: Props) {
+export default function ProductCard({ producto: p, numero }: Props) {
   // Siempre las dos primeras palabras del equipo en la primera linea, el
   // resto (si lo hay) debajo - asi el corte de linea es predecible en vez
   // de depender de cuanto quepa segun el ancho disponible.
   const palabrasEquipo = p.equipo.split(" ");
   const primeraLineaEquipo = palabrasEquipo.slice(0, 2).join(" ");
   const segundaLineaEquipo = palabrasEquipo.slice(2).join(" ");
+
+  const imagenCromo = p.galeria?.[0];
 
   return (
     <Link href={`/catalogo/${p.slug.current}`} className="producto-card">
@@ -59,14 +43,17 @@ export default function ProductCard({ producto: p, estaAniadido, onAniadir, nume
           <span className="producto-card-placeholder">⚽</span>
         )}
 
-        <button
-          onClick={(e) => onAniadir(p, e)}
-          disabled={estaAniadido}
-          className={`producto-card-add-rapido${estaAniadido ? " anadido" : ""}`}
-          aria-label={estaAniadido ? "Añadido al carrito" : "Añadir al carrito"}
-        >
-          {estaAniadido ? <IconoCheck /> : <IconoMas />}
-        </button>
+        {imagenCromo && (
+          <div className="producto-card-cromo-mini">
+            <Image
+              src={urlFor(imagenCromo).width(120).height(160).quality(85).url()}
+              alt={`Cromo de ${p.nombre}`}
+              fill
+              style={{ objectFit: "cover" }}
+              quality={85}
+            />
+          </div>
+        )}
       </div>
 
       <div className="producto-card-info">

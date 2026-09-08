@@ -540,33 +540,20 @@ body::before {
   border-radius: 5px;
 }
 
-.producto-card-add-rapido {
+/* Mini cromo informativo en la esquina de la tarjeta, solo para los
+   productos que tienen cromo (galeria[0]) - no es interactivo, solo un
+   adelanto de que ese cuadro incluye cromo. */
+.producto-card-cromo-mini {
   position: absolute;
   top: 10px;
   right: 10px;
   z-index: 2;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  border: none;
-  background: var(--color-dorado);
-  color: var(--color-verde);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-  transition: transform 0.15s;
-}
-
-.producto-card-add-rapido:active {
-  transform: scale(0.85);
-}
-
-.producto-card-add-rapido.anadido {
-  background: var(--color-verde);
-  color: var(--color-crema);
-  cursor: default;
+  width: 34px;
+  height: 46px;
+  border-radius: 5px;
+  overflow: hidden;
+  border: 1.5px solid var(--color-dorado);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
 }
 
 /* Panel de info: nombre arriba, equipo + precio en la misma fila abajo */
