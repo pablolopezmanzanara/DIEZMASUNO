@@ -700,28 +700,35 @@ body::before {
   user-select: none;
 }
 
-/* padding-top ampliado para dejar sitio a la mitad del cromo que
-   sobresale por encima del cuadro, sin que .destacado-viewport
-   (overflow:hidden) la recorte. El inferior no necesita crecer: nada
-   sobresale por abajo. */
+/* padding-top igualado al espacio verde inferior (padding del slide +
+   fila de puntos + padding-bottom de la tarjeta), para que el marco
+   verde se vea uniforme arriba y abajo pese a que los puntos estén
+   solo debajo */
 .destacado-slide {
   flex: 0 0 100%;
   min-width: 0;
   display: flex;
   align-items: stretch;
-  padding: 70px 16px 16px;
+  padding: 40px 16px 16px;
   text-decoration: none;
   color: inherit;
 }
 
-/* 60% imagen / 40% info. La imagen marca su propia altura por su
-   aspect-ratio (align-self:flex-start evita que .destacado-slide, con
-   align-items:stretch, la estire a la altura de la franja de texto y
-   deje hueco debajo cuando el texto es mas alto que la imagen). */
+/* 60% imagen / 40% info; el alto de toda la fila lo marca la imagen */
+.destacado-imagen {
+  position: relative;
+  flex: 0 0 60%;
+  aspect-ratio: 5 / 7;
+  border-radius: 10px;
+  background: var(--color-verde-mid);
+  overflow: hidden;
+}
+
+/* Slide inicial: icono del cuadro a toda la franja, con el icono del
+   cromo superpuesto en la esquina (ocupa el mismo 60% que .destacado-imagen). */
 .destacado-imagen-pack {
   position: relative;
   flex: 0 0 60%;
-  align-self: flex-start;
 }
 
 .destacado-imagen-pack-cuadro {
@@ -736,10 +743,7 @@ body::before {
 .destacado-imagen-pack-cromo {
   position: absolute;
   right: -8px;
-  /* El centro (vertical) del cromo queda a la altura donde empieza el
-     cuadro, no su propio borde superior. */
-  top: 0;
-  transform: translateY(-50%);
+  bottom: -8px;
   width: 46%;
   aspect-ratio: 4 / 5;
   border-radius: 8px;
@@ -749,21 +753,28 @@ body::before {
   overflow: hidden;
 }
 
+.destacado-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 64px;
+  opacity: 0.35;
+}
+
 .destacado-info {
   flex: 0 0 40%;
   min-width: 0;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: flex-start;
   padding-left: 30px;
   gap: 20px;
 }
 
 .destacado-frase {
-  align-self: center;
-  width: 100%;
-  text-align: center;
   font-family: var(--font-caveat);
   font-weight: 600;
   color: rgba(245, 239, 224, 0.85);
@@ -815,30 +826,31 @@ body::before {
   margin-top: 2px;
 }
 
-/* Subbloque debajo de "Cuadro y Cromo": aviso de envio a la izquierda,
-   precio (bastante mas grande) a la derecha. */
-.destacado-pack-envio-precio {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  width: 100%;
-  gap: 10px;
-}
-
-.destacado-pack-envio {
-  flex: 1 1 auto;
-  min-width: 0;
-  font-size: 10.5px;
-  line-height: 1.3;
-  color: rgba(245, 239, 224, 0.55);
+/* Slide inicial del pack cuadro+cromo: mismo patron que las demas slides
+   (frase / divisor / identidad / boton), con el precio como una etiqueta
+   en la esquina superior derecha de la franja. */
+.destacado-info-pack {
+  position: relative;
 }
 
 .destacado-pack-precio {
-  flex-shrink: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
   font-family: var(--font-playfair);
   font-weight: 700;
-  font-size: 34px;
+  font-size: 20px;
   color: var(--color-dorado);
+}
+
+.destacado-pack-frase-wrap {
+  padding-right: 44px;
+}
+
+.destacado-pack-envio {
+  margin-top: 4px;
+  font-size: 11.5px;
+  color: rgba(245, 239, 224, 0.55);
 }
 
 .destacado-dots {
@@ -874,11 +886,15 @@ body::before {
   }
 
   .destacado-slide {
-    padding: 50px 10px 10px;
+    padding: 34px 10px 10px;
   }
 
   /* Un poco menos de imagen y un poco mas de info que en escritorio, para
      que el nombre del jugador tenga sitio y no se salga del recuadro. */
+  .destacado-imagen {
+    flex: 0 0 54%;
+  }
+
   .destacado-imagen-pack {
     flex: 0 0 54%;
   }
@@ -899,7 +915,11 @@ body::before {
   }
 
   .destacado-pack-precio {
-    font-size: 24px;
+    font-size: 16px;
+  }
+
+  .destacado-pack-frase-wrap {
+    padding-right: 34px;
   }
 }
 
