@@ -14,6 +14,27 @@ const INTERVALO_MS = 3500;
 const UMBRAL_CAMBIO_PX = 50;
 const UMBRAL_ARRASTRE_PX = 6;
 
+// Iconos de la slide inicial (pack cuadro+cromo): version ilustrada, sin
+// depender de una foto concreta.
+function IconoCuadro() {
+  return (
+    <svg viewBox="0 0 40 50" width="40%" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="4" y="4" width="32" height="42" rx="2" />
+      <circle cx="14" cy="16" r="4" />
+      <path d="M4 36l9-10 7 7 6-8 10 11" />
+    </svg>
+  );
+}
+
+function IconoCromo() {
+  return (
+    <svg viewBox="0 0 40 50" width="40%" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="4" y="4" width="32" height="42" rx="4" />
+      <path d="M20 15l2.6 5.4 6 .8-4.3 4.2 1 6-5.3-2.8-5.3 2.8 1-6-4.3-4.2 6-.8z" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
 export default function CromosDestacados({ productos }: Props) {
   const [indice, setIndice] = useState(0);
   const [arrastrando, setArrastrando] = useState(false);
@@ -76,13 +97,6 @@ export default function CromosDestacados({ productos }: Props) {
     }
   };
 
-  // La slide inicial usa las fotos reales (cuadro + cromo) del primer
-  // producto de la lista, para explicar visualmente que cada pedido
-  // incluye ambas piezas, sin depender de una foto generica aparte.
-  const primerProducto = productos[0];
-  const imagenCuadroIntro = primerProducto.imagen;
-  const imagenCromoIntro = primerProducto.galeria?.[0] ?? primerProducto.imagen;
-
   return (
     <div className="destacado-wrap">
       <p className="texto-titulo-seccion">
@@ -112,34 +126,12 @@ export default function CromosDestacados({ productos }: Props) {
               draggable={false}
             >
               <div className="destacado-imagen-pack">
-                <div className="destacado-imagen-pack-item">
-                  {imagenCuadroIntro ? (
-                    <Image
-                      src={urlFor(imagenCuadroIntro).width(400).height(500).quality(90).url()}
-                      alt="El cuadro"
-                      fill
-                      style={{ objectFit: "cover" }}
-                      quality={90}
-                      draggable={false}
-                    />
-                  ) : (
-                    <span className="destacado-placeholder">🖼️</span>
-                  )}
+                <div className="destacado-imagen-pack-item destacado-imagen-pack-icono">
+                  <IconoCuadro />
                 </div>
                 <span className="destacado-imagen-pack-mas">+</span>
-                <div className="destacado-imagen-pack-item">
-                  {imagenCromoIntro ? (
-                    <Image
-                      src={urlFor(imagenCromoIntro).width(400).height(500).quality(90).url()}
-                      alt="El cromo"
-                      fill
-                      style={{ objectFit: "cover" }}
-                      quality={90}
-                      draggable={false}
-                    />
-                  ) : (
-                    <span className="destacado-placeholder">⚽</span>
-                  )}
+                <div className="destacado-imagen-pack-item destacado-imagen-pack-icono">
+                  <IconoCromo />
                 </div>
               </div>
 

@@ -743,6 +743,13 @@ body::before {
   overflow: hidden;
 }
 
+.destacado-imagen-pack-icono {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-dorado);
+}
+
 .destacado-imagen-pack-mas {
   flex-shrink: 0;
   width: 26px;
