@@ -29,6 +29,13 @@ function IconoCheck() {
 }
 
 export default function ProductCard({ producto: p, estaAniadido, onAniadir, numero }: Props) {
+  // Siempre las dos primeras palabras del equipo en la primera linea, el
+  // resto (si lo hay) debajo - asi el corte de linea es predecible en vez
+  // de depender de cuanto quepa segun el ancho disponible.
+  const palabrasEquipo = p.equipo.split(" ");
+  const primeraLineaEquipo = palabrasEquipo.slice(0, 2).join(" ");
+  const segundaLineaEquipo = palabrasEquipo.slice(2).join(" ");
+
   return (
     <Link href={`/catalogo/${p.slug.current}`} className="producto-card">
       <div className="producto-card-imagen">
@@ -65,7 +72,15 @@ export default function ProductCard({ producto: p, estaAniadido, onAniadir, nume
       <div className="producto-card-info">
         <div className="producto-card-nombre">{p.nombre}</div>
         <div className="producto-card-meta">
-          <span className="producto-card-equipo">{p.equipo}</span>
+          <span className="producto-card-equipo">
+            {primeraLineaEquipo}
+            {segundaLineaEquipo && (
+              <>
+                <br />
+                {segundaLineaEquipo}
+              </>
+            )}
+          </span>
           <span className="producto-card-ticket">{p.precio} €</span>
         </div>
       </div>
