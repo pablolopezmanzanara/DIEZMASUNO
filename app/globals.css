@@ -700,16 +700,15 @@ body::before {
   user-select: none;
 }
 
-/* padding-top igualado al espacio verde inferior (padding del slide +
-   fila de puntos + padding-bottom de la tarjeta), para que el marco
-   verde se vea uniforme arriba y abajo pese a que los puntos estén
-   solo debajo */
+/* padding-top ampliado (e igualado al inferior) para dejar sitio a la
+   mitad del cromo que sobresale por encima del cuadro, sin que
+   .destacado-viewport (overflow:hidden) la recorte. */
 .destacado-slide {
   flex: 0 0 100%;
   min-width: 0;
   display: flex;
   align-items: stretch;
-  padding: 40px 16px 16px;
+  padding: 70px 16px 70px;
   text-decoration: none;
   color: inherit;
 }
@@ -735,7 +734,7 @@ body::before {
 
 .destacado-imagen-pack-cromo {
   position: absolute;
-  left: -8px;
+  right: -8px;
   /* El centro (vertical) del cromo queda a la altura donde empieza el
      cuadro, no su propio borde superior. */
   top: 0;
@@ -874,7 +873,7 @@ body::before {
   }
 
   .destacado-slide {
-    padding: 34px 10px 10px;
+    padding: 50px 10px 50px;
   }
 
   /* Un poco menos de imagen y un poco mas de info que en escritorio, para

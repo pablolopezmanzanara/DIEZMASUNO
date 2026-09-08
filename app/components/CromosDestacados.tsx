@@ -36,7 +36,7 @@ function ImagenPack({
             src={urlFor(cuadro).width(400).height(500).quality(90).url()}
             alt={nombre}
             fill
-            style={{ objectFit: "cover" }}
+            style={{ objectFit: "contain" }}
             quality={90}
             draggable={false}
           />
