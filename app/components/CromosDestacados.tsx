@@ -14,27 +14,6 @@ const INTERVALO_MS = 3500;
 const UMBRAL_CAMBIO_PX = 50;
 const UMBRAL_ARRASTRE_PX = 6;
 
-// Iconos de la slide inicial (pack cuadro+cromo): version ilustrada, sin
-// depender de una foto concreta.
-function IconoCuadro() {
-  return (
-    <svg viewBox="0 0 40 50" width="40%" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="4" y="4" width="32" height="42" rx="2" />
-      <circle cx="14" cy="16" r="4" />
-      <path d="M4 36l9-10 7 7 6-8 10 11" />
-    </svg>
-  );
-}
-
-function IconoCromo() {
-  return (
-    <svg viewBox="0 0 40 50" width="40%" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="4" y="4" width="32" height="42" rx="4" />
-      <path d="M20 15l2.6 5.4 6 .8-4.3 4.2 1 6-5.3-2.8-5.3 2.8 1-6-4.3-4.2 6-.8z" fill="currentColor" stroke="none" />
-    </svg>
-  );
-}
-
 export default function CromosDestacados({ productos }: Props) {
   const [indice, setIndice] = useState(0);
   const [arrastrando, setArrastrando] = useState(false);
@@ -97,6 +76,13 @@ export default function CromosDestacados({ productos }: Props) {
     }
   };
 
+  // La slide inicial usa las fotos reales (cuadro + cromo) del primer
+  // producto de la lista, para explicar visualmente que cada pedido
+  // incluye ambas piezas, sin depender de una foto generica aparte.
+  const primerProducto = productos[0];
+  const imagenCuadroIntro = primerProducto.imagen;
+  const imagenCromoIntro = primerProducto.galeria?.[0] ?? primerProducto.imagen;
+
   return (
     <div className="destacado-wrap">
       <p className="texto-titulo-seccion">
@@ -127,28 +113,45 @@ export default function CromosDestacados({ productos }: Props) {
             >
               <div className="destacado-imagen-pack">
                 <div className="destacado-imagen-pack-cuadro">
-                  <IconoCuadro />
+                  {imagenCuadroIntro && (
+                    <Image
+                      src={urlFor(imagenCuadroIntro).width(400).height(500).quality(90).url()}
+                      alt="El cuadro"
+                      fill
+                      style={{ objectFit: "cover" }}
+                      quality={90}
+                      draggable={false}
+                    />
+                  )}
                 </div>
                 <div className="destacado-imagen-pack-cromo">
-                  <IconoCromo />
+                  {imagenCromoIntro && (
+                    <Image
+                      src={urlFor(imagenCromoIntro).width(300).height(375).quality(90).url()}
+                      alt="El cromo"
+                      fill
+                      style={{ objectFit: "cover" }}
+                      quality={90}
+                      draggable={false}
+                    />
+                  )}
                 </div>
               </div>
 
               <div className="destacado-info destacado-info-pack">
-                <div>
-                  <h3 className="destacado-pack-titulo">
-                    Packs cuadro y <em>cromo</em>
-                  </h3>
-                  <div className="destacado-pack-precio">
-                    <span className="destacado-pack-precio-valor">22 €</span>
-                    <span className="destacado-pack-precio-nota">
-                      Gastos de envío incluidos
-                    </span>
-                  </div>
+                <span className="destacado-pack-precio">22 €</span>
+                <div className="destacado-pack-frase-wrap">
+                  <p className="destacado-frase">&ldquo;Cuadro + Cromo&rdquo;</p>
+                  <p className="destacado-pack-envio">
+                    Gastos de envío incluidos
+                  </p>
                 </div>
-                <span className="destacado-boton destacado-boton-pack">
-                  Ver colección
-                </span>
+                <div className="destacado-divisor" />
+                <div className="destacado-identidad">
+                  <div className="destacado-nombre">{primerProducto.nombre}</div>
+                  <div className="destacado-equipo">{primerProducto.equipo}</div>
+                </div>
+                <span className="destacado-boton">Ver colección</span>
               </div>
             </Link>
 
