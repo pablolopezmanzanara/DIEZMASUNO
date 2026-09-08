@@ -807,35 +807,34 @@ body::before {
   margin-top: 2px;
 }
 
-/* Slide inicial del pack cuadro+cromo: mismo patron que las demas slides
-   (frase / divisor / identidad / boton), con el precio como una etiqueta
-   en la esquina superior derecha de la franja. */
-.destacado-info-pack {
-  position: relative;
-}
-
-.destacado-pack-precio {
-  position: absolute;
-  top: 0;
-  right: 0;
-  font-family: var(--font-playfair);
-  font-weight: 700;
-  font-size: 20px;
-  color: var(--color-dorado);
-}
-
+/* "Pack" y el precio van en la misma linea, arriba de la franja, para
+   que queden exactamente a la misma altura (antes el precio flotaba con
+   position:absolute y quedaba mas arriba que "Pack"). */
 .destacado-pack-frase-wrap {
-  padding-right: 44px;
+  width: 100%;
+}
+
+.destacado-pack-etiqueta-fila {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 4px;
 }
 
 .destacado-pack-etiqueta {
-  display: block;
   color: var(--color-dorado);
   font-family: var(--font-bebas);
   font-size: 12px;
   letter-spacing: 3px;
   text-transform: uppercase;
-  margin-bottom: 4px;
+}
+
+.destacado-pack-precio {
+  font-family: var(--font-playfair);
+  font-weight: 700;
+  font-size: 24px;
+  color: var(--color-dorado);
 }
 
 .destacado-pack-envio {
@@ -902,11 +901,7 @@ body::before {
   }
 
   .destacado-pack-precio {
-    font-size: 16px;
-  }
-
-  .destacado-pack-frase-wrap {
-    padding-right: 34px;
+    font-size: 19px;
   }
 }
 
