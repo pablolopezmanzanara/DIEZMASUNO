@@ -758,7 +758,7 @@ body::before {
   font-family: var(--font-caveat);
   font-weight: 600;
   color: rgba(245, 239, 224, 0.85);
-  font-size: clamp(17px, 2.4vw, 24px);
+  font-size: clamp(19px, 2.7vw, 27px);
   line-height: 1.4;
   white-space: nowrap;
 }
@@ -825,7 +825,7 @@ body::before {
 .destacado-pack-etiqueta {
   color: var(--color-dorado);
   font-family: var(--font-bebas);
-  font-size: 12px;
+  font-size: 14px;
   letter-spacing: 3px;
   text-transform: uppercase;
 }
@@ -833,7 +833,7 @@ body::before {
 .destacado-pack-precio {
   font-family: var(--font-playfair);
   font-weight: 700;
-  font-size: 24px;
+  font-size: 28px;
   color: var(--color-dorado);
 }
 
@@ -901,7 +901,11 @@ body::before {
   }
 
   .destacado-pack-precio {
-    font-size: 19px;
+    font-size: 22px;
+  }
+
+  .destacado-pack-etiqueta {
+    font-size: 12px;
   }
 }
 
