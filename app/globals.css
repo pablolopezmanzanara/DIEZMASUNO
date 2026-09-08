@@ -758,8 +758,9 @@ body::before {
   font-family: var(--font-caveat);
   font-weight: 600;
   color: rgba(245, 239, 224, 0.85);
-  font-size: clamp(21px, 3vw, 29px);
+  font-size: clamp(17px, 2.4vw, 24px);
   line-height: 1.4;
+  white-space: nowrap;
 }
 
 /* Separa la frase del resto del contenido */
@@ -825,6 +826,16 @@ body::before {
 
 .destacado-pack-frase-wrap {
   padding-right: 44px;
+}
+
+.destacado-pack-etiqueta {
+  display: block;
+  color: var(--color-dorado);
+  font-family: var(--font-bebas);
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
 }
 
 .destacado-pack-envio {

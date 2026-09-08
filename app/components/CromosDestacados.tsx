@@ -138,7 +138,8 @@ export default function CromosDestacados({ productos }: Props) {
                   <div className="destacado-info destacado-info-pack">
                     <span className="destacado-pack-precio">{p.precio} €</span>
                     <div className="destacado-pack-frase-wrap">
-                      <p className="destacado-frase">&ldquo;Cuadro + Cromo&rdquo;</p>
+                      <span className="destacado-pack-etiqueta">Pack</span>
+                      <p className="destacado-frase">Cuadro + Cromo</p>
                       <p className="destacado-pack-envio">
                         Gastos de envío incluidos
                       </p>
