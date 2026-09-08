@@ -126,27 +126,29 @@ export default function CromosDestacados({ productos }: Props) {
               draggable={false}
             >
               <div className="destacado-imagen-pack">
-                <div className="destacado-imagen-pack-item destacado-imagen-pack-icono">
+                <div className="destacado-imagen-pack-cuadro">
                   <IconoCuadro />
                 </div>
-                <span className="destacado-imagen-pack-mas">+</span>
-                <div className="destacado-imagen-pack-item destacado-imagen-pack-icono">
+                <div className="destacado-imagen-pack-cromo">
                   <IconoCromo />
                 </div>
               </div>
 
-              <div className="destacado-info">
-                <p className="destacado-frase">
-                  &ldquo;El cuadro, con su cromo a juego.&rdquo;
-                </p>
-                <div className="destacado-divisor" />
-                <div className="destacado-identidad">
-                  <div className="destacado-nombre">Cuadro + Cromo</div>
-                  <div className="destacado-equipo">
-                    Mismo precio · Envío incluido
+              <div className="destacado-info destacado-info-pack">
+                <div>
+                  <h3 className="destacado-pack-titulo">
+                    Packs cuadro y <em>cromo</em>
+                  </h3>
+                  <div className="destacado-pack-precio">
+                    <span className="destacado-pack-precio-valor">22 €</span>
+                    <span className="destacado-pack-precio-nota">
+                      Gastos de envío incluidos
+                    </span>
                   </div>
                 </div>
-                <span className="destacado-boton">Ver colección</span>
+                <span className="destacado-boton destacado-boton-pack">
+                  Ver colección
+                </span>
               </div>
             </Link>
 
