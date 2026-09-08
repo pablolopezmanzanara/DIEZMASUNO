@@ -700,15 +700,16 @@ body::before {
   user-select: none;
 }
 
-/* padding-top ampliado (e igualado al inferior) para dejar sitio a la
-   mitad del cromo que sobresale por encima del cuadro, sin que
-   .destacado-viewport (overflow:hidden) la recorte. */
+/* padding-top ampliado para dejar sitio a la mitad del cromo que
+   sobresale por encima del cuadro, sin que .destacado-viewport
+   (overflow:hidden) la recorte. El inferior no necesita crecer: nada
+   sobresale por abajo. */
 .destacado-slide {
   flex: 0 0 100%;
   min-width: 0;
   display: flex;
   align-items: stretch;
-  padding: 70px 16px 70px;
+  padding: 70px 16px 16px;
   text-decoration: none;
   color: inherit;
 }
@@ -753,7 +754,7 @@ body::before {
   min-width: 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: flex-start;
   padding-left: 30px;
   gap: 20px;
@@ -873,7 +874,7 @@ body::before {
   }
 
   .destacado-slide {
-    padding: 50px 10px 50px;
+    padding: 50px 10px 10px;
   }
 
   /* Un poco menos de imagen y un poco mas de info que en escritorio, para
