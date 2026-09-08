@@ -825,7 +825,7 @@ body::before {
 .destacado-pack-etiqueta {
   color: var(--color-dorado);
   font-family: var(--font-bebas);
-  font-size: 14px;
+  font-size: 28px;
   letter-spacing: 3px;
   text-transform: uppercase;
 }
@@ -905,7 +905,7 @@ body::before {
   }
 
   .destacado-pack-etiqueta {
-    font-size: 12px;
+    font-size: 22px;
   }
 }
 
