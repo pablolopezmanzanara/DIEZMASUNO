@@ -148,6 +148,7 @@ export default function DetalleClient({ producto, relacionados }: Props) {
         {/* Formato */}
         <p className="detalle-ficha-formato">
           <strong>Formato:</strong> A4 · 21×29 cm · Impresión de alta calidad
+          · Con marco incluido
         </p>
 
         {/* Cantidad + Añadir */}

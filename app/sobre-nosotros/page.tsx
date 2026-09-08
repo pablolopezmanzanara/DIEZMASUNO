@@ -141,6 +141,7 @@ export default function SobreNosotrosPage() {
                 Todos nuestros diseños son creados con la máxima calidad.
                 Imprimimos en papel tamaño A4 y utilizamos tintas de alta
                 durabilidad que mantienen los colores vibrantes durante años.
+                Por supuesto, con el marco incluido.
               </p>
             </div>
 

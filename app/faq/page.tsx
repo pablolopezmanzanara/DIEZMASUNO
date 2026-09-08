@@ -19,7 +19,7 @@ const preguntas = [
   {
     pregunta: "¿El marco está incluido en el precio?",
     respuesta:
-      "El precio base es sin marco. Puedes añadir marco al realizar el pedido. Los marcos son de madera natural o negro mate, con vidrio antirreflectante.",
+      "Sí. El precio incluye el marco, así que tu cuadro llega listo para colgar.",
   },
   {
     pregunta: "¿Cómo sé que mi pedido ha sido recibido?",
