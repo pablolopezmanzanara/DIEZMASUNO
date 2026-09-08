@@ -714,18 +714,8 @@ body::before {
   color: inherit;
 }
 
-/* 60% imagen / 40% info; el alto de toda la fila lo marca la imagen */
-.destacado-imagen {
-  position: relative;
-  flex: 0 0 60%;
-  aspect-ratio: 5 / 7;
-  border-radius: 10px;
-  background: var(--color-verde-mid);
-  overflow: hidden;
-}
-
-/* Slide inicial: icono del cuadro a toda la franja, con el icono del
-   cromo superpuesto en la esquina (ocupa el mismo 60% que .destacado-imagen). */
+/* 60% imagen / 40% info: foto del cuadro a toda la franja, con la foto
+   del cromo superpuesta en la esquina - mismo formato en todas las slides. */
 .destacado-imagen-pack {
   position: relative;
   flex: 0 0 60%;
@@ -751,16 +741,6 @@ body::before {
   border: 2px solid var(--color-dorado);
   box-shadow: 0 6px 16px rgba(21, 41, 32, 0.4);
   overflow: hidden;
-}
-
-.destacado-placeholder {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 64px;
-  opacity: 0.35;
 }
 
 .destacado-info {
@@ -891,10 +871,6 @@ body::before {
 
   /* Un poco menos de imagen y un poco mas de info que en escritorio, para
      que el nombre del jugador tenga sitio y no se salga del recuadro. */
-  .destacado-imagen {
-    flex: 0 0 54%;
-  }
-
   .destacado-imagen-pack {
     flex: 0 0 54%;
   }
