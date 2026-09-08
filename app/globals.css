@@ -714,12 +714,14 @@ body::before {
   color: inherit;
 }
 
-/* 60% imagen / 40% info; el alto de toda la fila lo marca la imagen.
-   Foto del cuadro a toda la franja, con la foto del cromo superpuesta en
-   la esquina superior derecha - mismo formato en todas las slides. */
+/* 60% imagen / 40% info. La imagen marca su propia altura por su
+   aspect-ratio (align-self:flex-start evita que .destacado-slide, con
+   align-items:stretch, la estire a la altura de la franja de texto y
+   deje hueco debajo cuando el texto es mas alto que la imagen). */
 .destacado-imagen-pack {
   position: relative;
   flex: 0 0 60%;
+  align-self: flex-start;
 }
 
 .destacado-imagen-pack-cuadro {
@@ -733,12 +735,9 @@ body::before {
 
 .destacado-imagen-pack-cromo {
   position: absolute;
-  /* El centro de esta imagen queda justo donde empieza el cuadro
-     (esquina superior izquierda), no la esquina de la propia imagen. */
-  left: 0;
-  top: 0;
-  transform: translate(-50%, -50%);
-  width: 55%;
+  right: -8px;
+  top: -8px;
+  width: 46%;
   aspect-ratio: 4 / 5;
   border-radius: 8px;
   background: var(--color-verde);
