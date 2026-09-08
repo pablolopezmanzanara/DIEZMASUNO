@@ -66,12 +66,32 @@ export default function SobreNosotrosPage() {
                   color: "var(--color-gris)",
                   fontSize: "15px",
                   lineHeight: 1.8,
+                  marginBottom: "16px",
                 }}
               >
-                Somos un proyecto que nace de la pasión por el fútbol español y
-                su historia. Creamos cuadros de edición limitada que capturan
-                momentos icónicos y jugadores legendarios que marcaron épocas
-                doradas del fútbol en España.
+                El Fútbol de Antes es un proyecto creado por dos hermanos que
+                crecieron viendo el fútbol de los 2000. Más que un negocio, es
+                un recuerdo con nostalgia de cada jugador y equipo icónico que
+                ha pasado por nuestro fútbol. Esa esencia que parece perdida
+                hoy en día. Cuando en cada equipo veías personalidad y
+                carisma propia de cada afición y estadio. Cuando el fútbol
+                era pura pasión dentro y fuera del campo. Cuando no era solo
+                un negocio.
+              </p>
+              <p
+                style={{
+                  color: "var(--color-gris)",
+                  fontSize: "15px",
+                  lineHeight: 1.8,
+                }}
+              >
+                El Fútbol de Antes busca integrar a todos los equipos
+                españoles, equipos legendarios que hoy están olvidados por el
+                fútbol negocio. Clubes y jugadores que son historia de
+                nuestro fútbol, historia que ha quedado en el recuerdo, pero
+                que aún tiene presente miles de fieles que no dejan su
+                equipo atrás, pese a que los momentos gloriosos del pasado no
+                hayan vuelto.
               </p>
             </div>
 
@@ -121,7 +141,6 @@ export default function SobreNosotrosPage() {
                 Todos nuestros diseños son creados con la máxima calidad.
                 Imprimimos en papel tamaño A4 y utilizamos tintas de alta
                 durabilidad que mantienen los colores vibrantes durante años.
-                Por supuesto, con el marco incluido.
               </p>
             </div>
 
