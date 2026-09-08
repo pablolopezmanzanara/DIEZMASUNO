@@ -709,7 +709,7 @@ body::before {
   min-width: 0;
   display: flex;
   align-items: stretch;
-  padding: 40px 16px 16px;
+  padding: 40px 16px 28px;
   text-decoration: none;
   color: inherit;
 }
@@ -750,7 +750,7 @@ body::before {
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  padding-left: 30px;
+  padding-left: 40px;
   gap: 20px;
 }
 
@@ -866,7 +866,7 @@ body::before {
   }
 
   .destacado-slide {
-    padding: 34px 10px 10px;
+    padding: 34px 10px 22px;
   }
 
   /* Un poco menos de imagen y un poco mas de info que en escritorio, para
@@ -877,7 +877,7 @@ body::before {
 
   .destacado-info {
     flex: 0 0 46%;
-    padding-left: 14px;
+    padding-left: 22px;
     gap: 12px;
   }
 
