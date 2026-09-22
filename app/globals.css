@@ -350,6 +350,78 @@ body::before {
   cursor: not-allowed;
 }
 
+/* Banner de cookies */
+.cookies-banner {
+  position: fixed;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  z-index: 60;
+  max-width: 640px;
+  margin: 0 auto;
+  background: var(--color-tinta);
+  color: var(--color-crema);
+  border-radius: 12px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.cookies-banner-texto {
+  font-size: 13px;
+  line-height: 1.6;
+  color: rgba(245, 239, 224, 0.85);
+}
+
+.cookies-banner-enlace {
+  color: var(--color-dorado);
+  text-decoration: underline;
+}
+
+.cookies-banner-botones {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.cookies-banner-boton {
+  border: none;
+  border-radius: 999px;
+  font-family: var(--font-bebas);
+  font-size: 13px;
+  letter-spacing: 1px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.cookies-banner-boton:hover {
+  opacity: 0.85;
+}
+
+.cookies-banner-rechazar {
+  background: transparent;
+  color: var(--color-crema);
+  border: 1px solid rgba(245, 239, 224, 0.3);
+}
+
+.cookies-banner-aceptar {
+  background: var(--color-dorado);
+  color: var(--color-verde);
+}
+
+@media (max-width: 480px) {
+  .cookies-banner-botones {
+    justify-content: stretch;
+  }
+
+  .cookies-banner-boton {
+    flex: 1;
+  }
+}
+
 /* Pagina de confirmacion de pedido */
 .confirmado-pagina {
   text-align: center;

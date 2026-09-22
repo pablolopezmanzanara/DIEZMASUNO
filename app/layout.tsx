@@ -10,6 +10,7 @@ import SiteChrome from "./components/SiteChrome";
 import { CarritoProvider } from "./context/CarritoContext";
 import ScrollToTop from "./components/ScrollToTop";
 import Analytics from "./components/Analytics";
+import CookieConsent from "./components/CookieConsent";
 import { SITE_URL } from "./lib/site";
 
 const playfair = Playfair_Display({
@@ -99,6 +100,7 @@ export default function RootLayout({
         className={`${playfair.variable} ${baskerville.variable} ${bebas.variable} ${caveat.variable}`}
       >
         <Analytics />
+        <CookieConsent />
         <ScrollToTop />
         <CarritoProvider>
           <SiteChrome>{children}</SiteChrome>

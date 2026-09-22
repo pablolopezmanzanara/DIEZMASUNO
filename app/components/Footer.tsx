@@ -142,6 +142,8 @@ export default function Footer() {
                 ["Envíos y devoluciones", "/envios"],
                 //["FAQ", "/faq"],
                 ["Contacto", "/contacto"],
+                ["Aviso legal", "/aviso-legal"],
+                ["Privacidad", "/privacidad"],
               ].map(([label, href]) => (
                 <Link
                   key={href}
